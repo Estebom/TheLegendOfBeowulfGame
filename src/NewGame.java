@@ -79,7 +79,7 @@ public class NewGame extends JPanel {
         goBack = new JButton("Go Back to Main Menu");
         goBack.setPreferredSize(new Dimension(50,50));
         goBack.setActionCommand("MainMenu");
-        goBack.addActionListener(e -> mainDisplay.showMainMenu());
+        goBack.addActionListener(buttonListener);
         newGameFeatures.add(goBack, gbcFeatures);
 
         GridBagConstraints gbc = new GridBagConstraints();
@@ -115,6 +115,7 @@ public class NewGame extends JPanel {
                     break;
 
                 case "MainMenu":
+                    name.setText("Player what is your name?");
                     mainDisplay.showMainMenu();
                     break;
 
