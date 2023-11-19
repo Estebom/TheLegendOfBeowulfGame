@@ -1,8 +1,12 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class NewGame extends JPanel {
 
+    private GamePlay gamePlay;
+    private MainDisplay mainDisplay;
     JTextField name;
     JButton easyButton;
     JButton mediumButton;
@@ -11,9 +15,14 @@ public class NewGame extends JPanel {
 
     JButton startButton;
 
+    JButton goBack;
+
     JPanel newGameFeatures;
     JPanel difLayout;
-    public NewGame(){
+    public NewGame(MainDisplay mainDisplay){
+
+        this.mainDisplay = mainDisplay;
+        gamePlay = new GamePlay(mainDisplay);
 
         this.setPreferredSize(new Dimension(800, 675));
         this.setLayout(new GridBagLayout());
@@ -62,9 +71,16 @@ public class NewGame extends JPanel {
         gbcFeatures.gridy++;
         startButton = new JButton("Start Your Adventure!");
         startButton.setPreferredSize(new Dimension(800, 100)); // Adjusted size
+        startButton.setActionCommand("START");
+        startButton.addActionListener(buttonListener);
         newGameFeatures.add(startButton, gbcFeatures);
 
-
+        gbcFeatures.gridy++;
+        goBack = new JButton("Go Back to Main Menu");
+        goBack.setPreferredSize(new Dimension(50,50));
+        goBack.setActionCommand("MainMenu");
+        goBack.addActionListener(e -> mainDisplay.showMainMenu());
+        newGameFeatures.add(goBack, gbcFeatures);
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
@@ -79,6 +95,35 @@ public class NewGame extends JPanel {
         this.setVisible(true);
 
     }
+
+    public void createPlayer(String name){
+
+        Player player = Player.getInstance();
+        player.setPlayerName(name);
+    }
+
+    ActionListener buttonListener = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            switch (e.getActionCommand()){
+
+                case "START":
+                    createPlayer(name.getText());
+                    gamePlay.initialize();
+                    mainDisplay.showGamePlay();
+                    break;
+
+                case "MainMenu":
+                    mainDisplay.showMainMenu();
+                    break;
+
+
+            }
+
+
+        }
+    };
 
 
 
