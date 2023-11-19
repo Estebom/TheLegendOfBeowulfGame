@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class MainMenu extends JPanel{
+    private MainDisplay mainDisplay;
 
     JButton newGameButton;
     JButton loadGameButton;
@@ -11,12 +12,13 @@ public class MainMenu extends JPanel{
     JButton exitGameButton;
 
     JPanel buttonLayout;
-    NewGame newGame = new NewGame();
+
     JPanel centerPanel;
 
 
-    MainMenu(){
+    public MainMenu(MainDisplay mainDisplay){
 
+        this.mainDisplay = mainDisplay;
 
         this.setPreferredSize(new Dimension(2560, 1440));
         this.setLayout(new BorderLayout());
@@ -42,12 +44,12 @@ public class MainMenu extends JPanel{
         exitGameButton.setMaximumSize(new Dimension(600, 150)); // Set maximum size
 
 
-        newGameButton.setActionCommand("NEW_GAME");
+        newGameButton.setActionCommand("NewGame");
         loadGameButton.setActionCommand("LOAD_GAME");
         settingButton.setActionCommand("SETTINGS");
         exitGameButton.setActionCommand("EXIT");
 
-        newGameButton.addActionListener(buttonListener);
+        newGameButton.addActionListener(e -> mainDisplay.showNewGame());
         loadGameButton.addActionListener(buttonListener);
         settingButton.addActionListener(buttonListener);
         exitGameButton.addActionListener(buttonListener);
@@ -79,21 +81,20 @@ public class MainMenu extends JPanel{
         @Override
         public void actionPerformed (ActionEvent e){
             switch (e.getActionCommand()){
-                case "NEW_GAME":
-                    System.out.println("New Game started");
-                    MainMenu.this.remove(centerPanel);
-                    MainMenu.this.add(newGame, BorderLayout.CENTER);
+                case "NewGame":
+                    java.lang.System.out.println("New Game started");
+                    mainDisplay.showNewGame();
                     break;
                 case "LOAD_GAME":
-                    System.out.println("Load Game clicked");
+                    java.lang.System.out.println("Load Game clicked");
 
                     break;
                 case "SETTINGS":
-                    System.out.println("Settings opened");
+                    java.lang.System.out.println("Settings opened");
 
                     break;
                 case "EXIT":
-                    System.exit(1);
+                    java.lang.System.exit(1);
                     break;
 
             }

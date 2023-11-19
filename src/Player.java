@@ -1,7 +1,11 @@
-public class Player {
+import java.io.Serializable;
+
+public class Player implements Serializable {
 
     private String playerName;
+    private double damageOutput;
 
+    private double health;
     private static Player instance;
 
 
@@ -19,6 +23,20 @@ public class Player {
     public void setPlayerName(String name){
 
         this.playerName = name;
+        this.damageOutput = 1.0;
+        this.health = 100.0;
+    }
+
+    public double getHealth(){
+
+        return health;
 
     }
+
+    public double getDamageOutput() {
+        return damageOutput;
+    }
+
+
+
 }

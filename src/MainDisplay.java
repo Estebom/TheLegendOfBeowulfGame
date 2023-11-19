@@ -11,9 +11,15 @@ Class for the main display of the game
 @author Esteban Rodriguez
  */
 public class MainDisplay extends JFrame {
+    private MainMenu mainMenu;
+    private NewGame newGame;
 
-
+    private GamePlay gamePlay;
     public MainDisplay(){
+
+        mainMenu = new MainMenu(this);
+        newGame = new NewGame(this);
+        gamePlay = new GamePlay(this);
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(false);
@@ -21,24 +27,32 @@ public class MainDisplay extends JFrame {
 
 
         this.setSize(new Dimension(2560, 1440));
-        this.setLayout((new BorderLayout()));
-        this.pack();
+        this.setLayout((new CardLayout()));
 
+        this.add(mainMenu, "MainMenu");
+        this.add(newGame, "NewGame");
+        this.add(gamePlay, "START");
 
-
-
+        showMainMenu();
         this.setVisible(true);
 
     }
-
-    public static void main(String[] args) {
-
-        MainDisplay mainDisplay = new MainDisplay();
-        MainMenu mainMenu = new MainMenu();
-        mainDisplay.add(mainMenu);
-        mainDisplay.pack();
-        mainDisplay.setVisible(true);
-        System.out.println(mainMenu.centerPanel.getPreferredSize());
+    public void showMainMenu(){
+        ((CardLayout)this.getContentPane().getLayout()).show(this.getContentPane(), "MainMenu");
     }
+    public  void showNewGame(){
+
+        ((CardLayout)this.getContentPane().getLayout()).show(this.getContentPane(),"NewGame");
+    }
+    public void showGamePlay(){
+
+        ((CardLayout)this.getContentPane().getLayout()).show(this.getContentPane(), "START");
+
+    }
+
+
+
+
+
 
 }
