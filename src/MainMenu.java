@@ -11,31 +11,9 @@ public class MainMenu extends JPanel{
     JButton exitGameButton;
 
     JPanel buttonLayout;
+    NewGame newGame = new NewGame();
+    JPanel centerPanel;
 
-    ActionListener buttonListener  = new ActionListener() {
-        @Override
-        public void actionPerformed (ActionEvent e){
-            switch (e.getActionCommand()){
-                case "NEW_GAME":
-                    System.out.println("New Game started");
-
-                    break;
-                case "LOAD_GAME":
-                    System.out.println("Load Game clicked");
-
-                    break;
-                case "SETTINGS":
-                    System.out.println("Settings opened");
-
-                    break;
-                case "EXIT":
-                    System.exit(1);
-                    break;
-
-            }
-
-        }
-    };
 
     MainMenu(){
 
@@ -88,9 +66,8 @@ public class MainMenu extends JPanel{
         buttonLayout.add(exitGameButton);
         buttonLayout.add(Box.createVerticalGlue());
 
-        JPanel centerPanel = new JPanel(new GridBagLayout());
+        centerPanel = new JPanel(new GridBagLayout());
         centerPanel.add(buttonLayout);
-
 
         this.add(centerPanel, BorderLayout.CENTER);
         this.setVisible(true);
@@ -98,7 +75,33 @@ public class MainMenu extends JPanel{
 
 
     }
+    ActionListener buttonListener  = new ActionListener() {
+        @Override
+        public void actionPerformed (ActionEvent e){
+            switch (e.getActionCommand()){
+                case "NEW_GAME":
+                    System.out.println("New Game started");
+                    MainMenu.this.remove(centerPanel);
+                    MainMenu.this.add(newGame, BorderLayout.CENTER);
+                    break;
+                case "LOAD_GAME":
+                    System.out.println("Load Game clicked");
 
+                    break;
+                case "SETTINGS":
+                    System.out.println("Settings opened");
+
+                    break;
+                case "EXIT":
+                    System.exit(1);
+                    break;
+
+            }
+            MainMenu.this.revalidate();
+            MainMenu.this.repaint();
+
+        }
+    };
 
 
 }
