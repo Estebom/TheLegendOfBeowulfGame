@@ -16,6 +16,7 @@ public class MainDisplay extends JFrame {
     public MainDisplay(){
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setResizable(false);
         //this.setUndecorated(true);  //will be used during real implementation
 
 
@@ -37,7 +38,7 @@ public class MainDisplay extends JFrame {
         mainDisplay.add(mainMenu);
         mainDisplay.pack();
         mainDisplay.setVisible(true);
-
+        System.out.println(mainMenu.centerPanel.getPreferredSize());
     }
 
 }
