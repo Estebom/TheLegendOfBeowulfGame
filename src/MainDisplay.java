@@ -44,10 +44,13 @@ public class MainDisplay extends JFrame {
     private NewGame newGame;
     private GamePlay gamePlay;
 
+    private Settings settings;
+
     public MainDisplay() {
         mainMenu = new MainMenu(this);
         newGame = new NewGame(this);
         gamePlay = new GamePlay(this);
+        settings = new Settings(this);
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(false);
@@ -59,6 +62,7 @@ public class MainDisplay extends JFrame {
         this.add(mainMenu, "MainMenu");
         this.add(newGame, "NewGame");
         this.add(gamePlay, "START");
+        this.add(settings, "SETTINGS");
 
         showMainMenu();
         this.setVisible(true);
@@ -76,6 +80,11 @@ public class MainDisplay extends JFrame {
 
         ((CardLayout)this.getContentPane().getLayout()).show(this.getContentPane(), "START");
 
+    }
+
+    public void showSettings(){
+
+        ((CardLayout)this.getContentPane().getLayout()).show(this.getContentPane(), "SETTINGS");
     }
 
 

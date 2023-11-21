@@ -18,7 +18,7 @@ public class GamePlay extends JPanel {
 
             this.mainDisplay = mainDisplay;
             this.keyPad = KeyPad.getInstance();
-            this.setPreferredSize(new Dimension(2560,1440));
+            this.setPreferredSize(new Dimension(1080,1920));
             this.setLayout(new BorderLayout());
             this.setFocusable(true);
             this.addKeyListener(keyPad);

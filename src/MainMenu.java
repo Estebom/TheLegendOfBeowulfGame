@@ -90,6 +90,7 @@ public class MainMenu extends JPanel{
 
                     break;
                 case "SETTINGS":
+                    mainDisplay.showSettings();
                     java.lang.System.out.println("Settings opened");
 
                     break;
