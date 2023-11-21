@@ -110,7 +110,6 @@ public class NewGame extends JPanel {
 
                 case "START":
                     createPlayer(name.getText());
-                    gamePlay.initialize();
                     mainDisplay.showGamePlay();
                     break;
 

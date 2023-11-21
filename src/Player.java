@@ -37,6 +37,12 @@ public class Player implements Serializable {
         return damageOutput;
     }
 
+    public void setHealth(double damageIncoming){
+
+        this.health -= damageIncoming;
+
+    }
+
 
 
 }

@@ -79,6 +79,7 @@ public class MainDisplay extends JFrame {
     public void showGamePlay(){
 
         ((CardLayout)this.getContentPane().getLayout()).show(this.getContentPane(), "START");
+        gamePlay.initialize();
 
     }
 
