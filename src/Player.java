@@ -42,6 +42,9 @@ public class Player implements Serializable {
         this.health -= damageIncoming;
 
     }
+    public String getPlayerName(){
+        return this.playerName;
+    }
 
 
 
