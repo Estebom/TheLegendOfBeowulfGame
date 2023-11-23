@@ -3,6 +3,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * For the creation of a new game state, dispays new game interface
+ * @author Esteban Rodriguez
+ */
 public class NewGame extends JPanel {
 
     private GamePlay gamePlay;
@@ -96,10 +100,15 @@ public class NewGame extends JPanel {
 
     }
 
+    /**
+     * creates Player instance
+     * @param name string sets the Player instance's name
+     */
     public void createPlayer(String name){
 
         Player player = Player.getInstance();
         player.setPlayerName(name);
+        java.lang.System.out.println(player.getPlayerName());
     }
 
     ActionListener buttonListener = new ActionListener() {

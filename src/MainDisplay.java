@@ -68,21 +68,31 @@ public class MainDisplay extends JFrame {
         this.setVisible(true);
     }
 
-
+    /**
+     * displays the MainMenu panel to the MainDisplay
+     */
     public void showMainMenu(){
         ((CardLayout)this.getContentPane().getLayout()).show(this.getContentPane(), "MainMenu");
     }
+    /**
+     * displays the NewGame panel to the MainDisplay
+     */
     public  void showNewGame(){
 
         ((CardLayout)this.getContentPane().getLayout()).show(this.getContentPane(),"NewGame");
     }
+    /**
+     * displays the GamePlay panel to the MainDisplay
+     */
     public void showGamePlay(){
 
         ((CardLayout)this.getContentPane().getLayout()).show(this.getContentPane(), "START");
         gamePlay.initialize();
 
     }
-
+    /**
+     * displays the Settings panel to the MainDisplay
+     */
     public void showSettings(){
 
         ((CardLayout)this.getContentPane().getLayout()).show(this.getContentPane(), "SETTINGS");

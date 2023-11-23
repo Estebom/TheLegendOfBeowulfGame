@@ -4,6 +4,10 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Scanner;
 
+/**
+ * handles all game logic
+ * @author Esteban Rodriguez
+ */
 public class GamePlay extends JPanel {
 
     private MainDisplay mainDisplay ;
@@ -26,6 +30,9 @@ public class GamePlay extends JPanel {
 
     }
 
+    /**
+     * sets all keyboard inputs to this panel
+     */
     public void initialize(){
         this.requestFocusInWindow();
     }

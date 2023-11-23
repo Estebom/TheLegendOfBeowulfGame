@@ -3,6 +3,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * This class is the MainMenu interface for users
+ * @author Esteban Rodriguez
+ */
 public class MainMenu extends JPanel{
     private MainDisplay mainDisplay;
 
