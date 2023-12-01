@@ -21,7 +21,7 @@ public class KeyPad extends KeyAdapter {
         this.interaction = new Interaction();
         this.attack = new Attack();
         this.movement = new Movement();
-        this.inventory = new Inventory();
+        this.inventory = Inventory.getInstance();
     }
 
 
