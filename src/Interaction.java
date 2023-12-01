@@ -1,11 +1,13 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class ItemInteraction implements ActionListener {
-    private Interactions interactions;
+public class Interaction implements ActionListener {
+    private Inventory inventory;
 
-    public ItemInteraction(Interactions interactions) {
-        this.interactions = interactions;
+    public Interaction() {
+
+        this.inventory = Inventory.getInstance();
+
     }
 
     @Override
@@ -15,10 +17,10 @@ public class ItemInteraction implements ActionListener {
     }
 
     public void grabItem(Item item) {
-        interactions.grabItem(item);
+        inventory.addItem(item);
     }
 
     public void grabWeapon(Weapon weapon) {
-        interactions.grabWeapon(weapon);
+        inventory.addWeapon(weapon);
     }
 }
