@@ -44,6 +44,9 @@ public class KeyPad extends KeyAdapter {
                 this.movement.playerMove(e.getKeyChar());
                 break;
             case 'e':
+                java.lang.System.out.println("use collectable");
+            case 'q':
+
                 java.lang.System.out.println("interact");
                 break;
             case 'o':
@@ -54,6 +57,7 @@ public class KeyPad extends KeyAdapter {
                 break;
             case 'm':
                 java.lang.System.out.println("inventory open");
+                //toggle to close
                 break;
             case 'n':
                 java.lang.System.out.println("dropped item");

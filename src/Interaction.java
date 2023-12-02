@@ -1,26 +1,27 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class Interaction implements ActionListener {
+public class Interaction {
     private Inventory inventory;
-
+    private Chest chest;
     public Interaction() {
 
         this.inventory = Inventory.getInstance();
 
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        // Grabbing an item
-        grabItem(new Item("Sample Item", "Sample Item Description"));
+
+
+    public void grabCollectable(Collectable collectable) {
+        inventory.addCollectable(collectable);
     }
 
-    public void grabItem(Item item) {
-        inventory.addItem(item);
+    public void openChest(){
+        chest.chestRoll();
     }
 
-    public void grabWeapon(Weapon weapon) {
-        inventory.addWeapon(weapon);
-    }
+
+
+
+
 }

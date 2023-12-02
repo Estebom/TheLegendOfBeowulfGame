@@ -1,11 +1,14 @@
-public class Item {
+public class Item implements Collectable{
     private Player player;
     private String nameItem;
     private String info;
 
-    public Item(String nameItem, String info) {
+    private int price;
+
+    public Item(String nameItem, String info, int price) {
         this.nameItem = nameItem;
         this.info = info;
+        this.price = price;
         player = Player.getInstance();
     }
 
@@ -15,5 +18,16 @@ public class Item {
 
     public String getinfo() {
         return info;
+    }
+
+
+    @Override
+    public void use(int e) {
+
+    }
+
+    @Override
+    public int getPrice() {
+        return this.price;
     }
 }
