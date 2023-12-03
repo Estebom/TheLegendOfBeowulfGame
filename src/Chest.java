@@ -13,17 +13,16 @@ public class Chest {
         chestInventory = new ArrayList<>();
     }
 
-    public void chestRoll() {
+    public Collectable chestRoll() {
 
         int range = (1 - 10) + 1;
         int decision = (int) (Math.random() * range) + 1;
 
-        this.giveCollectable(decision);
-    }
-
-    public Collectable giveCollectable(int decision){
         Collectable collectable = chestInventory.get(decision);
         return collectable;
+
     }
+
+
 
 }

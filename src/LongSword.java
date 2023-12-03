@@ -2,8 +2,8 @@ public class LongSword extends Weapon{
 
     private int swingSpeed; //slow
 
-    public LongSword(String weaponName, double weaponDamage) {
-        super(weaponName, weaponDamage);
+    public LongSword(String weaponName, double weaponDamage, int price) {
+        super(weaponName, weaponDamage, price);
     }
 
     public void pushBack(){
