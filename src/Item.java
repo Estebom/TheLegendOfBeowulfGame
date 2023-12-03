@@ -1,4 +1,6 @@
-public class Item implements Collectable{
+
+
+public class Item implements Collectable {
     private Player player;
     private String nameItem;
     private String info;

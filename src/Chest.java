@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 public class Chest {
-    //Item class still needs to be instanitated
+
 
     private String name;
     private ArrayList<Collectable> chestInventory; //first 5 slots will be empty
