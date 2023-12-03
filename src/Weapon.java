@@ -1,10 +1,12 @@
-public class Weapon {
+public class Weapon implements Collectable{
     private Player player;
     private String weaponName;
     private double weaponDamage;
-    public Weapon(String weaponName, double weaponDamage){
+    private int price;
+    public Weapon(String weaponName, double weaponDamage, int price){
         this.weaponName = weaponName;
         this.weaponDamage = weaponDamage;
+        this.price = price;
         player = Player.getInstance();
     }
 
@@ -14,6 +16,8 @@ public class Weapon {
     public double getWeaponDamage(){
         return weaponDamage;
     }
+
+
     public void modifyPlayerDamage(boolean b){
 
         if (b == true){
@@ -26,4 +30,13 @@ public class Weapon {
 
     }
 
+    @Override
+    public void use(int e) {
+
+    }
+
+    @Override
+    public int getPrice() {
+        return this.price;
+    }
 }
