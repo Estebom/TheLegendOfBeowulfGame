@@ -34,8 +34,13 @@ public class PlayerSprite extends JLabel implements Movement{
         ImageIcon frontFacingRight = new ImageIcon("src\\FrontFacingRIGHTBeowulf.png");
         this.frontFacingRightScale = frontFacingRight.getImage().getScaledInstance(100,100,Image.SCALE_SMOOTH);
 
-        //ImageIcon backFacingLeft = new ImageIcon("src\\FrontFacingBeowulf");
-        //ImageIcon backFacingRight = new ImageIcon("src\\FrontFacingBeowulf");
+        ImageIcon backFacingLeft = new ImageIcon("src\\BackLeft.png");
+        this.backFacingLeftScale = backFacingLeft.getImage().getScaledInstance(100,100,Image.SCALE_SMOOTH);
+
+        ImageIcon backFacingRight = new ImageIcon("src\\BackRight.png");
+        this.backFacingRightScale = backFacingRight.getImage().getScaledInstance(100,100,Image.SCALE_SMOOTH);
+
+
         ImageIcon leftFacingStill = new ImageIcon("src\\LeftFacingStanding.png");
         this.leftFacingStillScale = leftFacingStill.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
         ImageIcon leftFacingWalk = new ImageIcon("src\\LeftFacingwalk.png");
@@ -92,6 +97,9 @@ public class PlayerSprite extends JLabel implements Movement{
             walkState = !walkState;
             ImageIcon icon = null;
             switch (currentDirection){
+                case 'w':
+                    icon = walkState ? new ImageIcon(backFacingLeftScale) : new ImageIcon(backFacingRightScale);
+                    break;
                 case 's':
                     icon = walkState ? new ImageIcon(frontFacingLeftScale): new ImageIcon(frontFacingRightScale);
                     break;
@@ -116,7 +124,7 @@ public class PlayerSprite extends JLabel implements Movement{
         ImageIcon icon = null;
         switch (this.currentDirection) {
             case 'w':
-                //
+                icon = new ImageIcon(backFacingRightScale);
                 break;
             case 's':
                 icon = new ImageIcon(frontFacingRightScale);
@@ -125,7 +133,7 @@ public class PlayerSprite extends JLabel implements Movement{
                 icon = new ImageIcon(leftFacingStillScale);
                 break;
             case 'd':
-                icon = new ImageIcon(this.rightFacingStillScale);
+                icon = new ImageIcon(rightFacingStillScale);
                 break;
         }
         if(icon != null){

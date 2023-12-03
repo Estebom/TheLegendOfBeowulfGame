@@ -12,6 +12,8 @@ public class Interaction extends JPanel {
     private JButton sellButton;
     private JButton speakButton;
 
+    public Interaction(){}
+
     public Interaction(NPC npc) {
 
         this.inventory = Inventory.getInstance();
@@ -46,9 +48,9 @@ public class Interaction extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 String dialogue = npc.speak();
                 // Display the dialogue in your UI
-                @// TODO: 12/3/2023 write the actionListener functions out of the constructor and have the listener get the message then delegate instructions 
-                @// TODO: 12/3/2023 instantiate a panel
-                JOptionPane.showMessageDialog(.this, dialogue, "NPC Dialogue", JOptionPane.INFORMATION_MESSAGE);
+                // TODO: 12/3/2023 write the actionListener functions out of the constructor and have the listener get the message then delegate instructions
+                // TODO: 12/3/2023 instantiate a panel
+                //JOptionPane.showMessageDialog(.this, dialogue, "NPC Dialogue", JOptionPane.INFORMATION_MESSAGE);
             }
         });
 
