@@ -1,6 +1,6 @@
+import java.io.Serializable;
 
-
-public class Weapon implements Collectable {
+public class Weapon implements Collectable, Serializable {
     private Player player;
     private String weaponName;
     private double weaponDamage;
