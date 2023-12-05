@@ -8,30 +8,33 @@ public class Inventory implements Serializable {
 
     private int currency;
 
+    private Collectable collectableInUse = null;
+
 
     private Collectable[][] inventory = new Collectable[5][5];
     private static Inventory instance;
-    private Inventory(){
+
+    private Inventory() {
 
         this.currency = 0;
     }
 
-    public static Inventory getInstance(){
-        if(instance == null){
+    public static Inventory getInstance() {
+        if (instance == null) {
             instance = new Inventory();
         }
         return instance;
     }
 
     //for future make to map
-    public void addCollectable(Collectable collectable){
-        for(int i = 0; i < 5; i++){
-            if(inventory[i][0] == null){
+    public void addCollectable(Collectable collectable) {
+        for (int i = 0; i < 5; i++) {
+            if (inventory[i][0] == null) {
                 inventory[i][0] = collectable;
                 return;
             } else {
-                for(int j = 1; j < 5; j++){
-                    if(inventory[i][j] == null){
+                for (int j = 1; j < 5; j++) {
+                    if (inventory[i][j] == null) {
                         inventory[i][j] = collectable;
 
                         return;
@@ -43,15 +46,15 @@ public class Inventory implements Serializable {
 
     }
 
-    public void removeCollectable(Collectable collectable){
+    public void removeCollectable(Collectable collectable) {
 
-        for(int i = 0; i < 5; i++){
-            if(inventory[i][0] == collectable){
+        for (int i = 0; i < 5; i++) {
+            if (inventory[i][0] == collectable) {
                 inventory[i][0] = null;
                 return;
             } else {
-                for(int j = 1; j < 5; j++){
-                    if(inventory[i][j] == collectable){
+                for (int j = 1; j < 5; j++) {
+                    if (inventory[i][j] == collectable) {
                         inventory[i][j] = null;
 
                         return;
@@ -61,20 +64,23 @@ public class Inventory implements Serializable {
         }
 
 
-
     }
 
-    public void addCurrency(int currency){
+    public void addCurrency(int currency) {
 
         this.currency += currency;
 
     }
 
-    public Collectable getCollectable(int i, int j){
-        return inventory[i][j];
+    public Collectable accessHotBar() {
+        return this.collectableInUse;
     }
 
     public static void setInstance(Inventory loadedInstance) {
         instance = loadedInstance;
+    }
+
+    public void setCollectableInUse(int i) {
+        this.collectableInUse = inventory[0][i];
     }
 }

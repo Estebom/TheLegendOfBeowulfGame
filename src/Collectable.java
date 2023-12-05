@@ -1,5 +1,5 @@
 public interface Collectable {
-    void use(int e);
+    void use(boolean b, int t);
 
     int getPrice();
 }

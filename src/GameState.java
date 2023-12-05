@@ -14,26 +14,25 @@ import java.io.Serializable;
  */
 public class GameState implements Serializable {
     private int currentLevel;
-    private static final String SAVE_PATH = "saves/";  
+    private static final String SAVE_PATH = "saves/";
     public static final String DEFAULT_SAVE = "latestGameState";
     private static GameState instance = null;
 
 
-    
-    public static GameState getInstance(){
+    public static GameState getInstance() {
 
-        if(instance == null){
+        if (instance == null) {
             instance = new GameState();
         }
         return instance;
     }
-    
-    private GameState(){
+
+    private GameState() {
         this.currentLevel = 0;
     }
-    
+
     public static void loadGame(String saveName) {
-        
+
         try (ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(SAVE_PATH + saveName))) {
             instance = (GameState) inputStream.readObject(); // Load the player object
             PlayerSprite.replacePlayerInstance((PlayerSprite) inputStream.readObject());
@@ -41,8 +40,8 @@ public class GameState implements Serializable {
             // Load the Inventory object
             Inventory.setInstance((Inventory) inputStream.readObject()); // Set the loaded Inventory
             
-            
-            java.lang.System.out.println("Loaded Player Name: " + PlayerSprite.getInstance().getPlayerName());
+            java.lang.System.out.println("Loaded Player Name: " + PlayerSprite.getPlayerName());
+
             java.lang.System.out.println("Loaded Game Level: " + getInstance().currentLevel);
 
             java.lang.System.out.println("Player data loaded successfully.");
@@ -50,12 +49,12 @@ public class GameState implements Serializable {
             java.lang.System.out.println("Error loading player data: " + e.getMessage());
         }
     }
-        
-    public static void saveGame(String saveName){
+
+    public static void saveGame(String saveName) {
         writeGameState(saveName);
         writeGameState(DEFAULT_SAVE);
-    }    
-        
+    }
+
     private static void writeGameState(String saveName) {
         File saveFile = new File(SAVE_PATH);
         saveFile.mkdirs(); //Ensures SAVE_PATH Directory exists
@@ -64,52 +63,37 @@ public class GameState implements Serializable {
             outputStream.writeObject(PlayerSprite.getInstance()); // Saves the entire player object
             outputStream.writeObject(Inventory.getInstance()); //Saves the player Inventory
             java.lang.System.out.println("Player data saved successfully.");
-        } 
-
-        catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
             java.lang.System.out.println("Error saving player data: " + e.getMessage());
         }
     }
-    
-    public void nextLevel(){
-        getInstance().currentLevel+=1;
+
+    public void nextLevel() {
+        getInstance().currentLevel += 1;
     }
-    
-    public int currentLevel(){
+
+    public int currentLevel() {
         return getInstance().currentLevel;
     }
-    
-    public void addInventory(){
-        
-        
-}
-    
-    public static void main(String[] args){
-        //Testing Level saving
-        GameState.getInstance().nextLevel();
-        GameState.getInstance().nextLevel();
-        GameState.getInstance().nextLevel();
-        GameState.saveGame("test");
-        GameState.getInstance().nextLevel();
-        GameState.getInstance().nextLevel();
-        GameState.loadGame("test");
-        java.lang.System.out.println(GameState.getInstance().currentLevel());
+
+    public void addInventory() {
+
 
 
         //Testing player data saving
         PlayerSprite.setPlayerName("Testnm");
-        java.lang.System.out.println(PlayerSprite.getInstance().getHealth());
+        java.lang.System.out.println(PlayerSprite.getHealth());
         PlayerSprite.setHealth(5);
         GameState.saveGame("test");
         PlayerSprite.setHealth(10);
         GameState.loadGame("test");
-        java.lang.System.out.println(PlayerSprite.getInstance().getHealth());
+        java.lang.System.out.println(PlayerSprite.getHealth());
 
 
         //Testing Inventory data saving
         Inventory inventory = Inventory.getInstance();
-        Weapon sword = new Weapon("Exaclibur", 9, 89);
+        Weapon sword = new Weapon("Exaclibur", 9, 89, new Attack(new Enemy("Karl")));
         inventory.addCollectable(sword); // Add an item to the inventory
         inventory.addCurrency(100); // Add currency
         GameState.saveGame("test");
@@ -119,22 +103,21 @@ public class GameState implements Serializable {
 
         //Testing PlayerSprite data saving
         // Initialize the PlayerSprite instance and set its starting position
-        PlayerSprite playerSprite = PlayerSprite.getInstance();
-        playerSprite.setStarting(50, 50); // Set the starting position
+        PlayerSprite.setStarting(50, 50); // Set the starting position
 
         // Move the player sprite
-        playerSprite.move('w');
-        playerSprite.move('d');
+        PlayerSprite.move('w');
+        PlayerSprite.move('d');
 
-        int loadedPosX = PlayerSprite.getInstance().getPlayerPosX();
-        int loadedPosY = PlayerSprite.getInstance().getPlayerPosY();
+        int loadedPosX = PlayerSprite.getPlayerPosX();
+        int loadedPosY = PlayerSprite.getPlayerPosY();
         java.lang.System.out.println(loadedPosX);
         java.lang.System.out.println(loadedPosY);
         // Save the game state
         GameState.saveGame("test");
 
         // Change the position of the player sprite after saving the game
-        playerSprite.setStarting(100, 100);
+        PlayerSprite.setStarting(100, 100);
 
         // Load the game state and check if the player sprite position is restored
         GameState.loadGame("test");
@@ -148,7 +131,6 @@ public class GameState implements Serializable {
         } else {
             java.lang.System.out.println("PlayerSprite data not loaded correctly.");
         }
-
     }
 }
 
