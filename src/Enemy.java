@@ -1,6 +1,9 @@
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author Esteban Rodriguez
+ */
 public class Enemy {
     private Attack attack;
 
@@ -92,10 +95,10 @@ public class Enemy {
                 else if (Math.abs(y - posy) > Math.abs(x - posx)) {
                     if (y > posy) {
                         posy += step;
-                        currentDirection = 'w';
+                        currentDirection = 's';
                     } else {
                         posy -= step;
-                        currentDirection = 's';
+                        currentDirection = 'w';
                     }
                 }
             }

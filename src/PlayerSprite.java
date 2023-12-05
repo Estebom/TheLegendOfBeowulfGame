@@ -3,7 +3,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-
+/**
+ * Esteban Rodriguez
+ */
 public class PlayerSprite extends JLabel implements Movement{
     private int playerPosX;
     private int playerPosY;

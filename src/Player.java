@@ -1,5 +1,8 @@
 import java.io.Serializable;
 
+/**
+ * @author Esteban Rodriguez
+ */
 public class Player implements Serializable {
 
     private String playerName;

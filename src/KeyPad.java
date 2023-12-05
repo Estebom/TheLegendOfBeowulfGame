@@ -17,10 +17,9 @@ public class KeyPad extends KeyAdapter {
     private static KeyPad instance;
 
 
-
     private boolean readKeys = true;
 
-    private KeyPad(GamePlay gamePlay){
+    private KeyPad(GamePlay gamePlay) {
         this.gamePlay = gamePlay;
         this.interaction = new Interaction();
         this.attack = new Attack(gamePlay.getCurrentTarget());
@@ -44,17 +43,17 @@ public class KeyPad extends KeyAdapter {
     }
 
 
+    public static KeyPad getInstance(GamePlay gamePlay) {
 
-    public static KeyPad getInstance(GamePlay gamePlay){
-
-        if(instance == null){
+        if (instance == null) {
             instance = new KeyPad(gamePlay);
-            }
-            return instance;
         }
+        return instance;
+    }
+
     @Override
     public void keyPressed(KeyEvent e) {
-        if(readKeys == true) {
+        if (readKeys == true) {
             switch (e.getKeyCode()) {
                 case KeyEvent.VK_1:
                 case KeyEvent.VK_2:
@@ -62,11 +61,13 @@ public class KeyPad extends KeyAdapter {
                 case KeyEvent.VK_4:
                 case KeyEvent.VK_5:
                     int digit = e.getKeyChar() - '0';
-                    inventory.setCollectableInUse(digit);
-                    if(inventory.accessHotBar().getClass() == Weapon.class){
-                        Weapon weapon = new Weapon(inventory.accessHotBar());
+                    inventory.setCollectableInUse(digit - 1);
+                    Collectable collectable = inventory.accessHotBar();
+                    if (collectable != null && collectable.getClass() == Weapon.class) {
+                        Weapon weapon = (Weapon) collectable;
                         weapon.modifyPlayerDamage(true);
                     }
+                    break;
                 case KeyEvent.VK_W:
                 case KeyEvent.VK_A:
                 case KeyEvent.VK_S:
@@ -76,10 +77,14 @@ public class KeyPad extends KeyAdapter {
                 case KeyEvent.VK_E:
                     java.lang.System.out.println("use collectable");
                     int t1 = (int) java.lang.System.currentTimeMillis();
-                    inventory.accessHotBar().use(false, t1);
+                    Collectable hotbarCollectable = inventory.accessHotBar();
+                    if (hotbarCollectable != null) {
+                        hotbarCollectable.use(false, t1);
+                    }
                     break;
                 case KeyEvent.VK_Q:
                     java.lang.System.out.println("interact");
+
                     break;
                 case KeyEvent.VK_O:
                     java.lang.System.out.println("attack");
@@ -119,21 +124,36 @@ public class KeyPad extends KeyAdapter {
                 break;
             case KeyEvent.VK_E:
                 int t2 = (int) java.lang.System.currentTimeMillis();
-                if (gamePlay.hittable() == true) {
-                    if ((playerSprite.getCurrentDirection() == 'w' && playerSprite.getCurrentDirection() == 's')
-                            || (playerSprite.getCurrentDirection() == 'd' && playerSprite.getCurrentDirection() == 'a')
-                            || (playerSprite.getCurrentDirection() == 'a' && playerSprite.getCurrentDirection() == 'd')
-                            || (playerSprite.getCurrentDirection() == 's' && playerSprite.getCurrentDirection() == 'w')) {
+                Collectable collectable = inventory.accessHotBar();
 
-                        Attack attack1 = new Attack( gamePlay.getCurrentTarget());
-                        inventory.accessHotBar().use(true, t2);
+                if (collectable != null && collectable instanceof Weapon) {
+                    Weapon weapon = (Weapon) collectable;
+                    if (gamePlay.hittable()) {
+                        weapon.use(true, t2);
+
+                        if (weapon instanceof ShortSword) {
+                            ShortSword shortSword = (ShortSword) weapon;
+                            shortSword.criticalHits();
+                        }
+                    } else {
+                        weapon.swing(true, t2);
+                        if (weapon instanceof ShortSword) {
+                            ShortSword shortSword = (ShortSword) weapon;
+                            shortSword.setMultiplierCount(0);
+                            java.lang.System.out.println("i swung");
+                        }
                     }
+                } else if (collectable instanceof Item) {
+                    Item item = (Item) collectable;
+                    item.use(true, t2);
                 }
+                break;
         }
-    }
 
-    public void setReadable(boolean readable){
+
+
+    }
+    public void setReadable ( boolean readable){
         this.readKeys = readable;
     }
-
 }

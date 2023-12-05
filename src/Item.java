@@ -14,6 +14,9 @@ public class Item implements Collectable {
         player = Player.getInstance();
     }
 
+    public Item(Collectable collectable) {
+    }
+
     public String getnameItem() {
         return nameItem;
     }

@@ -95,7 +95,7 @@ public class MainMenu extends JPanel{
                 case "LOAD_GAME":
                     java.lang.System.out.println("Load Game clicked");
                     GameState.loadGame(GameState.DEFAULT_SAVE);                   //Edit by Nohea
-
+                    mainDisplay.showGamePlay();
                     break;
                 case "SETTINGS":
                     mainDisplay.showSettings();

@@ -67,6 +67,8 @@ public class GamePlay extends JPanel {
         playerSprite.setStarting(this.getWidth()/2, this.getHeight()/2);
 
         playerSprite.setBounds(playerSprite.getPlayerPosX(), playerSprite.getPlayerPosY(), 100, 100);
+        Enemy bobby = new Enemy("bobby");
+        enemies.add(bobby);
     }
 
     public void showGameMenu() {
