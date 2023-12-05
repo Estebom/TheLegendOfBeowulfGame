@@ -29,23 +29,22 @@ public class MainMenu extends JPanel{
 
 
 
-
         newGameButton = new JButton("New Game");
-        newGameButton.setPreferredSize(new Dimension(600, 150));
-        newGameButton.setMaximumSize(new Dimension(600, 150)); // Set maximum size
+        newGameButton.setPreferredSize(new Dimension(500, 100));
+        newGameButton.setMaximumSize(new Dimension(500, 100)); // Set maximum size
 
 
         loadGameButton = new JButton("Load Game");
-        loadGameButton.setPreferredSize(new Dimension(600, 150));
-        loadGameButton.setMaximumSize(new Dimension(600, 150)); // Set maximum size
+        loadGameButton.setPreferredSize(new Dimension(500, 100));
+        loadGameButton.setMaximumSize(new Dimension(500, 100)); // Set maximum size
 
         settingButton = new JButton("Settings");
-        settingButton.setPreferredSize(new Dimension(600, 150));
-        settingButton.setMaximumSize(new Dimension(600, 150)); // Set maximum size
+        settingButton.setPreferredSize(new Dimension(500, 100));
+        settingButton.setMaximumSize(new Dimension(500, 100)); // Set maximum size
 
         exitGameButton = new JButton("Exit Game");
-        exitGameButton.setPreferredSize(new Dimension(600, 150));
-        exitGameButton.setMaximumSize(new Dimension(600, 150)); // Set maximum size
+        exitGameButton.setPreferredSize(new Dimension(500, 100));
+        exitGameButton.setMaximumSize(new Dimension(500, 100)); // Set maximum size
 
 
         newGameButton.setActionCommand("NewGame");
@@ -71,9 +70,13 @@ public class MainMenu extends JPanel{
         buttonLayout.add(Box.createRigidArea(new Dimension(0, 25))); // 10-pixel vertical space
         buttonLayout.add(exitGameButton);
         buttonLayout.add(Box.createVerticalGlue());
+        buttonLayout.setBackground(Color.RED);
 
         centerPanel = new JPanel(new GridBagLayout());
         centerPanel.add(buttonLayout);
+        centerPanel.setSize(new Dimension(800,675));
+        centerPanel.setMaximumSize(new Dimension(800,675));
+        centerPanel.setBackground(Color.RED);
 
         this.add(centerPanel, BorderLayout.CENTER);
         this.setVisible(true);
@@ -92,7 +95,7 @@ public class MainMenu extends JPanel{
                 case "LOAD_GAME":
                     java.lang.System.out.println("Load Game clicked");
                     GameState.loadGame(GameState.DEFAULT_SAVE);                   //Edit by Nohea
-
+                    mainDisplay.showGamePlay();
                     break;
                 case "SETTINGS":
                     mainDisplay.showSettings();
@@ -112,3 +115,5 @@ public class MainMenu extends JPanel{
 
 
 }
+
+

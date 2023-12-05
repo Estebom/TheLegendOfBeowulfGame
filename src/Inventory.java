@@ -1,11 +1,14 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Inventory {
+public class Inventory implements Serializable {
     // TODO: 12/2/2023  DEFINE AN INTERFACE FOR BOTH WEAPON AND ITEM
     private ArrayList<Item> items;
     private ArrayList<Weapon> weapons;
 
     private int currency;
+
+    private Collectable collectableInUse = null;
 
 
     private Collectable[][] inventory = new Collectable[5][5];
@@ -22,7 +25,7 @@ public class Inventory {
         return instance;
     }
 
-
+    //for future make to map
     public void addCollectable(Collectable collectable){
         for(int i = 0; i < 5; i++){
             if(inventory[i][0] == null){
@@ -69,6 +72,12 @@ public class Inventory {
 
     }
 
+    public Collectable accessHotBar(){
+        return this.collectableInUse;
+    }
 
+    public void setCollectableInUse(int i){
+        this.collectableInUse = inventory[0][i];
+    }
 
 }

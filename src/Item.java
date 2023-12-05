@@ -14,6 +14,9 @@ public class Item implements Collectable {
         player = Player.getInstance();
     }
 
+    public Item(Collectable collectable) {
+    }
+
     public String getnameItem() {
         return nameItem;
     }
@@ -24,7 +27,7 @@ public class Item implements Collectable {
 
 
     @Override
-    public void use(int e) {
+    public void use(boolean b, int i) {
 
     }
 

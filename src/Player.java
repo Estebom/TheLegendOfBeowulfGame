@@ -1,5 +1,8 @@
 import java.io.Serializable;
 
+/**
+ * @author Esteban Rodriguez
+ */
 public class Player implements Serializable {
 
     private String playerName;
@@ -41,13 +44,27 @@ public class Player implements Serializable {
         this.damageOutput = damageOutput;
     }
 
-    public void setHealth(double damageIncoming){
+    public void setHealth(double health){
 
-        this.health -= damageIncoming;
+        this.health = health;
 
+    }
+
+    public void heal(double health){
+        this.health += health;
+    }
+
+    public void takeDamage(double damage){
+        this.health -= damage;
     }
     public String getPlayerName(){
         return this.playerName;
+    }
+
+
+
+    public static void replacePlayerInstance(Player newInstance){             //Edit by Nohea
+        instance = newInstance;
     }
 
 

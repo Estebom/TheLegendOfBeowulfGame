@@ -1,3 +1,35 @@
-public class Attack {
-    public Attack(){}
+/**
+ * Esteban Rodriguez
+ */
+public  class Attack {
+    private Enemy enemy;
+    private Player player;
+    private GamePlay gamePlay;
+    public Attack(GamePlay gamePlay) {
+        this.player = Player.getInstance();
+        this.gamePlay = gamePlay;
+        if (this.gamePlay != null) {
+            this.enemy = this.gamePlay.getCurrentTarget();
+        }
+    }
+    public Attack(Enemy enemy) {
+        this.enemy = enemy;
+        this.player = Player.getInstance();
+    }
+
+public void playerNormalAttack(){
+        this.enemy.takeDamage(player.getDamageOutput());
+
+}
+public void enemyNormalAttack(){
+        player.takeDamage(enemy.getDamage());
+}
+public void playerSpecialAttack(){
+
+        this.enemy.takeDamage(player.getDamageOutput() * 1.30);
+
+    }
+    public void enemySpecialAttack(){
+        player.takeDamage(enemy.getDamage());
+    }
 }

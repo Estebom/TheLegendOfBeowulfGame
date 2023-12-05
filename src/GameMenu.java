@@ -8,7 +8,7 @@ import java.awt.event.KeyListener;
 // TODO: 12/3/2023 add a link to settings class or define the same features
 // Todo: 12/3/2023 create save funcitonality
 public class GameMenu extends JPanel{
-    // private SaveLoad saveLoad;                    This can be removed (edit by Nohea)
+    private SaveLoad saveLoad;
     private Player player;
 
     private GamePlay gamePlay;
@@ -17,27 +17,30 @@ public class GameMenu extends JPanel{
 
     private JButton saveButton;
     private JButton returnToGame;
-    private MainDisplay mainDisplay;;
 
-    public GameMenu(MainDisplay mainDisplay) {
+    public GameMenu(GamePlay gamePlay) {
 
-        this.mainDisplay = mainDisplay;
+        this.gamePlay = gamePlay;
 
-        this.setSize(new Dimension(500, 500));
+
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         settingsButton = new JButton("Settings");
         saveButton = new JButton("Save Game");
         returnToGame = new JButton("Return to Game");
 
+        Dimension buttonSize = new Dimension(50,100);
+        settingsButton.setPreferredSize(buttonSize);
+        saveButton.setPreferredSize(buttonSize);
+        returnToGame.setPreferredSize(buttonSize);
+
         returnToGame.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                GameMenu.this.setVisible(false);
+
                 KeyPad.getInstance(gamePlay).setReadable(true);
-                mainDisplay.showGamePlay();
-                mainDisplay.revalidate();
-                mainDisplay.repaint();
+                gamePlay.hideMenu();
+
             }
         });
         settingsButton.addActionListener(new ActionListener() {
@@ -50,18 +53,21 @@ public class GameMenu extends JPanel{
         saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
                 // saveLoad.saveGame();                                This can be removed
                 GameState.saveGame(GameState.DEFAULT_SAVE);            //Edit by Nohea
             }
         });
         this.add(returnToGame);
+        this.add(Box.createVerticalStrut(20)); // Space between buttons
         this.add(settingsButton);
+        this.add(Box.createVerticalStrut(20)); // Space between buttons
         this.add(saveButton);
 
 
 
 
-        this.setVisible(false);
+        this.setVisible(true);
     }
 
 
@@ -101,3 +107,6 @@ public class GameMenu extends JPanel{
 
     }
 }
+
+
+
