@@ -50,6 +50,10 @@ public class Player implements Serializable {
         return this.playerName;
     }
 
+    public static void replacePlayerInstance(Player newInstance){             //Edit by Nohea
+        instance = newInstance;
+    }
+
 
 
 }
