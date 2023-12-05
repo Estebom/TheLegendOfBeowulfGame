@@ -82,37 +82,37 @@ public class GameState implements Serializable {
         
 }
     
-    public static void main(String[] args){
-        //Testing Level saving
-        GameState.getInstance().nextLevel();
-        GameState.getInstance().nextLevel();
-        GameState.getInstance().nextLevel();
-        GameState.saveGame("test");
-        GameState.getInstance().nextLevel();
-        GameState.getInstance().nextLevel();
-        GameState.loadGame("test");
-        java.lang.System.out.println(GameState.getInstance().currentLevel());
-
-
-        //Testing player data saving
-        Player.getInstance().setPlayerName("Testnm");
-        java.lang.System.out.println(Player.getInstance().getHealth());
-        Player.getInstance().setHealth(5);
-        GameState.saveGame("test");
-        Player.getInstance().setHealth(10);
-        GameState.loadGame("test");
-        java.lang.System.out.println(Player.getInstance().getHealth());
-
-
-        //Testing Inventory data saving
-        Inventory inventory = Inventory.getInstance();
-        Weapon sword = new Weapon("Exaclibur", 9, 89);
-        inventory.addCollectable(sword); // Add an item to the inventory
-        inventory.addCurrency(100); // Add currency
-        GameState.saveGame("test");
-        inventory.removeCollectable(sword); // Manipulate the inventory data
-        inventory.addCurrency(50);
-        GameState.loadGame("test");
-    }
+//    public static void main(String[] args){
+//        //Testing Level saving
+//        GameState.getInstance().nextLevel();
+//        GameState.getInstance().nextLevel();
+//        GameState.getInstance().nextLevel();
+//        GameState.saveGame("test");
+//        GameState.getInstance().nextLevel();
+//        GameState.getInstance().nextLevel();
+//        GameState.loadGame("test");
+//        java.lang.System.out.println(GameState.getInstance().currentLevel());
+//
+//
+//        //Testing player data saving
+//        Player.getInstance().setPlayerName("Testnm");
+//        java.lang.System.out.println(Player.getInstance().getHealth());
+//        Player.getInstance().setHealth(5);
+//        GameState.saveGame("test");
+//        Player.getInstance().setHealth(10);
+//        GameState.loadGame("test");
+//        java.lang.System.out.println(Player.getInstance().getHealth());
+//
+//
+//        //Testing Inventory data saving
+//        Inventory inventory = Inventory.getInstance();
+//        Weapon sword = new Weapon("Exaclibur", 9, 89);
+//        inventory.addCollectable(sword); // Add an item to the inventory
+//        inventory.addCurrency(100); // Add currency
+//        GameState.saveGame("test");
+//        inventory.removeCollectable(sword); // Manipulate the inventory data
+//        inventory.addCurrency(50);
+//        GameState.loadGame("test");
+//    }
 }
 
