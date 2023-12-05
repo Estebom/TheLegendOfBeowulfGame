@@ -1,4 +1,4 @@
-public class LongSword extends Weapon{
+public class LongSword extends Weapon {
 
     private int swingSpeed; //slow
 

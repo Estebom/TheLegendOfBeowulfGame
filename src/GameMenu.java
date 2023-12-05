@@ -1,48 +1,45 @@
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-
-public class GameMenu implements KeyListener {
-    private Settings settings;
-    private SaveGame saveGame;
+// TODO: 12/3/2023 add a return to main menu button
+// TODO: 12/3/2023 add a link to settings class or define the same features
+// Todo: 12/3/2023 create save funcitonality
+public class GameMenu extends JPanel{
+    // private SaveLoad saveLoad;                    This can be removed (edit by Nohea)
     private Player player;
 
-    public GameMenu(Player player) {
-        this.settings = new Settings();
-        this.saveGame = new SaveGame();
-        this.player = player;
-    }
+    private GamePlay gamePlay;
 
-    @Override
-    public void keyPressed(KeyEvent e) {
-        // Handle key-pressed events
-        int keyCode = e.getKeyCode();
-        switch (keyCode) {
-            case KeyEvent.VK_S:
-                saveGame.saveGame();
-                break;
-            case KeyEvent.VK_ESCAPE:
-                openMenu();
-                break;
-            default:
-                break;
-        }
-    }
+    private JButton settingsButton;
 
-    @Override
-    public void keyReleased(KeyEvent e) {
-        // Handle key-released events
-    }
+    private JButton saveButton;
+    private JButton returnToGame;
+    private MainDisplay mainDisplay;;
 
-    private void openMenu() {
-        // Display menu options
-        JFrame menuFrame = new JFrame("Game Menu");
-        JPanel menuPanel = new JPanel();
-        JButton settingsButton = new JButton("Settings");
-        JButton saveButton = new JButton("Save Game");
+    public GameMenu(MainDisplay mainDisplay) {
 
+        this.mainDisplay = mainDisplay;
+
+        this.setSize(new Dimension(500, 500));
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+
+        settingsButton = new JButton("Settings");
+        saveButton = new JButton("Save Game");
+        returnToGame = new JButton("Return to Game");
+
+        returnToGame.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                GameMenu.this.setVisible(false);
+                KeyPad.getInstance(gamePlay).setReadable(true);
+                mainDisplay.showGamePlay();
+                mainDisplay.revalidate();
+                mainDisplay.repaint();
+            }
+        });
         settingsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -53,22 +50,25 @@ public class GameMenu implements KeyListener {
         saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                saveGame.saveGame();
+                // saveLoad.saveGame();                                This can be removed
+                GameState.saveGame(GameState.DEFAULT_SAVE);            //Edit by Nohea
             }
         });
+        this.add(returnToGame);
+        this.add(settingsButton);
+        this.add(saveButton);
 
-        menuPanel.add(settingsButton);
-        menuPanel.add(saveButton);
-        menuFrame.add(menuPanel);
 
-        menuFrame.setSize(300, 200);
-        menuFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        menuFrame.setVisible(true);
+
+
+        this.setVisible(false);
     }
+
+
 
     private void openSettings() {
         // Display settings options
-        JFrame settingsFrame = new JFrame("Settings");
+        //JFrame settingsFrame = new JFrame("Settings");
         JPanel settingsPanel = new JPanel();
         JButton volumeButton = new JButton("Modify Volume");
         JButton soundButton = new JButton("Modify Sound");
@@ -77,31 +77,27 @@ public class GameMenu implements KeyListener {
         volumeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                settings.modifyVolume();
+                //settings.modifyVolume();
             }
         });
 
         soundButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                settings.modifySound();
+                //settings.modifySound();
             }
         });
 
         musicButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                settings.modifyMusic();
+                //settings.modifyMusic();
             }
         });
 
         settingsPanel.add(volumeButton);
         settingsPanel.add(soundButton);
         settingsPanel.add(musicButton);
-        settingsFrame.add(settingsPanel);
 
-        settingsFrame.setSize(300, 200);
-        settingsFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        settingsFrame.setVisible(true);
     }
 }

@@ -1,4 +1,4 @@
-public class MidSword extends Weapon{
+public class MidSword extends Weapon {
     private int swingSpeed; //avg
     public MidSword(String weaponName, double weaponDamage, int price) {
         super(weaponName, weaponDamage, price);

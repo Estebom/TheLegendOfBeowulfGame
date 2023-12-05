@@ -1,4 +1,6 @@
-public class Weapon implements Collectable{
+
+
+public class Weapon implements Collectable {
     private Player player;
     private String weaponName;
     private double weaponDamage;
