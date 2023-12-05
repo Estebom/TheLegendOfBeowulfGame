@@ -1,8 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package com.mycompany.legendofbeowulf;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -22,6 +17,8 @@ public class GameState implements Serializable {
     private static final String SAVE_PATH = "saves/";  
     public static final String DEFAULT_SAVE = "latestGameState";
     private static GameState instance = null;
+
+
     
     public static GameState getInstance(){
 
@@ -42,12 +39,12 @@ public class GameState implements Serializable {
             Player.replacePlayerInstance((Player) inputStream.readObject());
             
             
-            System.out.println("Loaded Player Name: " + Player.getInstance().getPlayerName());
-            System.out.println("Loaded Game Level: " + getInstance().currentLevel);
+            java.lang.System.out.println("Loaded Player Name: " + Player.getInstance().getPlayerName());
+            java.lang.System.out.println("Loaded Game Level: " + getInstance().currentLevel);
 
-            System.out.println("Player data loaded successfully.");
+            java.lang.System.out.println("Player data loaded successfully.");
         } catch (IOException | ClassNotFoundException e) {
-            System.out.println("Error loading player data: " + e.getMessage());
+            java.lang.System.out.println("Error loading player data: " + e.getMessage());
         }
     }
         
@@ -63,12 +60,12 @@ public class GameState implements Serializable {
             outputStream.writeObject(getInstance()); // Saves the Game state
             outputStream.writeObject(Player.getInstance()); // Saves the entire player object
             outputStream.writeObject(Inventory.getInstance()); //Saves the player Inventory
-            System.out.println("Player data saved successfully.");
+            java.lang.System.out.println("Player data saved successfully.");
         } 
 
         catch (IOException e) {
             e.printStackTrace();
-            System.out.println("Error saving player data: " + e.getMessage());
+            java.lang.System.out.println("Error saving player data: " + e.getMessage());
         }
     }
     
@@ -94,19 +91,19 @@ public class GameState implements Serializable {
         GameState.getInstance().nextLevel();
         GameState.getInstance().nextLevel();
         GameState.loadGame("test");
-        System.out.println(GameState.getInstance().currentLevel());
-        
-        
-        //Testing player data saving 
+        java.lang.System.out.println(GameState.getInstance().currentLevel());
+
+
+        //Testing player data saving
         Player.getInstance().setPlayerName("Testnm");
-        System.out.println(Player.getInstance().getHealth());
+        java.lang.System.out.println(Player.getInstance().getHealth());
         Player.getInstance().setHealth(5);
         GameState.saveGame("test");
         Player.getInstance().setHealth(10);
         GameState.loadGame("test");
-        System.out.println(Player.getInstance().getHealth());
-        
-        
+        java.lang.System.out.println(Player.getInstance().getHealth());
+
+
         //Testing Inventory data saving
         Inventory inventory = Inventory.getInstance();
         Weapon sword = new Weapon("Exaclibur", 9, 89);
