@@ -145,11 +145,14 @@ public class NewGame extends JPanel {
                 case "START":
                     createPlayer(name.getText());
                     mainDisplay.showGamePlay();
+
                     break;
 
                 case "MainMenu":
                     name.setText("Player what is your name?");
                     mainDisplay.showMainMenu();
+                    NewGame.this.setEnabled(false);
+
                     break;
 
 

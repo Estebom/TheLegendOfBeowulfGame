@@ -65,6 +65,7 @@ public class KeyPad extends KeyAdapter {
                     break;
                 case KeyEvent.VK_ESCAPE:
                     java.lang.System.out.println("escape pressed");
+
                     gamePlay.showGameMenu();
                     this.readKeys = false;
                     // Add your action for ESC key here

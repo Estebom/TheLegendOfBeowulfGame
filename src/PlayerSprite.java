@@ -31,7 +31,7 @@ public class PlayerSprite extends JLabel implements Movement{
     private PlayerSprite(){
 
 
-        ImageIcon originalIcon = new ImageIcon("src\\genericSprite.png");
+        ImageIcon spawn = new ImageIcon("src\\FRONTSTANDING.png");
         ImageIcon frontFacingLeft = new ImageIcon("src\\FrontFacingBeowulf.png");
         this.frontFacingLeftScale = frontFacingLeft.getImage().getScaledInstance(scaleWidth,scaleHeight,Image.SCALE_SMOOTH);
         ImageIcon frontFacingRight = new ImageIcon("src\\FrontFacingRIGHTBeowulf.png");
@@ -61,7 +61,7 @@ public class PlayerSprite extends JLabel implements Movement{
 
 
         // Scale the image to fit the desired width and height
-        Image scaledImage = originalIcon.getImage().getScaledInstance(scaleWidth, scaleHeight, Image.SCALE_SMOOTH);
+        Image scaledImage = spawn.getImage().getScaledInstance(scaleWidth, scaleHeight, Image.SCALE_SMOOTH);
 
         // Set the scaled image as the icon
         this.setIcon(new ImageIcon(scaledImage));

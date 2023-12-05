@@ -23,6 +23,8 @@ public class GamePlay extends JPanel {
             this.keyPad = KeyPad.getInstance(this);
             gameMenu = new GameMenu(mainDisplay);
             gameMenu.setBounds(500,500,300,200);
+            gameMenu.setVisible(false);
+            gameMenu.setOpaque(true);
 
             this.setPreferredSize(new Dimension(1080,1920));
             this.setLayout(new BorderLayout());
@@ -61,12 +63,10 @@ public class GamePlay extends JPanel {
     }
 
     public void showGameMenu(){
-
-        gameMenu.setVisible(true);
-        this.revalidate();
-        this.repaint();
-
+        mainDisplay.showGameMenu();
     }
+
+
     public void updateLayout(int width, int height) {
         this.setPreferredSize(new Dimension(width, height));
 

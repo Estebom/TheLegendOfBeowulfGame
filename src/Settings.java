@@ -45,7 +45,7 @@ public class Settings extends JPanel {
             int height = Integer.parseInt(dimensions[1]);
 
             mainDisplay.setSize(width, height);
-            mainDisplay.updateLayout();
+            mainDisplay.updateLayout(width, height);
             mainDisplay.setLocationRelativeTo(null);
         });
 
