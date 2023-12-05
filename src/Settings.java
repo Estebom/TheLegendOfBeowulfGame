@@ -37,15 +37,13 @@ public class Settings extends JPanel {
         String[] resolutions = { "800x600", "1280x720", "1920x1080", "2560x1440" };
         resolutionBox = new JComboBox<>(resolutions);
         resolutionBox.setMaximumSize(new Dimension(200, 50));
-        resolutionBox.setAlignmentX(Component.CENTER_ALIGNMENT);
+        resolutionBox.setAlignmentX(Component.CENTER_ALIGNMENT); // center align the combo box
         resolutionBox.addActionListener(e -> {
             String selectedResolution = (String)resolutionBox.getSelectedItem();
             String[] dimensions = selectedResolution.split("x");
             int width = Integer.parseInt(dimensions[0]);
             int height = Integer.parseInt(dimensions[1]);
-
             mainDisplay.setSize(width, height);
-            mainDisplay.updateLayout(width, height);
             mainDisplay.setLocationRelativeTo(null);
         });
 
@@ -87,7 +85,6 @@ public class Settings extends JPanel {
         public void actionPerformed(ActionEvent e) {
             if(e.getActionCommand().equals("MainMenu")){
                 mainDisplay.showMainMenu();
-
             }
         }
     };
