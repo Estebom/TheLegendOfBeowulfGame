@@ -23,6 +23,7 @@ public class NewGame extends JPanel {
 
     JPanel newGameFeatures;
     JPanel difLayout;
+    JLabel label;
     public NewGame(MainDisplay mainDisplay){
 
         this.mainDisplay = mainDisplay;
@@ -30,6 +31,11 @@ public class NewGame extends JPanel {
 
         this.setPreferredSize(new Dimension(800, 675));
         this.setLayout(new GridBagLayout());
+        label = new JLabel();
+        label.setBackground(Color.black);
+        label.setPreferredSize(new Dimension(800,675));
+        label.setOpaque(true);
+        this.add(label);
 
 
         newGameFeatures = new JPanel(new GridBagLayout());
@@ -110,6 +116,25 @@ public class NewGame extends JPanel {
         player.setPlayerName(name);
         java.lang.System.out.println(player.getPlayerName());
     }
+    public void updateLayout(int width, int height) {
+        this.setPreferredSize(new Dimension(width, height));
+
+        // Update the black label size and position
+        label.setBounds(0, 0, width, height); // Adjust the label to fit the new resolution
+
+        // Update the size and position of other components if necessary
+        // For example, adjust the preferred size of buttons and text field
+        name.setPreferredSize(new Dimension(width / 2, 100)); // Example adjustment
+        easyButton.setPreferredSize(new Dimension(width / 4, 100)); // Example adjustment
+        mediumButton.setPreferredSize(new Dimension(width / 4, 100)); // Example adjustment
+        hardButton.setPreferredSize(new Dimension(width / 4, 100)); // Example adjustment
+        startButton.setPreferredSize(new Dimension(width, 100)); // Example adjustment
+
+        // Revalidate and repaint the panel to apply changes
+        this.revalidate();
+        this.repaint();
+    }
+
 
     ActionListener buttonListener = new ActionListener() {
         @Override

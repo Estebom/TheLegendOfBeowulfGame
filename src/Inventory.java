@@ -22,7 +22,7 @@ public class Inventory {
         return instance;
     }
 
-
+    //for future make to map
     public void addCollectable(Collectable collectable){
         for(int i = 0; i < 5; i++){
             if(inventory[i][0] == null){
@@ -69,6 +69,9 @@ public class Inventory {
 
     }
 
+    public Collectable getCollectable(int i, int j){
+        return inventory[i][j];
+    }
 
 
 }

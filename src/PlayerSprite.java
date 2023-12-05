@@ -5,8 +5,8 @@ import java.awt.event.ActionListener;
 
 
 public class PlayerSprite extends JLabel implements Movement{
-    private int playerPosX = 750;
-    private int playerPosY = 750;
+    private int playerPosX;
+    private int playerPosY;
     private static final int STEP = 5;
     ImageIcon playerIcon;
     private Image leftFacingStillScale,leftFacingWalkScale,rightFacingWalkScale,rightFacingStillScale;
@@ -16,6 +16,8 @@ public class PlayerSprite extends JLabel implements Movement{
     private char currentDirection = ' ';
     private boolean walkState = false;
 
+    private int scaleWidth = 100;
+    private int scaleHeight = 100;
 
 
     private static PlayerSprite instance;
@@ -31,25 +33,25 @@ public class PlayerSprite extends JLabel implements Movement{
 
         ImageIcon originalIcon = new ImageIcon("src\\genericSprite.png");
         ImageIcon frontFacingLeft = new ImageIcon("src\\FrontFacingBeowulf.png");
-        this.frontFacingLeftScale = frontFacingLeft.getImage().getScaledInstance(100,100,Image.SCALE_SMOOTH);
+        this.frontFacingLeftScale = frontFacingLeft.getImage().getScaledInstance(scaleWidth,scaleHeight,Image.SCALE_SMOOTH);
         ImageIcon frontFacingRight = new ImageIcon("src\\FrontFacingRIGHTBeowulf.png");
-        this.frontFacingRightScale = frontFacingRight.getImage().getScaledInstance(100,100,Image.SCALE_SMOOTH);
+        this.frontFacingRightScale = frontFacingRight.getImage().getScaledInstance(scaleWidth,scaleHeight,Image.SCALE_SMOOTH);
 
         ImageIcon backFacingLeft = new ImageIcon("src\\BackLeft.png");
-        this.backFacingLeftScale = backFacingLeft.getImage().getScaledInstance(100,100,Image.SCALE_SMOOTH);
+        this.backFacingLeftScale = backFacingLeft.getImage().getScaledInstance(scaleWidth,scaleHeight,Image.SCALE_SMOOTH);
 
         ImageIcon backFacingRight = new ImageIcon("src\\BackRight.png");
-        this.backFacingRightScale = backFacingRight.getImage().getScaledInstance(100,100,Image.SCALE_SMOOTH);
+        this.backFacingRightScale = backFacingRight.getImage().getScaledInstance(scaleWidth,scaleHeight,Image.SCALE_SMOOTH);
 
 
         ImageIcon leftFacingStill = new ImageIcon("src\\LeftFacingStanding.png");
-        this.leftFacingStillScale = leftFacingStill.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+        this.leftFacingStillScale = leftFacingStill.getImage().getScaledInstance(scaleWidth, scaleHeight, Image.SCALE_SMOOTH);
         ImageIcon leftFacingWalk = new ImageIcon("src\\LeftFacingwalk.png");
-        this.leftFacingWalkScale = leftFacingWalk.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+        this.leftFacingWalkScale = leftFacingWalk.getImage().getScaledInstance(scaleWidth, scaleHeight, Image.SCALE_SMOOTH);
         ImageIcon rightFacingWalk = new ImageIcon("src\\RightFacingwalk.png");
-        this.rightFacingWalkScale = rightFacingWalk.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+        this.rightFacingWalkScale = rightFacingWalk.getImage().getScaledInstance(scaleWidth, scaleHeight, Image.SCALE_SMOOTH);
         ImageIcon rightFacingStill = new ImageIcon("src\\RightFacingStanding.png");
-        this.rightFacingStillScale = rightFacingStill.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+        this.rightFacingStillScale = rightFacingStill.getImage().getScaledInstance(scaleWidth, scaleHeight, Image.SCALE_SMOOTH);
         //ImageIcon originalIcon = new ImageIcon("src\\genericSprite.png");
 
 
@@ -59,13 +61,13 @@ public class PlayerSprite extends JLabel implements Movement{
 
 
         // Scale the image to fit the desired width and height
-        Image scaledImage = originalIcon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+        Image scaledImage = originalIcon.getImage().getScaledInstance(scaleWidth, scaleHeight, Image.SCALE_SMOOTH);
 
         // Set the scaled image as the icon
         this.setIcon(new ImageIcon(scaledImage));
 
         // Optionally, set the label's size (not necessary if added to a layout manager)
-        this.setPreferredSize(new Dimension(100, 100));
+        this.setPreferredSize(new Dimension(scaleWidth, scaleHeight));
 
         animationTimer = new Timer(150, new ActionListener() {
             @Override
@@ -140,5 +142,18 @@ public class PlayerSprite extends JLabel implements Movement{
         if(icon != null){
             this.setIcon(icon);
         }
+    }
+
+    public void setStarting(int x, int y){
+
+        this.playerPosX = x;
+        this.playerPosY = y;
+    }
+
+    public int getPlayerPosX(){
+        return this.playerPosX;
+    }
+    public int getPlayerPosY(){
+        return this.playerPosY;
     }
 }

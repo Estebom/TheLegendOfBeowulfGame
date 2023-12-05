@@ -36,13 +36,14 @@ public class GamePlay extends JPanel {
             layeredPane.setLayout(null); // Set layout to null
             layeredPane.setBackground(Color.BLACK);
             playerSprite = PlayerSprite.getInstance();
-            playerSprite.setBounds(750, 750, 100, 100); // Set initial position and size
             layeredPane.add(playerSprite, Integer.valueOf(1));
             layeredPane.add(gameMenu,Integer.valueOf(2));
             layeredPane.setOpaque(true);
 
 
             this.add(layeredPane, BorderLayout.CENTER);
+
+
 
 
 
@@ -53,14 +54,36 @@ public class GamePlay extends JPanel {
      */
     public void initialize(){
         this.requestFocusInWindow();
+        playerSprite.setStarting(this.getWidth()/2, this.getHeight()/2);
+
+        playerSprite.setBounds(playerSprite.getPlayerPosX(), playerSprite.getPlayerPosY(), 100, 100); // Set initial position and size
+
     }
 
     public void showGameMenu(){
 
-        this.mainDisplay.showGameMenu();
-        this.mainDisplay.revalidate();
-        this.mainDisplay.repaint();
+        gameMenu.setVisible(true);
+        this.revalidate();
+        this.repaint();
 
+    }
+    public void updateLayout(int width, int height) {
+        this.setPreferredSize(new Dimension(width, height));
+
+        // Update the bounds of the playerSprite and gameMenu
+        playerSprite.setBounds(playerSprite.getX(), playerSprite.getY(), 100, 100); // Size can be dynamic
+        gameMenu.setBounds(500, 500, 300, 200); // Adjust as needed
+
+        // Update the layeredPane size
+        layeredPane.setPreferredSize(new Dimension(width, height));
+        int newPlayerPosX = (playerSprite.getX() * width) / 1080; // 1080 is the original width
+        int newPlayerPosY = (playerSprite.getY() * height) / 1920; // 1920 is the original height
+
+        playerSprite.setBounds(newPlayerPosX, newPlayerPosY, 100, 100);
+
+        // Repaint and revalidate the panel
+        this.revalidate();
+        this.repaint();
     }
 
 }

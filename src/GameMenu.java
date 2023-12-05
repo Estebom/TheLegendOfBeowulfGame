@@ -25,6 +25,8 @@ public class GameMenu extends JPanel{
 
         this.setSize(new Dimension(500, 500));
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        this.setBackground(Color.WHITE);
+        this.setOpaque(true);
 
         settingsButton = new JButton("Settings");
         saveButton = new JButton("Save Game");
