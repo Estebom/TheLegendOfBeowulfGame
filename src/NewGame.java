@@ -30,7 +30,7 @@ public class NewGame extends JPanel {
 
         this.setPreferredSize(new Dimension(800, 675));
         this.setLayout(new GridBagLayout());
-
+        this.setBackground(Color.BLUE);
 
         newGameFeatures = new JPanel(new GridBagLayout());
         GridBagConstraints gbcFeatures = new GridBagConstraints();
@@ -40,6 +40,7 @@ public class NewGame extends JPanel {
 
         difLayout = new JPanel();
         difLayout.setLayout(new FlowLayout());
+
 
         name = new JTextField("Player what is your name?");
         //name.setPreferredSize(new Dimension(100, 100));
@@ -93,9 +94,10 @@ public class NewGame extends JPanel {
         gbc.weighty = 1.0;
         gbc.fill = GridBagConstraints.NONE;
 
-
+        newGameFeatures.setBackground(Color.RED);
 
         this.add(newGameFeatures, gbc);
+
         this.setVisible(true);
 
     }

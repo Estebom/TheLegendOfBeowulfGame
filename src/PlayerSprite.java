@@ -156,4 +156,5 @@ public class PlayerSprite extends JLabel implements Movement{
     public int getPlayerPosY(){
         return this.playerPosY;
     }
+    public char getCurrentDirection(){return this.currentDirection;}
 }

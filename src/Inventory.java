@@ -8,6 +8,8 @@ public class Inventory implements Serializable {
 
     private int currency;
 
+    private Collectable collectableInUse = null;
+
 
     private Collectable[][] inventory = new Collectable[5][5];
     private static Inventory instance;
@@ -70,9 +72,12 @@ public class Inventory implements Serializable {
 
     }
 
-    public Collectable getCollectable(int i, int j){
-        return inventory[i][j];
+    public Collectable accessHotBar(){
+        return this.collectableInUse;
     }
 
+    public void setCollectableInUse(int i){
+        this.collectableInUse = inventory[0][i];
+    }
 
 }
