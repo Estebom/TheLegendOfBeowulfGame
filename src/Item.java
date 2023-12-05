@@ -1,7 +1,6 @@
 
 
 public class Item implements Collectable {
-    private Player player;
     private String nameItem;
     private String info;
 
@@ -11,7 +10,6 @@ public class Item implements Collectable {
         this.nameItem = nameItem;
         this.info = info;
         this.price = price;
-        player = Player.getInstance();
     }
 
     public String getnameItem() {

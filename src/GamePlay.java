@@ -11,7 +11,6 @@ public class GamePlay extends JPanel {
 
     private KeyPad keyPad;
 
-    private PlayerSprite playerSprite;
     private JLayeredPane layeredPane;
 
     private GameMenu gameMenu;
@@ -35,8 +34,7 @@ public class GamePlay extends JPanel {
             layeredPane.setPreferredSize(new Dimension(1080, 1920));
             layeredPane.setLayout(null); // Set layout to null
             layeredPane.setBackground(Color.BLACK);
-            playerSprite = PlayerSprite.getInstance();
-            layeredPane.add(playerSprite, Integer.valueOf(1));
+            layeredPane.add(PlayerImages.getInstance(), Integer.valueOf(1));
             layeredPane.add(gameMenu,Integer.valueOf(2));
             layeredPane.setOpaque(true);
 
@@ -52,11 +50,13 @@ public class GamePlay extends JPanel {
     /**
      * sets all keyboard inputs to this panel
      */
+
     public void initialize(){
+        PlayerSprite playerSprite = PlayerSprite.getInstance();
         this.requestFocusInWindow();
         playerSprite.setStarting(this.getWidth()/2, this.getHeight()/2);
 
-        playerSprite.setBounds(playerSprite.getPlayerPosX(), playerSprite.getPlayerPosY(), 100, 100); // Set initial position and size
+        PlayerImages.getInstance().setBounds(playerSprite.getPlayerPosX(), playerSprite.getPlayerPosY(), 100, 100); // Set initial position and size
 
     }
 
@@ -68,18 +68,19 @@ public class GamePlay extends JPanel {
 
     }
     public void updateLayout(int width, int height) {
+        PlayerImages playerImages = PlayerImages.getInstance();
         this.setPreferredSize(new Dimension(width, height));
 
-        // Update the bounds of the playerSprite and gameMenu
-        playerSprite.setBounds(playerSprite.getX(), playerSprite.getY(), 100, 100); // Size can be dynamic
+        // Update the bounds of the playerImages and gameMenu
+        playerImages.setBounds(playerImages.getX(), playerImages.getY(), 100, 100); // Size can be dynamic
         gameMenu.setBounds(500, 500, 300, 200); // Adjust as needed
 
         // Update the layeredPane size
         layeredPane.setPreferredSize(new Dimension(width, height));
-        int newPlayerPosX = (playerSprite.getX() * width) / 1080; // 1080 is the original width
-        int newPlayerPosY = (playerSprite.getY() * height) / 1920; // 1920 is the original height
+        int newPlayerPosX = (playerImages.getX() * width) / 1080; // 1080 is the original width
+        int newPlayerPosY = (playerImages.getY() * height) / 1920; // 1920 is the original height
 
-        playerSprite.setBounds(newPlayerPosX, newPlayerPosY, 100, 100);
+        playerImages.setBounds(newPlayerPosX, newPlayerPosY, 100, 100);
 
         // Repaint and revalidate the panel
         this.revalidate();

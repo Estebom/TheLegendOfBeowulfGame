@@ -74,5 +74,7 @@ public class Inventory implements Serializable {
         return inventory[i][j];
     }
 
-
+    public static void setInstance(Inventory loadedInstance) {
+        instance = loadedInstance;
+    }
 }

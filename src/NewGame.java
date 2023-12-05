@@ -112,9 +112,8 @@ public class NewGame extends JPanel {
      */
     public void createPlayer(String name){
 
-        Player player = Player.getInstance();
-        player.setPlayerName(name);
-        java.lang.System.out.println(player.getPlayerName());
+        PlayerSprite.setPlayerName(name);
+        java.lang.System.out.println(PlayerSprite.getPlayerName());
     }
     public void updateLayout(int width, int height) {
         this.setPreferredSize(new Dimension(width, height));

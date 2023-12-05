@@ -9,7 +9,6 @@ import java.awt.event.KeyListener;
 // Todo: 12/3/2023 create save funcitonality
 public class GameMenu extends JPanel{
     // private SaveLoad saveLoad;                    This can be removed (edit by Nohea)
-    private Player player;
 
     private GamePlay gamePlay;
 
@@ -53,7 +52,7 @@ public class GameMenu extends JPanel{
             @Override
             public void actionPerformed(ActionEvent e) {
                 // saveLoad.saveGame();                                This can be removed
-               // GameState.saveGame(GameState.DEFAULT_SAVE);            //Edit by Nohea
+                GameState.saveGame(GameState.DEFAULT_SAVE);            //Edit by Nohea
             }
         });
         this.add(returnToGame);

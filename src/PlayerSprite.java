@@ -2,22 +2,22 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.Serializable;
 
 
-public class PlayerSprite extends JLabel implements Movement{
+public class PlayerSprite implements Movement, Serializable {
+    private String playerName;
+    private double damageOutput;
+
+    private double health;
     private int playerPosX;
     private int playerPosY;
     private static final int STEP = 5;
-    ImageIcon playerIcon;
-    private Image leftFacingStillScale,leftFacingWalkScale,rightFacingWalkScale,rightFacingStillScale;
-    private Image frontFacingLeftScale, frontFacingRightScale, backFacingLeftScale, backFacingRightScale;
-    private Timer animationTimer;
+
+    private transient Timer animationTimer;
     private boolean isMoving = false;
     private char currentDirection = ' ';
     private boolean walkState = false;
-
-    private int scaleWidth = 100;
-    private int scaleHeight = 100;
 
 
     private static PlayerSprite instance;
@@ -30,54 +30,21 @@ public class PlayerSprite extends JLabel implements Movement{
     }
     private PlayerSprite(){
 
+        // Player Health and Damage
+        this.damageOutput = 1.0;
+        this.health = 100.0;
 
-        ImageIcon originalIcon = new ImageIcon("src\\genericSprite.png");
-        ImageIcon frontFacingLeft = new ImageIcon("src\\FrontFacingBeowulf.png");
-        this.frontFacingLeftScale = frontFacingLeft.getImage().getScaledInstance(scaleWidth,scaleHeight,Image.SCALE_SMOOTH);
-        ImageIcon frontFacingRight = new ImageIcon("src\\FrontFacingRIGHTBeowulf.png");
-        this.frontFacingRightScale = frontFacingRight.getImage().getScaledInstance(scaleWidth,scaleHeight,Image.SCALE_SMOOTH);
+        resetTimer();
+    }
 
-        ImageIcon backFacingLeft = new ImageIcon("src\\BackLeft.png");
-        this.backFacingLeftScale = backFacingLeft.getImage().getScaledInstance(scaleWidth,scaleHeight,Image.SCALE_SMOOTH);
-
-        ImageIcon backFacingRight = new ImageIcon("src\\BackRight.png");
-        this.backFacingRightScale = backFacingRight.getImage().getScaledInstance(scaleWidth,scaleHeight,Image.SCALE_SMOOTH);
-
-
-        ImageIcon leftFacingStill = new ImageIcon("src\\LeftFacingStanding.png");
-        this.leftFacingStillScale = leftFacingStill.getImage().getScaledInstance(scaleWidth, scaleHeight, Image.SCALE_SMOOTH);
-        ImageIcon leftFacingWalk = new ImageIcon("src\\LeftFacingwalk.png");
-        this.leftFacingWalkScale = leftFacingWalk.getImage().getScaledInstance(scaleWidth, scaleHeight, Image.SCALE_SMOOTH);
-        ImageIcon rightFacingWalk = new ImageIcon("src\\RightFacingwalk.png");
-        this.rightFacingWalkScale = rightFacingWalk.getImage().getScaledInstance(scaleWidth, scaleHeight, Image.SCALE_SMOOTH);
-        ImageIcon rightFacingStill = new ImageIcon("src\\RightFacingStanding.png");
-        this.rightFacingStillScale = rightFacingStill.getImage().getScaledInstance(scaleWidth, scaleHeight, Image.SCALE_SMOOTH);
-        //ImageIcon originalIcon = new ImageIcon("src\\genericSprite.png");
-
-
-
-
-
-
-
-        // Scale the image to fit the desired width and height
-        Image scaledImage = originalIcon.getImage().getScaledInstance(scaleWidth, scaleHeight, Image.SCALE_SMOOTH);
-
-        // Set the scaled image as the icon
-        this.setIcon(new ImageIcon(scaledImage));
-
-        // Optionally, set the label's size (not necessary if added to a layout manager)
-        this.setPreferredSize(new Dimension(scaleWidth, scaleHeight));
-
+    private void resetTimer(){
         animationTimer = new Timer(150, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 updateAnimation();
             }
         });
-
     }
-
 
     @Override
     public void move(char direction) {
@@ -89,7 +56,6 @@ public class PlayerSprite extends JLabel implements Movement{
             case 'a': playerPosX -= STEP;break;
             case 'd': playerPosX += STEP;break;
         }
-        this.setLocation(playerPosX, playerPosY);
         if(!animationTimer.isRunning()){
             animationTimer.start();
         }
@@ -98,24 +64,7 @@ public class PlayerSprite extends JLabel implements Movement{
     private void updateAnimation(){
         if(isMoving){
             walkState = !walkState;
-            ImageIcon icon = null;
-            switch (currentDirection){
-                case 'w':
-                    icon = walkState ? new ImageIcon(backFacingLeftScale) : new ImageIcon(backFacingRightScale);
-                    break;
-                case 's':
-                    icon = walkState ? new ImageIcon(frontFacingLeftScale): new ImageIcon(frontFacingRightScale);
-                    break;
-                case 'a':
-                    icon = walkState ? new ImageIcon(leftFacingWalkScale) : new ImageIcon(leftFacingStillScale);
-                    break;
-                case 'd':
-                    icon = walkState ? new ImageIcon(rightFacingWalkScale) : new ImageIcon(rightFacingStillScale);
-                    this.setIcon(new ImageIcon(rightFacingWalkScale));
-            }
-            if(icon != null){
-                this.setIcon(icon);
-            }
+            PlayerImages.getInstance().updateAnimation(currentDirection,walkState);
         }
         else{
             animationTimer.stop();
@@ -124,36 +73,52 @@ public class PlayerSprite extends JLabel implements Movement{
 
     public void stopMoving(){
         isMoving = false;
-        ImageIcon icon = null;
-        switch (this.currentDirection) {
-            case 'w':
-                icon = new ImageIcon(backFacingRightScale);
-                break;
-            case 's':
-                icon = new ImageIcon(frontFacingRightScale);
-                break;
-            case 'a':
-                icon = new ImageIcon(leftFacingStillScale);
-                break;
-            case 'd':
-                icon = new ImageIcon(rightFacingStillScale);
-                break;
-        }
-        if(icon != null){
-            this.setIcon(icon);
-        }
+        PlayerImages.getInstance().stopMoving(currentDirection);
+    }
+
+    public static void setPlayerName(String name){
+
+        getInstance().playerName = name;
+    }
+
+    public double getHealth(){
+
+        return health;
+
+    }
+
+    public static double getDamageOutput() {
+        return getInstance().damageOutput;
+    }
+
+    public static void setDamageOutput(double damageOutput) {
+        getInstance().damageOutput = damageOutput;
+    }
+
+    public static void setHealth(double damageIncoming){
+        getInstance().health -= damageIncoming;
+    }
+    public static String getPlayerName(){
+        return getInstance().playerName;
+    }
+
+    public static void replacePlayerInstance(PlayerSprite newInstance){             //Edit by Nohea
+        instance = newInstance;
+        instance.resetTimer();
     }
 
     public void setStarting(int x, int y){
-
-        this.playerPosX = x;
-        this.playerPosY = y;
+        getInstance().playerPosX = x;
+        getInstance().playerPosY = y;
     }
 
     public int getPlayerPosX(){
-        return this.playerPosX;
+
+        return getInstance().playerPosX;
     }
     public int getPlayerPosY(){
-        return this.playerPosY;
+
+        return getInstance().playerPosY;
     }
+
 }

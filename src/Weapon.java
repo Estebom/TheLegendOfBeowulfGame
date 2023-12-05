@@ -1,7 +1,6 @@
 import java.io.Serializable;
 
 public class Weapon implements Collectable, Serializable {
-    private Player player;
     private String weaponName;
     private double weaponDamage;
     private int price;
@@ -9,7 +8,6 @@ public class Weapon implements Collectable, Serializable {
         this.weaponName = weaponName;
         this.weaponDamage = weaponDamage;
         this.price = price;
-        player = Player.getInstance();
     }
 
     public String getWeaponName() {
@@ -23,11 +21,11 @@ public class Weapon implements Collectable, Serializable {
     public void modifyPlayerDamage(boolean b){
 
         if (b == true){
-           player.setDamageOutput(player.getDamageOutput() + weaponDamage);
+            PlayerSprite.setDamageOutput(PlayerSprite.getDamageOutput() + weaponDamage);
 
         }
         else {
-            player.setDamageOutput(player.getDamageOutput() - weaponDamage);
+            PlayerSprite.setDamageOutput(PlayerSprite.getDamageOutput() - weaponDamage);
         }
 
     }

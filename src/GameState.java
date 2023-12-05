@@ -36,10 +36,13 @@ public class GameState implements Serializable {
         
         try (ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(SAVE_PATH + saveName))) {
             instance = (GameState) inputStream.readObject(); // Load the player object
-            Player.replacePlayerInstance((Player) inputStream.readObject());
+            PlayerSprite.replacePlayerInstance((PlayerSprite) inputStream.readObject());
+
+            // Load the Inventory object
+            Inventory.setInstance((Inventory) inputStream.readObject()); // Set the loaded Inventory
             
             
-            java.lang.System.out.println("Loaded Player Name: " + Player.getInstance().getPlayerName());
+            java.lang.System.out.println("Loaded Player Name: " + PlayerSprite.getInstance().getPlayerName());
             java.lang.System.out.println("Loaded Game Level: " + getInstance().currentLevel);
 
             java.lang.System.out.println("Player data loaded successfully.");
@@ -58,7 +61,7 @@ public class GameState implements Serializable {
         saveFile.mkdirs(); //Ensures SAVE_PATH Directory exists
         try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(SAVE_PATH + saveName))) {
             outputStream.writeObject(getInstance()); // Saves the Game state
-            outputStream.writeObject(Player.getInstance()); // Saves the entire player object
+            outputStream.writeObject(PlayerSprite.getInstance()); // Saves the entire player object
             outputStream.writeObject(Inventory.getInstance()); //Saves the player Inventory
             java.lang.System.out.println("Player data saved successfully.");
         } 
@@ -82,37 +85,72 @@ public class GameState implements Serializable {
         
 }
     
-//    public static void main(String[] args){
-//        //Testing Level saving
-//        GameState.getInstance().nextLevel();
-//        GameState.getInstance().nextLevel();
-//        GameState.getInstance().nextLevel();
-//        GameState.saveGame("test");
-//        GameState.getInstance().nextLevel();
-//        GameState.getInstance().nextLevel();
-//        GameState.loadGame("test");
-//        java.lang.System.out.println(GameState.getInstance().currentLevel());
-//
-//
-//        //Testing player data saving
-//        Player.getInstance().setPlayerName("Testnm");
-//        java.lang.System.out.println(Player.getInstance().getHealth());
-//        Player.getInstance().setHealth(5);
-//        GameState.saveGame("test");
-//        Player.getInstance().setHealth(10);
-//        GameState.loadGame("test");
-//        java.lang.System.out.println(Player.getInstance().getHealth());
-//
-//
-//        //Testing Inventory data saving
-//        Inventory inventory = Inventory.getInstance();
-//        Weapon sword = new Weapon("Exaclibur", 9, 89);
-//        inventory.addCollectable(sword); // Add an item to the inventory
-//        inventory.addCurrency(100); // Add currency
-//        GameState.saveGame("test");
-//        inventory.removeCollectable(sword); // Manipulate the inventory data
-//        inventory.addCurrency(50);
-//        GameState.loadGame("test");
-//    }
+    public static void main(String[] args){
+        //Testing Level saving
+        GameState.getInstance().nextLevel();
+        GameState.getInstance().nextLevel();
+        GameState.getInstance().nextLevel();
+        GameState.saveGame("test");
+        GameState.getInstance().nextLevel();
+        GameState.getInstance().nextLevel();
+        GameState.loadGame("test");
+        java.lang.System.out.println(GameState.getInstance().currentLevel());
+
+
+        //Testing player data saving
+        PlayerSprite.setPlayerName("Testnm");
+        java.lang.System.out.println(PlayerSprite.getInstance().getHealth());
+        PlayerSprite.setHealth(5);
+        GameState.saveGame("test");
+        PlayerSprite.setHealth(10);
+        GameState.loadGame("test");
+        java.lang.System.out.println(PlayerSprite.getInstance().getHealth());
+
+
+        //Testing Inventory data saving
+        Inventory inventory = Inventory.getInstance();
+        Weapon sword = new Weapon("Exaclibur", 9, 89);
+        inventory.addCollectable(sword); // Add an item to the inventory
+        inventory.addCurrency(100); // Add currency
+        GameState.saveGame("test");
+        inventory.removeCollectable(sword); // Manipulate the inventory data
+        inventory.addCurrency(50);
+        GameState.loadGame("test");
+
+        //Testing PlayerSprite data saving
+        // Initialize the PlayerSprite instance and set its starting position
+        PlayerSprite playerSprite = PlayerSprite.getInstance();
+        playerSprite.setStarting(50, 50); // Set the starting position
+
+        // Move the player sprite
+        playerSprite.move('w');
+        playerSprite.move('d');
+
+        int loadedPosX = PlayerSprite.getInstance().getPlayerPosX();
+        int loadedPosY = PlayerSprite.getInstance().getPlayerPosY();
+        java.lang.System.out.println(loadedPosX);
+        java.lang.System.out.println(loadedPosY);
+        // Save the game state
+        GameState.saveGame("test");
+
+        // Change the position of the player sprite after saving the game
+        playerSprite.setStarting(100, 100);
+
+        // Load the game state and check if the player sprite position is restored
+        GameState.loadGame("test");
+
+        // Get the player sprite position after loading the game
+        java.lang.System.out.println(loadedPosX);
+        java.lang.System.out.println(loadedPosY);
+        // Check if the position is restored
+        if (loadedPosX == 55 && loadedPosY == 45) {
+            java.lang.System.out.println("PlayerSprite data successfully saved and loaded.");
+        } else {
+            java.lang.System.out.println("PlayerSprite data not loaded correctly.");
+        }
+
+    }
 }
+
+
 
