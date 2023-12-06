@@ -9,8 +9,6 @@ import java.awt.event.ActionListener;
  */
 public class NewGame extends JPanel {
 
-    private GamePlay gamePlay;
-    private MainDisplay mainDisplay;
     JTextField name;
     JButton easyButton;
     JButton mediumButton;
@@ -23,10 +21,10 @@ public class NewGame extends JPanel {
 
     JPanel newGameFeatures;
     JPanel difLayout;
-    public NewGame(MainDisplay mainDisplay){
+    public NewGame(){
 
-        this.mainDisplay = mainDisplay;
-        gamePlay = new GamePlay(mainDisplay);
+
+
 
         this.setPreferredSize(new Dimension(800, 675));
         this.setLayout(new GridBagLayout());
@@ -120,12 +118,13 @@ public class NewGame extends JPanel {
 
                 case "START":
                     createPlayer(name.getText());
-                    mainDisplay.showGamePlay();
+                    MainDisplay.showGamePlay();
+                    GamePlay.initializeKeyPad();
                     break;
 
                 case "MainMenu":
                     name.setText("Player what is your name?");
-                    mainDisplay.showMainMenu();
+                    MainDisplay.showMainMenu();
                     break;
 
 

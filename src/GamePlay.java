@@ -8,16 +8,16 @@ import java.util.ArrayList;
  */
 public  class GamePlay extends JPanel {
 
-    transient private MainDisplay mainDisplay ;
 
-    private KeyPad keyPad;
+
+
 
     transient private JLayeredPane layeredPane;
 
     transient private GameMenu gameMenu;
 
-    transient private PlayerImages playerImages;
-    private ArrayList<Enemy> enemies =  new ArrayList<>();
+
+    private static ArrayList<Enemy> enemies =  new ArrayList<>();
     private boolean hittable = false;
 
     private Enemy currentTarget;
@@ -35,21 +35,21 @@ public  class GamePlay extends JPanel {
     }
 
     public GamePlay(){
-        this.mainDisplay = mainDisplay;
-        this.keyPad = KeyPad.getInstance(this);
-        playerImages = PlayerImages.getInstance();
-        KeyPad.getInstance(this).setupEscapeKeyBinding(this,this::showGameMenu);
-        gameMenu = new GameMenu(this);
+
+
+        gameMenu = new GameMenu();
         gameMenu.setBounds(800,100,200,400);
 
         gameMenu.setBackground(Color.WHITE);
         gameMenu.setOpaque(true);
         gameMenu.setVisible(false);
 
+
         this.setPreferredSize(new Dimension(1080,1920));
         this.setLayout(new BorderLayout());
         this.setFocusable(true);
-        this.addKeyListener(keyPad);
+        this.requestFocusInWindow();
+
 
         layeredPane = new JLayeredPane();
         layeredPane.setPreferredSize(new Dimension(1080, 1920));
@@ -60,6 +60,7 @@ public  class GamePlay extends JPanel {
         layeredPane.add(gameMenu,Integer.valueOf(2));
         layeredPane.setOpaque(false);
 
+        setupKeyBindings();
         this.add(layeredPane, BorderLayout.CENTER);
     }
 
@@ -67,33 +68,44 @@ public  class GamePlay extends JPanel {
      * sets all keyboard inputs to this panel
      */
 
-    public void initialize(boolean b){
+    public static void initialize(boolean b){
         if(false) {
-            PlayerImages playerImages = PlayerImages.getInstance();
-            this.requestFocusInWindow();
-            Player.setStarting(this.getWidth() / 2, this.getHeight() / 2);
+            getInstance();
+            instance.requestFocusInWindow();
+            Player.setStarting(instance.getWidth() / 2, instance.getHeight() / 2);
 
-            playerImages.setBounds(Player.getPlayerPosX(), Player.getPlayerPosY(), 100, 100); // Set initial position and size
+            PlayerImages.getInstance().setBounds(Player.getPlayerPosX(), Player.getPlayerPosY(), 100, 100); // Set initial position and size
             Enemy bobby = new Enemy("bobby");
-            enemies.add(bobby);
+            instance.enemies.add(bobby);
         }
         else{
-            PlayerImages playerImages = PlayerImages.getInstance();
-            this.requestFocusInWindow();
+            getInstance();
+            instance.requestFocusInWindow();
 
             Player.setStarting(Player.getPlayerPosX(),Player.getPlayerPosY());
-            playerImages.setBounds(Player.getPlayerPosX(), Player.getPlayerPosY(), 100, 100); // Set initial position and size
+            PlayerImages.getInstance().setBounds(Player.getPlayerPosX(), Player.getPlayerPosY(), 100, 100); // Set initial position and size
             Enemy bobby = new Enemy("bobby");
-            enemies.add(bobby);
+            instance.enemies.add(bobby);
         }
+    }
+    private void setupKeyBindings() {
+        // Ensure the current instance is not null
+        if (instance != null) {
+            KeyPad.setupEscapeKeyBinding(instance, GamePlay::showGameMenu);
+        }
+    }
+    public static void initializeKeyPad() {
+        getInstance();
+        instance.addKeyListener(KeyPad.getInstance(instance));
+        instance.requestFocusInWindow();
     }
 
 
-    public void showGameMenu() {
-
-            gameMenu.setVisible(true);
-            this.revalidate();
-            this.repaint();
+    public static void showGameMenu() {
+            getInstance();
+            instance.gameMenu.setVisible(true);
+            instance.revalidate();
+            instance.repaint();
 
     }
 //    public void updateLayout(int width, int height) {
@@ -113,35 +125,39 @@ public  class GamePlay extends JPanel {
 //
 //        // Repaint and revalidate the panel
 //    }
-    public void hideMenu(){
-        gameMenu.setVisible(false);
-        this.revalidate();
-        this.repaint();
+    public  static void hideMenu(){
+        getInstance();
+        instance.gameMenu.setVisible(false);
+        instance.revalidate();
+        instance.repaint();
     }
 
-    public Enemy getEnemy(int i){
-        return enemies.get(i);
+    public static Enemy getEnemy(int i){
+        return instance.enemies.get(i);
     }
 
-    public boolean hittable(){
+    public static boolean hittable(){
+        getInstance();
         char[] directions = {'w','s','a','d'};
         for(int i = 0; i < directions.length; i++) {
-            for (int j = 0; j < enemies.size(); j++) {
+            for (int j = 0; j < instance.enemies.size(); j++) {
                 if ((Math.abs(Player.getPlayerPosX() - enemies.get(j).getPosx() )<=10)
                     ||(Math.abs(Player.getPlayerPosY() - enemies.get(j).getPosy() )<=10)){
 
-                    this.hittable = true;
-                    currentTarget = enemies.get(j);
-                    return this.hittable;
+                    instance.hittable = true;
+                    instance.currentTarget = enemies.get(j);
+                    return instance.hittable;
                 }
 
             }
         }
-            this.hittable = false;
-        return this.hittable;
+        instance.hittable = false;
+        return instance.hittable;
     }
-    public Enemy getCurrentTarget(){
-        return this.currentTarget;
+    public static Enemy getCurrentTarget(){
+        getInstance();
+
+        return instance.currentTarget;
     }
 
 }

@@ -11,31 +11,33 @@ public class KeyPad extends KeyAdapter {
     private Interaction interaction;
     private Attack attack;
 
-    private Inventory inventory;
-    private GamePlay gamePlay;
+
+
 
     private static KeyPad instance;
 
 
     private boolean readKeys = true;
 
-    private KeyPad(GamePlay gamePlay) {
-        this.gamePlay = gamePlay;
+    private KeyPad() {
+
         this.interaction = new Interaction();
-        this.attack = new Attack(gamePlay.getCurrentTarget());
-        this.inventory = Inventory.getInstance();
+        this.attack = new Attack(GamePlay.getCurrentTarget());
+
 
     }
 
-    public void setupEscapeKeyBinding(JComponent component, Runnable actionToPerform) {
-        KeyStroke escapeKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0);
+    public static void setupEscapeKeyBinding(JComponent component, Runnable actionToPerform) {
+        if (component == null) {
+            throw new IllegalArgumentException("Component cannot be null");
+        }
 
+        KeyStroke escapeKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0);
         InputMap inputMap = component.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
         ActionMap actionMap = component.getActionMap();
 
         inputMap.put(escapeKeyStroke, "performAction");
         actionMap.put("performAction", new AbstractAction() {
-
             @Override
             public void actionPerformed(ActionEvent e) {
                 actionToPerform.run();
@@ -47,7 +49,7 @@ public class KeyPad extends KeyAdapter {
     public static KeyPad getInstance(GamePlay gamePlay) {
 
         if (instance == null) {
-            instance = new KeyPad(gamePlay);
+            instance = new KeyPad();
         }
         return instance;
     }
@@ -62,23 +64,27 @@ public class KeyPad extends KeyAdapter {
                 case KeyEvent.VK_4:
                 case KeyEvent.VK_5:
                     int digit = e.getKeyChar() - '0';
-                    inventory.setCollectableInUse(digit - 1);
-                    Collectable collectable = inventory.accessHotBar();
+                    Inventory.setCollectableInUse(digit - 1);
+                    Collectable collectable = Inventory.accessHotBar();
                     if (collectable != null && collectable.getClass() == Weapon.class) {
                         Weapon weapon = (Weapon) collectable;
                         weapon.modifyPlayerDamage(true);
                     }
                     break;
                 case KeyEvent.VK_W:
+                    java.lang.System.out.println("w");
                 case KeyEvent.VK_A:
+                    java.lang.System.out.println("a");
                 case KeyEvent.VK_S:
+                    java.lang.System.out.println("s");
                 case KeyEvent.VK_D:
+                    java.lang.System.out.println("d");
                     Player.move(e.getKeyChar());
                     break;
                 case KeyEvent.VK_E:
                     java.lang.System.out.println("use collectable");
                     int t1 = (int) java.lang.System.currentTimeMillis();
-                    Collectable hotbarCollectable = inventory.accessHotBar();
+                    Collectable hotbarCollectable = Inventory.accessHotBar();
                     if (hotbarCollectable != null) {
                         hotbarCollectable.use(false, t1);
                     }
@@ -103,7 +109,7 @@ public class KeyPad extends KeyAdapter {
                 case KeyEvent.VK_ESCAPE:
                     java.lang.System.out.println("escape pressed");
 
-                    gamePlay.showGameMenu();
+                    GamePlay.showGameMenu();
 
                     this.readKeys = false;
                     // Add your action for ESC key here
@@ -125,11 +131,11 @@ public class KeyPad extends KeyAdapter {
                 break;
             case KeyEvent.VK_E:
                 int t2 = (int) java.lang.System.currentTimeMillis();
-                Collectable collectable = inventory.accessHotBar();
+                Collectable collectable = Inventory.accessHotBar();
 
                 if (collectable != null && collectable instanceof Weapon) {
                     Weapon weapon = (Weapon) collectable;
-                    if (gamePlay.hittable()) {
+                    if (GamePlay.hittable()) {
                         weapon.use(true, t2);
 
                         if (weapon instanceof ShortSword) {
@@ -154,7 +160,7 @@ public class KeyPad extends KeyAdapter {
 
 
     }
-    public void setReadable ( boolean readable){
-        this.readKeys = readable;
+    public static void setReadable(boolean readable){
+        instance.readKeys = readable;
     }
 }
