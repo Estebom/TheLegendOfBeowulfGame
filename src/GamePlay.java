@@ -43,8 +43,8 @@ public class GamePlay extends JPanel {
         layeredPane.setPreferredSize(new Dimension(1080, 1920));
         layeredPane.setLayout(null); // Set layout to null
         layeredPane.setBackground(Color.BLACK);
-        playerImages.setBounds(750, 750, 100, 100); // Set initial position and size
-        layeredPane.add(playerImages, Integer.valueOf(1));
+        PlayerImages.getInstance().setBounds(750, 750, 100, 100); // Set initial position and size
+        layeredPane.add(PlayerImages.getInstance(), Integer.valueOf(1));
         layeredPane.add(gameMenu,Integer.valueOf(2));
         layeredPane.setOpaque(false);
 

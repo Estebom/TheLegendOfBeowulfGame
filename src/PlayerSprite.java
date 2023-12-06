@@ -1,7 +1,7 @@
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 
@@ -110,9 +110,9 @@ public class PlayerSprite implements Serializable {
         }
     }
 
-    public void stopMoving(){
+    public static void stopMoving(){
         getInstance().isMoving = false;
-        PlayerImages.getInstance().stopMoving(currentDirection);
+        PlayerImages.getInstance().stopMoving(getInstance().currentDirection);
     }
 
     public static void setPlayerName(String name){
@@ -167,4 +167,8 @@ public class PlayerSprite implements Serializable {
         getInstance().health -= damage;
     }
     public static char getCurrentDirection(){return getInstance().currentDirection;}
+
+    public static void writeToOutputStream(ObjectOutputStream outputStream)throws java.io.IOException{
+        outputStream.writeObject(getInstance());
+    }
 }

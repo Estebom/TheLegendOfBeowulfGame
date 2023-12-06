@@ -1,4 +1,3 @@
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -60,7 +59,7 @@ public class GameState implements Serializable {
         saveFile.mkdirs(); //Ensures SAVE_PATH Directory exists
         try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(SAVE_PATH + saveName))) {
             outputStream.writeObject(getInstance()); // Saves the Game state
-            outputStream.writeObject(PlayerSprite.getInstance()); // Saves the entire player object
+            PlayerSprite.writeToOutputStream(outputStream); // Saves the entire player object
             outputStream.writeObject(Inventory.getInstance()); //Saves the player Inventory
             java.lang.System.out.println("Player data saved successfully.");
         } catch (IOException e) {
@@ -77,60 +76,110 @@ public class GameState implements Serializable {
         return getInstance().currentLevel;
     }
 
-    public void addInventory() {
+//    public static void main(String[] args){
+//        //Testing player data saving
+//        PlayerSprite.setPlayerName("Testnm");
+//        java.lang.System.out.println(PlayerSprite.getHealth());
+//        PlayerSprite.setHealth(5);
+//        GameState.saveGame("test");
+//        PlayerSprite.setHealth(10);
+//        GameState.loadGame("test");
+//        java.lang.System.out.println(PlayerSprite.getHealth());
+//
+//
+//        //Testing Inventory data saving
+//        Inventory inventory = Inventory.getInstance();
+//        Weapon sword = new Weapon("Exaclibur", 9, 89, new Attack(new Enemy("Karl")));
+//        inventory.addCollectable(sword); // Add an item to the inventory
+//        inventory.addCurrency(100); // Add currency
+//        GameState.saveGame("test");
+//        inventory.removeCollectable(sword); // Manipulate the inventory data
+//        inventory.addCurrency(50);
+//        GameState.loadGame("test");
+//
+//        //Testing PlayerSprite data saving
+//        // Initialize the PlayerSprite instance and set its starting position
+//        PlayerSprite.setStarting(50, 50); // Set the starting position
+//
+//        // Move the player sprite
+//        PlayerSprite.move('w');
+//        PlayerSprite.move('d');
+//
+//        int loadedPosX = PlayerSprite.getPlayerPosX();
+//        int loadedPosY = PlayerSprite.getPlayerPosY();
+//        java.lang.System.out.println(loadedPosX);
+//        java.lang.System.out.println(loadedPosY);
+//        // Save the game state
+//        GameState.saveGame("test");
+//
+//        // Change the position of the player sprite after saving the game
+//        PlayerSprite.setStarting(100, 100);
+//
+//        // Load the game state and check if the player sprite position is restored
+//        GameState.loadGame("test");
+//
+//        // Get the player sprite position after loading the game
+//        java.lang.System.out.println(loadedPosX);
+//        java.lang.System.out.println(loadedPosY);
+//        // Check if the position is restored
+//        if (loadedPosX == 55 && loadedPosY == 45) {
+//            java.lang.System.out.println("PlayerSprite data successfully saved and loaded.");
+//        } else {
+//            java.lang.System.out.println("PlayerSprite data not loaded correctly.");
+//        }
+//    }
 
-
-
-        //Testing player data saving
+    private static void testPlayerDataSaving() {
+        // Test player data saving
         PlayerSprite.setPlayerName("Testnm");
-        java.lang.System.out.println(PlayerSprite.getHealth());
+        assert 100 == PlayerSprite.getHealth();
         PlayerSprite.setHealth(5);
         GameState.saveGame("test");
         PlayerSprite.setHealth(10);
         GameState.loadGame("test");
-        java.lang.System.out.println(PlayerSprite.getHealth());
+        assert 5 == PlayerSprite.getHealth();
+    }
 
-
-        //Testing Inventory data saving
+    private static void testInventoryDataSaving() {
+        // Test inventory data saving
         Inventory inventory = Inventory.getInstance();
-        Weapon sword = new Weapon("Exaclibur", 9, 89, new Attack(new Enemy("Karl")));
-        inventory.addCollectable(sword); // Add an item to the inventory
-        inventory.addCurrency(100); // Add currency
+        Weapon sword = new Weapon("Excalibur", 9, 89, new Attack(new Enemy("Karl")));
+        inventory.addCollectable(sword);
+        inventory.addCurrency(100);
         GameState.saveGame("test");
-        inventory.removeCollectable(sword); // Manipulate the inventory data
+        inventory.removeCollectable(sword);
         inventory.addCurrency(50);
         GameState.loadGame("test");
+        assert 100 == inventory.getCurrency();
+        assert sword == inventory.getInventory()[0][0];
+    }
 
-        //Testing PlayerSprite data saving
-        // Initialize the PlayerSprite instance and set its starting position
-        PlayerSprite.setStarting(50, 50); // Set the starting position
-
-        // Move the player sprite
+    private static void testPlayerSpriteDataSaving() {
+        // Test PlayerSprite data saving
+        PlayerSprite.setStarting(50, 50);
         PlayerSprite.move('w');
         PlayerSprite.move('d');
 
-        int loadedPosX = PlayerSprite.getPlayerPosX();
-        int loadedPosY = PlayerSprite.getPlayerPosY();
-        java.lang.System.out.println(loadedPosX);
-        java.lang.System.out.println(loadedPosY);
-        // Save the game state
+        int initialPosX = PlayerSprite.getPlayerPosX();
+        int initialPosY = PlayerSprite.getPlayerPosY();
+
         GameState.saveGame("test");
-
-        // Change the position of the player sprite after saving the game
         PlayerSprite.setStarting(100, 100);
-
-        // Load the game state and check if the player sprite position is restored
         GameState.loadGame("test");
 
-        // Get the player sprite position after loading the game
-        java.lang.System.out.println(loadedPosX);
-        java.lang.System.out.println(loadedPosY);
-        // Check if the position is restored
-        if (loadedPosX == 55 && loadedPosY == 45) {
-            java.lang.System.out.println("PlayerSprite data successfully saved and loaded.");
-        } else {
-            java.lang.System.out.println("PlayerSprite data not loaded correctly.");
-        }
+        int loadedPosX = PlayerSprite.getPlayerPosX();
+        int loadedPosY = PlayerSprite.getPlayerPosY();
+
+        assert 55 == loadedPosX;
+        assert 45 == loadedPosY;
+        assert initialPosX == loadedPosX;
+        assert initialPosY == loadedPosY;
+    }
+
+    public static void main(String[] args){
+        testPlayerDataSaving();
+        testInventoryDataSaving();
+        testPlayerSpriteDataSaving();
     }
 }
 

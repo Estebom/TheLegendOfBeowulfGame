@@ -1,10 +1,11 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * @author Esteban Rodriguez
  */
-public class Enemy {
+public class Enemy implements Serializable {
     private Attack attack;
 
     private double health;

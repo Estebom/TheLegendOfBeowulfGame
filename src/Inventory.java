@@ -83,4 +83,12 @@ public class Inventory implements Serializable {
     public void setCollectableInUse(int i) {
         this.collectableInUse = inventory[0][i];
     }
+
+    public Collectable[][] getInventory() {
+        return inventory;
+    }
+
+    public int getCurrency() {
+        return currency;
+    }
 }

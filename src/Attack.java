@@ -1,7 +1,9 @@
+import java.io.Serializable;
+
 /**
  * Esteban Rodriguez
  */
-public  class Attack {
+public  class Attack implements Serializable {
     private Enemy enemy;
     private GamePlay gamePlay;
     public Attack(GamePlay gamePlay) {
