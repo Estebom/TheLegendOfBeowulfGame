@@ -22,9 +22,19 @@ public  class GamePlay extends JPanel {
 
     private Enemy currentTarget;
 
+    private static GamePlay instance;
 
+    public static GamePlay getInstance(){
 
-    public GamePlay(MainDisplay mainDisplay){
+        if(instance == null){
+            instance = new GamePlay();
+            // Player Health and Damage
+
+        }
+        return instance;
+    }
+
+    public GamePlay(){
         this.mainDisplay = mainDisplay;
         this.keyPad = KeyPad.getInstance(this);
         playerImages = PlayerImages.getInstance();
@@ -45,8 +55,8 @@ public  class GamePlay extends JPanel {
         layeredPane.setPreferredSize(new Dimension(1080, 1920));
         layeredPane.setLayout(null); // Set layout to null
         layeredPane.setBackground(Color.BLACK);
-        playerImages.setBounds(750, 750, 100, 100); // Set initial position and size
-        layeredPane.add(playerImages, Integer.valueOf(1));
+        PlayerImages.getInstance().setBounds(750, 750, 100, 100); // Set initial position and size
+        layeredPane.add(PlayerImages.getInstance(), Integer.valueOf(1));
         layeredPane.add(gameMenu,Integer.valueOf(2));
         layeredPane.setOpaque(false);
 
@@ -57,16 +67,27 @@ public  class GamePlay extends JPanel {
      * sets all keyboard inputs to this panel
      */
 
-    public void initialize(){;
-        PlayerImages playerImages = PlayerImages.getInstance();
-        this.requestFocusInWindow();
-        Player.setStarting(this.getWidth()/2, this.getHeight()/2);
+    public void initialize(boolean b){
+        if(false) {
+            PlayerImages playerImages = PlayerImages.getInstance();
+            this.requestFocusInWindow();
+            Player.setStarting(this.getWidth() / 2, this.getHeight() / 2);
 
-        playerImages.setBounds(Player.getPlayerPosX(), Player.getPlayerPosY(), 100, 100); // Set initial position and size
-        Enemy bobby = new Enemy("bobby");
-        enemies.add(bobby);
+            playerImages.setBounds(Player.getPlayerPosX(), Player.getPlayerPosY(), 100, 100); // Set initial position and size
+            Enemy bobby = new Enemy("bobby");
+            enemies.add(bobby);
+        }
+        else{
+            PlayerImages playerImages = PlayerImages.getInstance();
+            this.requestFocusInWindow();
 
+            Player.setStarting(Player.getPlayerPosX(),Player.getPlayerPosY());
+            playerImages.setBounds(Player.getPlayerPosX(), Player.getPlayerPosY(), 100, 100); // Set initial position and size
+            Enemy bobby = new Enemy("bobby");
+            enemies.add(bobby);
+        }
     }
+
 
     public void showGameMenu() {
 

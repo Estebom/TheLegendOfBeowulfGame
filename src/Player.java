@@ -1,13 +1,13 @@
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 
 
 public class Player implements Serializable {
-    private String playerName;
+    public String playerName;
     private double damageOutput;
 
     private double health;
@@ -22,7 +22,7 @@ public class Player implements Serializable {
 
 
     private static Player instance;
-    public static Player getInstance(){
+    private static Player getInstance(){
 
         if(instance == null){
             instance = new Player();
@@ -35,7 +35,10 @@ public class Player implements Serializable {
         return instance;
     }
     private Player(){
+        damageOutput = 1.0;
+        health = 100.0;
 
+        resetTimer();
     }
 //=======
 //        ImageIcon spawn = new ImageIcon("src\\FRONTSTANDING.png");
@@ -86,7 +89,7 @@ public class Player implements Serializable {
         });
     }
 
-    public  void move(char direction) {
+    public static void move(char direction) {
         getInstance().isMoving = true;
         getInstance().currentDirection = direction;
         switch (direction){
@@ -95,7 +98,7 @@ public class Player implements Serializable {
             case 'a': getInstance().playerPosX -= STEP;break;
             case 'd': getInstance().playerPosX += STEP;break;
         }
-        PlayerImages.getInstance().setLocation(playerPosX, playerPosY);
+        PlayerImages.getInstance().setLocation(getInstance().playerPosX, getInstance().playerPosY);
         if(!getInstance().animationTimer.isRunning()){
             getInstance().animationTimer.start();
         }
@@ -111,9 +114,9 @@ public class Player implements Serializable {
         }
     }
 
-    public void stopMoving(){
+    public static void stopMoving(){
         getInstance().isMoving = false;
-        PlayerImages.getInstance().stopMoving(currentDirection);
+        PlayerImages.getInstance().stopMoving(getInstance().currentDirection);
     }
 
     public static void setPlayerName(String name){
@@ -168,4 +171,10 @@ public class Player implements Serializable {
         getInstance().health -= damage;
     }
     public static char getCurrentDirection(){return getInstance().currentDirection;}
+
+
+
+    public static void writeToOutputStream(ObjectOutputStream outputStream)throws java.io.IOException{
+        outputStream.writeObject(getInstance());
+    }
 }
