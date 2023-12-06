@@ -1,4 +1,4 @@
-
+//Esteban Rodriguez & Alfonso Avila
 
 public class Item implements Collectable {
     private String nameItem;
