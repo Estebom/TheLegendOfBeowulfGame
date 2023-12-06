@@ -1,8 +1,14 @@
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
-public class Inventory implements Serializable {
+public class Inventory extends JPanel implements Serializable {
     // TODO: 12/2/2023  DEFINE AN INTERFACE FOR BOTH WEAPON AND ITEM
     private ArrayList<Item> items;
     private ArrayList<Weapon> weapons;
@@ -103,5 +109,83 @@ public class Inventory implements Serializable {
     public static void writeToOutputStream(ObjectOutputStream outputStream)throws java.io.IOException{
         getInstance();
         outputStream.writeObject(instance);
+    }
+
+    public static void addWeapon(Weapon weapon) {
+        getInstance();
+        if (instance.weapons == null) {
+            instance.weapons = new ArrayList<>();
+        }
+        instance.weapons.add(weapon);
+    }
+
+    public static void removeWeapon(Weapon weapon) {
+        getInstance();
+        if (instance.weapons != null) {
+            instance.weapons.remove(weapon);
+        }
+    }
+
+    public static ArrayList<Weapon> getWeapons() {
+        getInstance();
+        return instance.weapons;
+    }
+
+    private boolean inventoryVisible = false;
+    private JPanel inventoryPanel;
+    private JButton toggleButton;
+
+    public void InventoryUI() {
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+
+        toggleButton = new JButton("Toggle Inventory");
+        toggleButton.addActionListener(new InventoryToggleListener());
+        add(toggleButton);
+
+        inventoryPanel = new JPanel();
+        inventoryPanel.setLayout(new GridLayout(4, 3));
+        inventoryPanel.setVisible(false);
+
+        for (int i = 0; i < 12; i++) {
+            JPanel slot = createInventorySlot();
+            add(slot);
+        }
+
+        add(inventoryPanel);
+    }
+
+    private JPanel createInventorySlot() {
+        JPanel slot = new JPanel();
+        slot.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        slot.setPreferredSize(new Dimension(50, 50));
+
+        // Add mouse listener to handle interactions
+        slot.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                java.lang.System.out.println("Slot clicked");
+                // Implement logic to interact with inventory items or weapons here
+            }
+        });
+
+        return slot;
+    }
+
+    private class InventoryToggleListener implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            inventoryVisible = !inventoryVisible;
+            inventoryPanel.setVisible(inventoryVisible);
+        }
+    }
+
+    public static void main(String[] args) {
+        JFrame frame = new JFrame("Game Window");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(400, 300);
+
+        Inventory inventory = new Inventory();
+        frame.add(inventory);
+
+        frame.setVisible(true);
     }
 }
