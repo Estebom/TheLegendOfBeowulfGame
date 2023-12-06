@@ -10,10 +10,13 @@ import java.awt.event.MouseEvent;
 
 public class Inventory extends JPanel implements Serializable {
     // TODO: 12/2/2023  DEFINE AN INTERFACE FOR BOTH WEAPON AND ITEM
+    private JButton toggleButton;
+    private JPanel inventoryPanel;
     private ArrayList<Item> items;
     private ArrayList<Weapon> weapons;
+    private  boolean inventoryVisible = false;
 
-    private int currency;
+    private int currency = 0;
 
     private Collectable collectableInUse = null;
 
@@ -21,12 +24,46 @@ public class Inventory extends JPanel implements Serializable {
     private Collectable[][] inventory = new Collectable[5][5];
     private static Inventory instance;
 
-    private Inventory() {
+    public Inventory() {
 
-        this.currency = 0;
+        this.setSize(new Dimension(100,100));
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        this.setBackground(Color.BLUE);
+        this.setOpaque(true);
+
+
+        inventoryPanel = new JPanel();
+        inventoryPanel.setLayout(new GridLayout(4, 3));
+
+
+        for (int i = 0; i < 12; i++) {
+            JPanel slot = createInventorySlot();
+            add(slot);
+        }
+
+        this.add(inventoryPanel);
+        this.setVisible(false);
+
+
+    }
+    private JPanel createInventorySlot() {
+        JPanel slot = new JPanel();
+        slot.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        slot.setPreferredSize(new Dimension(50, 50));
+
+        // Add mouse listener to handle interactions
+        slot.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                java.lang.System.out.println("Slot clicked");
+                // Implement logic to interact with inventory items or weapons here
+            }
+        });
+
+        return slot;
     }
 
-    private static Inventory getInstance() {
+    public static Inventory getInstance() {
         if (instance == null) {
             instance = new Inventory();
         }
@@ -131,61 +168,48 @@ public class Inventory extends JPanel implements Serializable {
         return instance.weapons;
     }
 
-    private boolean inventoryVisible = false;
-    private JPanel inventoryPanel;
-    private JButton toggleButton;
 
-    public void InventoryUI() {
-        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-        toggleButton = new JButton("Toggle Inventory");
-        toggleButton.addActionListener(new InventoryToggleListener());
-        add(toggleButton);
 
-        inventoryPanel = new JPanel();
-        inventoryPanel.setLayout(new GridLayout(4, 3));
-        inventoryPanel.setVisible(false);
 
-        for (int i = 0; i < 12; i++) {
-            JPanel slot = createInventorySlot();
-            add(slot);
-        }
+//    public void inventoryUI() {
+//        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+//
+//        toggleButton = new JButton("Toggle Inventory");
+//        toggleButton.addActionListener(new InventoryToggleListener());
+//        add(toggleButton);
+//
+//        inventoryPanel = new JPanel();
+//        inventoryPanel.setLayout(new GridLayout(4, 3));
+//        inventoryPanel.setVisible(false);
+//
+//        for (int i = 0; i < 12; i++) {
+//            JPanel slot = createInventorySlot();
+//            add(slot);
+//        }
+//
+//        add(inventoryPanel);
+//    }
 
-        add(inventoryPanel);
+
+
+    public static void inventoryToggle(){
+        getInstance();
+
+                instance.inventoryVisible = !instance.inventoryVisible;
+                instance.setVisible(instance.inventoryVisible);
+
+
     }
 
-    private JPanel createInventorySlot() {
-        JPanel slot = new JPanel();
-        slot.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        slot.setPreferredSize(new Dimension(50, 50));
-
-        // Add mouse listener to handle interactions
-        slot.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                java.lang.System.out.println("Slot clicked");
-                // Implement logic to interact with inventory items or weapons here
-            }
-        });
-
-        return slot;
-    }
-
-    private class InventoryToggleListener implements ActionListener {
-        public void actionPerformed(ActionEvent e) {
-            inventoryVisible = !inventoryVisible;
-            inventoryPanel.setVisible(inventoryVisible);
-        }
-    }
-
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("Game Window");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(400, 300);
-
-        Inventory inventory = new Inventory();
-        frame.add(inventory);
-
-        frame.setVisible(true);
-    }
+//    public static void main(String[] args) {
+//        JFrame frame = new JFrame("Game Window");
+//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        frame.setSize(400, 300);
+//
+//        Inventory inventory = new Inventory();
+//        frame.add(inventory);
+//
+//        frame.setVisible(true);
+//    }
 }

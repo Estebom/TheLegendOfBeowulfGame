@@ -32,6 +32,9 @@ public class KeyPad extends KeyAdapter {
         InputMap inputMap = component.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
         ActionMap actionMap = component.getActionMap();
 
+
+
+
         inputMap.put(escapeKeyStroke, "performAction");
         actionMap.put("performAction", new AbstractAction() {
             @Override
@@ -41,7 +44,26 @@ public class KeyPad extends KeyAdapter {
         });
     }
 
-    public static KeyPad getInstance() {
+    public static void setupMKeyBinding(JComponent component, Runnable actionToPerform) {
+        if (component == null) {
+            throw new IllegalArgumentException("Component cannot be null");
+        }
+
+        KeyStroke mkeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_M,0);
+        InputMap inputMap = component.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        ActionMap actionMap = component.getActionMap();
+
+        inputMap.put(mkeyStroke, "openInventory");
+        actionMap.put("openInventory", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                actionToPerform.run();
+            }
+        });
+    }
+
+    public static KeyPad getInstance(GamePlay gamePlay) {
         if (instance == null) {
             instance = new KeyPad();
         }
@@ -85,7 +107,7 @@ public class KeyPad extends KeyAdapter {
                     break;
                 case KeyEvent.VK_Q:
                     java.lang.System.out.println("Interact");
-                    handleInteraction();
+                    //handleInteraction();
                     break;
                 case KeyEvent.VK_O:
                     java.lang.System.out.println("attack");
@@ -95,6 +117,7 @@ public class KeyPad extends KeyAdapter {
                     break;
                 case KeyEvent.VK_M:
                     java.lang.System.out.println("inventory open");
+                    Inventory.inventoryToggle();
                     // toggle to close
                     break;
                 case KeyEvent.VK_N:
@@ -110,28 +133,28 @@ public class KeyPad extends KeyAdapter {
         }
     }
 
-    private void handleInteraction() {
-        if (isNPCInRange()) {
-            npcInteraction();
-        }
-    }
+//    private void handleInteraction() {
+//        if (isNPCInRange()) {
+//            npcInteraction();
+//        }
+//    }
 
-    private boolean isNPCInRange() {
-        int playerX = Player.getPlayerPosX(); // Replace with actual player position retrieval
-        int playerY = Player.getPlayerPosY();
-        int npcX = npc.getX();
-        int npcY = npc.getY();
+//    private boolean isNPCInRange() {
+//        int playerX = Player.getPlayerPosX(); // Replace with actual player position retrieval
+//        int playerY = Player.getPlayerPosY();
+//        int npcX = npc.getX();
+//        int npcY = npc.getY();
+//
+//        double distance = Math.sqrt(Math.pow(playerX - npcX, 2) + Math.pow(playerY - npcY, 2));
+//        double interactionThreshold = 50.0;
+//
+//        return distance <= interactionThreshold;
+//    }
 
-        double distance = Math.sqrt(Math.pow(playerX - npcX, 2) + Math.pow(playerY - npcY, 2));
-        double interactionThreshold = 50.0;
-
-        return distance <= interactionThreshold;
-    }
-
-    private void npcInteraction() {
-        java.lang.System.out.println("Interacting with NPC: " + npc.getNameNPC());
-        // Add any additional logic for the NPC interaction
-    }
+//    private void npcInteraction() {
+//        java.lang.System.out.println("Interacting with NPC: " + npc.getNameNPC());
+//        // Add any additional logic for the NPC interaction
+//    }
 
     @Override
     public void keyReleased(KeyEvent e) {
@@ -171,8 +194,9 @@ public class KeyPad extends KeyAdapter {
         }
     }
 
-    public void setReadable(boolean readable) {
-        this.readKeys = readable;
+    public static void setReadable(boolean readable) {
+
+        instance.readKeys = readable;
     }
 }
 
