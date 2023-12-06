@@ -1,7 +1,9 @@
+import java.io.Serializable;
+
 /**
  * Esteban Rodriguez
  */
-public  class Attack {
+public  class Attack implements Serializable {
     private Enemy enemy;
     private GamePlay gamePlay;
     public Attack(GamePlay gamePlay) {
@@ -15,18 +17,18 @@ public  class Attack {
     }
 
 public void playerNormalAttack(){
-        this.enemy.takeDamage(PlayerSprite.getDamageOutput());
+        this.enemy.takeDamage(Player.getDamageOutput());
 
 }
 public void enemyNormalAttack(){
-        PlayerSprite.takeDamage(enemy.getDamage());
+    Player.takeDamage(enemy.getDamage());
 }
 public void playerSpecialAttack(){
 
-        this.enemy.takeDamage(PlayerSprite.getDamageOutput() * 1.30);
+        this.enemy.takeDamage(Player.getDamageOutput() * 1.30);
 
     }
     public void enemySpecialAttack(){
-        PlayerSprite.takeDamage(enemy.getDamage());
+        Player.takeDamage(enemy.getDamage());
     }
 }

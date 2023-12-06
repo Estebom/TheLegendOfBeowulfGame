@@ -53,7 +53,7 @@ public class GameMenu extends JPanel{
             public void actionPerformed(ActionEvent e) {
 
                 // saveLoad.saveGame();                                This can be removed
-                GameState.saveGame(GameState.DEFAULT_SAVE);            //Edit by Nohea
+                GameState.saveGame("newSave", gamePlay);           //Edit by Nohea
             }
         });
         this.add(returnToGame);

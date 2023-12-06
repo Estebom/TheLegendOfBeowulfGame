@@ -8,9 +8,12 @@ public class NPC {
     private ArrayList<String> dialogueList = new ArrayList<>();
     private ArrayList<Collectable> npcInventory = new ArrayList<>();
     private int dialougeSpot;
-    public NPC(String nameNPC){
+
+    private char direction = ' ';
+    public NPC(String nameNPC, char direction){
 
         this.nameNPC = nameNPC;
+        this.direction = direction;
         this.inventory = Inventory.getInstance();
         dialougeSpot = 0;
     }

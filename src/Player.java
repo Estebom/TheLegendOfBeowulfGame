@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 
 
-public class PlayerSprite implements Serializable {
+public class Player implements Serializable {
     private String playerName;
     private double damageOutput;
 
@@ -21,11 +21,11 @@ public class PlayerSprite implements Serializable {
     private boolean walkState = false;
 
 
-    private static PlayerSprite instance;
-    private static PlayerSprite getInstance(){
+    private static Player instance;
+    public static Player getInstance(){
 
         if(instance == null){
-            instance = new PlayerSprite();
+            instance = new Player();
             // Player Health and Damage
             instance.damageOutput = 1.0;
             instance.health = 100.0;
@@ -34,7 +34,7 @@ public class PlayerSprite implements Serializable {
         }
         return instance;
     }
-    private PlayerSprite(){
+    private Player(){
 
     }
 //=======
@@ -86,7 +86,7 @@ public class PlayerSprite implements Serializable {
         });
     }
 
-    public static void move(char direction) {
+    public  void move(char direction) {
         getInstance().isMoving = true;
         getInstance().currentDirection = direction;
         switch (direction){
@@ -95,6 +95,7 @@ public class PlayerSprite implements Serializable {
             case 'a': getInstance().playerPosX -= STEP;break;
             case 'd': getInstance().playerPosX += STEP;break;
         }
+        PlayerImages.getInstance().setLocation(playerPosX, playerPosY);
         if(!getInstance().animationTimer.isRunning()){
             getInstance().animationTimer.start();
         }
@@ -141,7 +142,7 @@ public class PlayerSprite implements Serializable {
         return getInstance().playerName;
     }
 
-    public static void replacePlayerInstance(PlayerSprite newInstance){
+    public static void replacePlayerInstance(Player newInstance){
         instance = newInstance;
         instance.resetTimer();
     }

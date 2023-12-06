@@ -45,11 +45,11 @@ public class Weapon implements Collectable, Serializable {
     public void modifyPlayerDamage(boolean b){
 
         if (b == true){
-            PlayerSprite.setDamageOutput(PlayerSprite.getDamageOutput() + weaponDamage);
+            Player.setDamageOutput(Player.getDamageOutput() + weaponDamage);
 
         }
         else {
-            PlayerSprite.setDamageOutput(PlayerSprite.getDamageOutput() - weaponDamage);
+            Player.setDamageOutput(Player.getDamageOutput() - weaponDamage);
         }
 
     }

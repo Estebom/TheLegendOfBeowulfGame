@@ -19,6 +19,8 @@ public class GameState implements Serializable {
     private static GameState instance = null;
 
 
+
+
     public static GameState getInstance() {
 
         if (instance == null) {
@@ -31,44 +33,65 @@ public class GameState implements Serializable {
         this.currentLevel = 0;
     }
 
-    public static void loadGame(String saveName) {
+    public static void readGameState(String saveName) {
+        File file = new File(SAVE_PATH + saveName);
+        if (file.exists()) {
 
-        try (ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(SAVE_PATH + saveName))) {
-            instance = (GameState) inputStream.readObject(); // Load the player object
-            PlayerSprite.replacePlayerInstance((PlayerSprite) inputStream.readObject());
+            try (ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(file))) {
+                GameState loadedGameState = (GameState) inputStream.readObject();
+                setInstance(loadedGameState);
 
-            // Load the Inventory object
-            Inventory.setInstance((Inventory) inputStream.readObject()); // Set the loaded Inventory
-            
-            java.lang.System.out.println("Loaded Player Name: " + PlayerSprite.getPlayerName());
+                GamePlay gamePlay = (GamePlay) inputStream.readObject();
 
-            java.lang.System.out.println("Loaded Game Level: " + getInstance().currentLevel);
 
-            java.lang.System.out.println("Player data loaded successfully.");
-        } catch (IOException | ClassNotFoundException e) {
-            java.lang.System.out.println("Error loading player data: " + e.getMessage());
+                Player loadedPlayer = (Player) inputStream.readObject();
+                Player.replacePlayerInstance(loadedPlayer);
+
+                Inventory loadedInventory = (Inventory) inputStream.readObject();
+                Inventory.setInstance(loadedInventory);
+
+
+                java.lang.System.out.println("Loaded Player Name: " + Player.getPlayerName());
+
+                java.lang.System.out.println("Loaded Game Level: " + getInstance().currentLevel);
+
+                java.lang.System.out.println("Player data loaded successfully.");
+            } catch (IOException | ClassNotFoundException e) {
+                java.lang.System.out.println("Error loading player data: " + e.getMessage());
+            }
         }
     }
 
-    public static void saveGame(String saveName) {
-        writeGameState(saveName);
-        writeGameState(DEFAULT_SAVE);
+    public static void saveGame(String saveName, GamePlay gamePlay) {
+        writeGameState(saveName, gamePlay);
+
     }
 
-    private static void writeGameState(String saveName) {
+    private static void writeGameState(String saveName, GamePlay gamePlay) {
         File saveFile = new File(SAVE_PATH);
         saveFile.mkdirs(); //Ensures SAVE_PATH Directory exists
         try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(SAVE_PATH + saveName))) {
             outputStream.writeObject(getInstance()); // Saves the Game state
-            outputStream.writeObject(PlayerSprite.getInstance()); // Saves the entire player object
+            outputStream.writeObject(Player.getInstance()); // Saves the entire player object
             outputStream.writeObject(Inventory.getInstance()); //Saves the player Inventory
+            outputStream.writeObject(gamePlay);
+
             java.lang.System.out.println("Player data saved successfully.");
         } catch (IOException e) {
             e.printStackTrace();
             java.lang.System.out.println("Error saving player data: " + e.getMessage());
         }
     }
+//    public void update() {
+//        if (gamePlay != null) {
+//            // Do something with gamePlay
+//            gamePlay.updateUI(); // Example method call
+//        }
+//    }
 
+//    public void setGamePlay(GamePlay gamePlay) {
+//        this.gamePlay = gamePlay;
+//    }
     public void nextLevel() {
         getInstance().currentLevel += 1;
     }
@@ -77,60 +100,63 @@ public class GameState implements Serializable {
         return getInstance().currentLevel;
     }
 
+    private static void setInstance(GameState loadedGameState) {
+        instance = loadedGameState;
+    }
     public void addInventory() {
 
 
 
-        //Testing player data saving
-        PlayerSprite.setPlayerName("Testnm");
-        java.lang.System.out.println(PlayerSprite.getHealth());
-        PlayerSprite.setHealth(5);
-        GameState.saveGame("test");
-        PlayerSprite.setHealth(10);
-        GameState.loadGame("test");
-        java.lang.System.out.println(PlayerSprite.getHealth());
-
-
-        //Testing Inventory data saving
-        Inventory inventory = Inventory.getInstance();
-        Weapon sword = new Weapon("Exaclibur", 9, 89, new Attack(new Enemy("Karl")));
-        inventory.addCollectable(sword); // Add an item to the inventory
-        inventory.addCurrency(100); // Add currency
-        GameState.saveGame("test");
-        inventory.removeCollectable(sword); // Manipulate the inventory data
-        inventory.addCurrency(50);
-        GameState.loadGame("test");
-
-        //Testing PlayerSprite data saving
-        // Initialize the PlayerSprite instance and set its starting position
-        PlayerSprite.setStarting(50, 50); // Set the starting position
-
-        // Move the player sprite
-        PlayerSprite.move('w');
-        PlayerSprite.move('d');
-
-        int loadedPosX = PlayerSprite.getPlayerPosX();
-        int loadedPosY = PlayerSprite.getPlayerPosY();
-        java.lang.System.out.println(loadedPosX);
-        java.lang.System.out.println(loadedPosY);
-        // Save the game state
-        GameState.saveGame("test");
-
-        // Change the position of the player sprite after saving the game
-        PlayerSprite.setStarting(100, 100);
-
-        // Load the game state and check if the player sprite position is restored
-        GameState.loadGame("test");
-
-        // Get the player sprite position after loading the game
-        java.lang.System.out.println(loadedPosX);
-        java.lang.System.out.println(loadedPosY);
-        // Check if the position is restored
-        if (loadedPosX == 55 && loadedPosY == 45) {
-            java.lang.System.out.println("PlayerSprite data successfully saved and loaded.");
-        } else {
-            java.lang.System.out.println("PlayerSprite data not loaded correctly.");
-        }
+//        //Testing player data saving
+//        Player.setPlayerName("Testnm");
+//        java.lang.System.out.println(Player.getHealth());
+//        Player.setHealth(5);
+//        GameState.saveGame("test");
+//        Player.setHealth(10);
+//        GameState.readGameState("test");
+//        java.lang.System.out.println(Player.getHealth());
+//
+//
+//        //Testing Inventory data saving
+//        Inventory inventory = Inventory.getInstance();
+//        Weapon sword = new Weapon("Exaclibur", 9, 89, new Attack(new Enemy("Karl")));
+//        inventory.addCollectable(sword); // Add an item to the inventory
+//        inventory.addCurrency(100); // Add currency
+//        GameState.saveGame("test");
+//        inventory.removeCollectable(sword); // Manipulate the inventory data
+//        inventory.addCurrency(50);
+//        GameState.readGameState("test");
+//
+//        //Testing PlayerSprite data saving
+//        // Initialize the PlayerSprite instance and set its starting position
+//        Player.setStarting(50, 50); // Set the starting position
+//
+////        // Move the player sprite
+////        Player.move('w');
+////        Player.move('d');
+//
+//        int loadedPosX = Player.getPlayerPosX();
+//        int loadedPosY = Player.getPlayerPosY();
+//        java.lang.System.out.println(loadedPosX);
+//        java.lang.System.out.println(loadedPosY);
+//        // Save the game state
+//        GameState.saveGame("test");
+//
+//        // Change the position of the player sprite after saving the game
+//        Player.setStarting(100, 100);
+//
+//        // Load the game state and check if the player sprite position is restored
+//        GameState.readGameState("test");
+//
+//        // Get the player sprite position after loading the game
+//        java.lang.System.out.println(loadedPosX);
+//        java.lang.System.out.println(loadedPosY);
+//        // Check if the position is restored
+//        if (loadedPosX == 55 && loadedPosY == 45) {
+//            java.lang.System.out.println("PlayerSprite data successfully saved and loaded.");
+//        } else {
+//            java.lang.System.out.println("PlayerSprite data not loaded correctly.");
+//        }
     }
 }
 
