@@ -135,7 +135,7 @@ public class Inventory extends JPanel implements Serializable {
     private JPanel inventoryPanel;
     private JButton toggleButton;
 
-    public void InventoryUI() {
+    public void inventoryUI() {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         toggleButton = new JButton("Toggle Inventory");
@@ -143,8 +143,8 @@ public class Inventory extends JPanel implements Serializable {
         add(toggleButton);
 
         inventoryPanel = new JPanel();
-        inventoryPanel.setLayout(new GridLayout(4, 3));
-        inventoryPanel.setVisible(false);
+        setLayout(new GridLayout(4, 3));
+        setVisible(false);
 
         for (int i = 0; i < 12; i++) {
             JPanel slot = createInventorySlot();
