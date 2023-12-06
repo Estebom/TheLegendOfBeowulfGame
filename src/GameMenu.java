@@ -1,3 +1,5 @@
+//Esteban Rodriguez & Alfonso Avila & Nohea
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
