@@ -17,6 +17,8 @@ public  class GamePlay extends JPanel {
     transient private GameMenu gameMenu;
 
 
+
+
     private static ArrayList<Enemy> enemies =  new ArrayList<>();
     private boolean hittable = false;
 
@@ -57,7 +59,10 @@ public  class GamePlay extends JPanel {
         layeredPane.setBackground(Color.BLACK);
         PlayerImages.getInstance().setBounds(750, 750, 100, 100); // Set initial position and size
         layeredPane.add(PlayerImages.getInstance(), Integer.valueOf(1));
-        layeredPane.add(gameMenu,Integer.valueOf(2));
+        Inventory.getInstance().setBounds(750,750,500,500);
+        layeredPane.add(Inventory.getInstance(),Integer.valueOf(2));
+        layeredPane.add(gameMenu,Integer.valueOf(3));
+
         layeredPane.setOpaque(false);
 
         setupKeyBindings();
@@ -92,6 +97,7 @@ public  class GamePlay extends JPanel {
         // Ensure the current instance is not null
         if (instance != null) {
             KeyPad.setupEscapeKeyBinding(instance, GamePlay::showGameMenu);
+            KeyPad.setupMKeyBinding(instance, GamePlay::showInventory);
         }
     }
     public static void initializeKeyPad() {
@@ -106,6 +112,14 @@ public  class GamePlay extends JPanel {
             instance.gameMenu.setVisible(true);
             instance.revalidate();
             instance.repaint();
+
+    }
+
+    public static void showInventory(){
+        getInstance();
+        Inventory.getInstance().setVisible(true);
+        instance.revalidate();
+        instance.repaint();
 
     }
 //    public void updateLayout(int width, int height) {
