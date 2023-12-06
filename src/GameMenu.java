@@ -8,16 +8,16 @@ import java.awt.event.ActionListener;
 // Todo: 12/3/2023 create save funcitonality
 public class GameMenu extends JPanel{
 
-    private GamePlay gamePlay;
+
 
     private JButton settingsButton;
 
     private JButton saveButton;
     private JButton returnToGame;
 
-    public GameMenu(GamePlay gamePlay) {
+    public GameMenu() {
 
-        this.gamePlay = gamePlay;
+
 
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -35,8 +35,8 @@ public class GameMenu extends JPanel{
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                KeyPad.getInstance(gamePlay).setReadable(true);
-                gamePlay.hideMenu();
+                KeyPad.setReadable(true);
+                GamePlay.hideMenu();
 
             }
         });

@@ -8,7 +8,7 @@ import java.awt.event.ActionListener;
  * @author Esteban Rodriguez
  */
 public class MainMenu extends JPanel{
-    private MainDisplay mainDisplay;
+
 
     JButton newGameButton;
     JButton loadGameButton;
@@ -20,9 +20,9 @@ public class MainMenu extends JPanel{
     JPanel centerPanel;
 
 
-    public MainMenu(MainDisplay mainDisplay){
+    public MainMenu( ){
 
-        this.mainDisplay = mainDisplay;
+
 
         this.setPreferredSize(new Dimension(2560, 1440));
         this.setLayout(new BorderLayout());
@@ -52,7 +52,7 @@ public class MainMenu extends JPanel{
         settingButton.setActionCommand("SETTINGS");
         exitGameButton.setActionCommand("EXIT");
 
-        newGameButton.addActionListener(e -> mainDisplay.showNewGame());
+        newGameButton.addActionListener(e -> MainDisplay.showNewGame());
         loadGameButton.addActionListener(buttonListener);
         settingButton.addActionListener(buttonListener);
         exitGameButton.addActionListener(buttonListener);
@@ -90,17 +90,17 @@ public class MainMenu extends JPanel{
             switch (e.getActionCommand()){
                 case "NewGame":
                     java.lang.System.out.println("New Game started");
-                    mainDisplay.showNewGame();
+                    MainDisplay.showNewGame();
                     break;
                 case "LOAD_GAME":
                     java.lang.System.out.println("Load Game clicked");
                     GameState.readGameState("test");                   //Edit by Nohea
 
                                      //Edit by Nohea
-                    mainDisplay.showGamePlay();
+                    MainDisplay.loadedGamePlay();
                     break;
                 case "SETTINGS":
-                    mainDisplay.showSettings();
+                    MainDisplay.showSettings();
                     java.lang.System.out.println("Settings opened");
 
                     break;

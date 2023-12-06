@@ -1,3 +1,4 @@
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -19,7 +20,7 @@ public class Inventory implements Serializable {
         this.currency = 0;
     }
 
-    public static Inventory getInstance() {
+    private static Inventory getInstance() {
         if (instance == null) {
             instance = new Inventory();
         }
@@ -27,15 +28,16 @@ public class Inventory implements Serializable {
     }
 
     //for future make to map
-    public void addCollectable(Collectable collectable) {
+    public static void addCollectable(Collectable collectable) {
+        getInstance();
         for (int i = 0; i < 5; i++) {
-            if (inventory[i][0] == null) {
-                inventory[i][0] = collectable;
+            if (instance.inventory[i][0] == null) {
+                instance.inventory[i][0] = collectable;
                 return;
             } else {
                 for (int j = 1; j < 5; j++) {
-                    if (inventory[i][j] == null) {
-                        inventory[i][j] = collectable;
+                    if (instance.inventory[i][j] == null) {
+                        instance.inventory[i][j] = collectable;
 
                         return;
                     }
@@ -46,16 +48,16 @@ public class Inventory implements Serializable {
 
     }
 
-    public void removeCollectable(Collectable collectable) {
-
+    public static void removeCollectable(Collectable collectable) {
+        getInstance();
         for (int i = 0; i < 5; i++) {
-            if (inventory[i][0] == collectable) {
-                inventory[i][0] = null;
+            if (instance.inventory[i][0] == collectable) {
+                instance.inventory[i][0] = null;
                 return;
             } else {
                 for (int j = 1; j < 5; j++) {
-                    if (inventory[i][j] == collectable) {
-                        inventory[i][j] = null;
+                    if (instance.inventory[i][j] == collectable) {
+                        instance.inventory[i][j] = null;
 
                         return;
                     }
@@ -66,29 +68,40 @@ public class Inventory implements Serializable {
 
     }
 
-    public void addCurrency(int currency) {
-
-        this.currency += currency;
+    public static void addCurrency(int currency) {
+        getInstance();
+        instance.currency += currency;
 
     }
 
-    public Collectable accessHotBar() {
-        return this.collectableInUse;
+    public static Collectable accessHotBar() {
+        getInstance();
+
+        return instance.collectableInUse;
     }
 
     public static void setInstance(Inventory loadedInstance) {
+        getInstance();
         instance = loadedInstance;
     }
 
-    public void setCollectableInUse(int i) {
-        this.collectableInUse = inventory[0][i];
+    public static void setCollectableInUse(int i) {
+        getInstance();
+        instance.collectableInUse = instance.inventory[0][i];
     }
 
-    public Collectable[][] getInventory() {
-        return inventory;
+    static public Collectable[][] getInventory() {
+        getInstance();
+        return instance.inventory;
     }
 
-    public int getCurrency() {
-        return currency;
+    static public int getCurrency() {
+        getInstance();
+
+        return instance.currency;
+    }
+    public static void writeToOutputStream(ObjectOutputStream outputStream)throws java.io.IOException{
+        getInstance();
+        outputStream.writeObject(instance);
     }
 }

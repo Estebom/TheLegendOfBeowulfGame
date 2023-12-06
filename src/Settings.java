@@ -10,11 +10,11 @@ public class Settings extends JPanel {
     private JSlider musicVolumeSlider;
     private JLabel gameVolumeLabel;
     private JLabel musicVolumeLabel;
-    private final MainDisplay mainDisplay;
 
-    public Settings(MainDisplay mainDisplay) {
 
-        this.mainDisplay = mainDisplay;
+    public Settings( ) {
+
+
         this.setPreferredSize(new Dimension(800, 675));
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
@@ -43,8 +43,8 @@ public class Settings extends JPanel {
             String[] dimensions = selectedResolution.split("x");
             int width = Integer.parseInt(dimensions[0]);
             int height = Integer.parseInt(dimensions[1]);
-            mainDisplay.setSize(width, height);
-            mainDisplay.setLocationRelativeTo(null);
+            MainDisplay.getInstance().setSize(width, height);
+            MainDisplay.getInstance().setLocationRelativeTo(null);
         });
 
         gameVolumeSlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 50); // range from 0 to 100, initially set to 50
@@ -84,7 +84,7 @@ public class Settings extends JPanel {
         @Override
         public void actionPerformed(ActionEvent e) {
             if(e.getActionCommand().equals("MainMenu")){
-                mainDisplay.showMainMenu();
+                MainDisplay.showMainMenu();
             }
         }
     };

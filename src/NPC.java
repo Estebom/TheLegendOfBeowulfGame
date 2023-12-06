@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class NPC {
 
-    private Inventory inventory;
+
 
     private String nameNPC;
     private ArrayList<String> dialogueList = new ArrayList<>();
@@ -14,7 +14,7 @@ public class NPC {
 
         this.nameNPC = nameNPC;
         this.direction = direction;
-        this.inventory = Inventory.getInstance();
+
         dialougeSpot = 0;
     }
 
@@ -35,8 +35,8 @@ public class NPC {
 
     public void sell(Collectable collectable){
 
-            inventory.addCurrency(collectable.getPrice());
-            inventory.removeCollectable(collectable);
+            Inventory.addCurrency(collectable.getPrice());
+            Inventory.removeCollectable(collectable);
     }
 
     public String speak(){

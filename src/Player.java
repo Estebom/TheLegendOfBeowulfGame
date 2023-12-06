@@ -26,10 +26,6 @@ public class Player implements Serializable {
 
         if(instance == null){
             instance = new Player();
-            // Player Health and Damage
-            instance.damageOutput = 1.0;
-            instance.health = 100.0;
-
             instance.resetTimer();
         }
         return instance;
@@ -38,7 +34,7 @@ public class Player implements Serializable {
         damageOutput = 1.0;
         health = 100.0;
 
-        resetTimer();
+
     }
 //=======
 //        ImageIcon spawn = new ImageIcon("src\\FRONTSTANDING.png");
@@ -81,6 +77,7 @@ public class Player implements Serializable {
 //>>>>>>> d487c83f6848111594173783db378950bfb69473
 
     private void resetTimer(){
+        getInstance();
         animationTimer = new Timer(150, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -90,21 +87,23 @@ public class Player implements Serializable {
     }
 
     public static void move(char direction) {
-        getInstance().isMoving = true;
-        getInstance().currentDirection = direction;
+        getInstance();
+        instance.isMoving = true;
+        instance.currentDirection = direction;
         switch (direction){
-            case 'w': getInstance().playerPosY -= STEP;break;
-            case 's': getInstance().playerPosY += STEP;break;
-            case 'a': getInstance().playerPosX -= STEP;break;
-            case 'd': getInstance().playerPosX += STEP;break;
+            case 'w': instance.playerPosY -= STEP;break;
+            case 's': instance.playerPosY += STEP;break;
+            case 'a': instance.playerPosX -= STEP;break;
+            case 'd': instance.playerPosX += STEP;break;
         }
-        PlayerImages.getInstance().setLocation(getInstance().playerPosX, getInstance().playerPosY);
-        if(!getInstance().animationTimer.isRunning()){
-            getInstance().animationTimer.start();
+        PlayerImages.getInstance().setLocation(instance.playerPosX, instance.playerPosY);
+        if(!instance.animationTimer.isRunning()){
+            instance.animationTimer.start();
         }
     }
 
     private void updateAnimation(){
+        getInstance();
         if(isMoving){
             walkState = !walkState;
             PlayerImages.getInstance().updateAnimation(currentDirection,walkState);
@@ -115,34 +114,41 @@ public class Player implements Serializable {
     }
 
     public static void stopMoving(){
-        getInstance().isMoving = false;
-        PlayerImages.getInstance().stopMoving(getInstance().currentDirection);
+        getInstance();
+        instance.isMoving = false;
+        PlayerImages.getInstance().stopMoving(instance.currentDirection);
     }
 
     public static void setPlayerName(String name){
+        getInstance();
 
-        getInstance().playerName = name;
+        instance.playerName = name;
     }
 
     public static double getHealth(){
+        getInstance();
 
-        return getInstance().health;
+        return instance.health;
 
     }
 
     public static double getDamageOutput() {
-        return getInstance().damageOutput;
+        getInstance();
+        return instance.damageOutput;
     }
 
     public static void setDamageOutput(double damageOutput) {
-        getInstance().damageOutput = damageOutput;
+        getInstance();
+        instance.damageOutput = damageOutput;
     }
 
     public static void setHealth(double damageIncoming){
-        getInstance().health -= damageIncoming;
+        getInstance();
+        instance.health -= damageIncoming;
     }
     public static String getPlayerName(){
-        return getInstance().playerName;
+        getInstance();
+        return instance.playerName;
     }
 
     public static void replacePlayerInstance(Player newInstance){
@@ -151,30 +157,39 @@ public class Player implements Serializable {
     }
 
     public static void setStarting(int x, int y){
-        getInstance().playerPosX = x;
-        getInstance().playerPosY = y;
+        getInstance();
+        instance.playerPosX = x;
+        instance.playerPosY = y;
     }
 
     public static int getPlayerPosX(){
+        getInstance();
 
-        return getInstance().playerPosX;
+        return instance.playerPosX;
     }
     public static int getPlayerPosY(){
+        getInstance();
 
-        return getInstance().playerPosY;
+
+        return instance.playerPosY;
     }
     public static void heal(double health){
-        getInstance().health += health;
+        getInstance();
+        instance.health += health;
     }
 
     public static void takeDamage(double damage){
-        getInstance().health -= damage;
+        getInstance();
+        instance.health -= damage;
     }
-    public static char getCurrentDirection(){return getInstance().currentDirection;}
+    public static char getCurrentDirection(){
+        getInstance();
+        return instance.currentDirection;}
 
 
 
     public static void writeToOutputStream(ObjectOutputStream outputStream)throws java.io.IOException{
-        outputStream.writeObject(getInstance());
+        getInstance();
+        outputStream.writeObject(instance);
     }
 }

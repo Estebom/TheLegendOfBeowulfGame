@@ -70,7 +70,7 @@ public class GameState implements Serializable {
         try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(SAVE_PATH + saveName))) {
             outputStream.writeObject(getInstance()); // Saves the Game state
             Player.writeToOutputStream(outputStream);
-            outputStream.writeObject(Inventory.getInstance()); //Saves the player Inventory
+            Inventory.writeToOutputStream(outputStream); //Saves the player Inventory
 
 
 
