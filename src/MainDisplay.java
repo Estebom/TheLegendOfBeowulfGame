@@ -7,16 +7,16 @@ import java.awt.*;
 public class MainDisplay extends JFrame {
     private MainMenu mainMenu;
     private NewGame newGame;
-    private GamePlay gamePlay;
 
     private Settings settings;
     private GameMenu gameMenu;
+    private static MainDisplay instance;
 
     public MainDisplay() {
-        mainMenu = new MainMenu(this);
-        newGame = new NewGame(this);
-        gamePlay = new GamePlay(this);
-        settings = new Settings(this);
+
+        mainMenu = new MainMenu();
+        newGame = new NewGame();
+        settings = new Settings();
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(false);
@@ -30,49 +30,64 @@ public class MainDisplay extends JFrame {
         //this.add(gameMenu, "GameMenu");
         this.add(mainMenu, "MainMenu");
         this.add(newGame, "NewGame");
-        this.add(gamePlay, "START");
+        this.add(GamePlay.getInstance(), "START");
         this.add(settings, "SETTINGS");
+        mainMenu.setVisible(true);
 
-        showMainMenu();
         this.setLocationRelativeTo(null);
         this.setVisible(true);
     }
 
+
+    public static MainDisplay getInstance() {
+
+        if (instance == null) {
+            instance = new MainDisplay();
+        }
+        return instance;
+    }
+
+
+
     /**
      * displays the MainMenu panel to the MainDisplay
      */
-    public void showMainMenu(){
-        ((CardLayout)this.getContentPane().getLayout()).show(this.getContentPane(), "MainMenu");
+    public static void showMainMenu(){
+        getInstance();
+        ((CardLayout)instance.getContentPane().getLayout()).show(instance.getContentPane(), "MainMenu");
     }
     /**
      * displays the NewGame panel to the MainDisplay
      */
-    public  void showNewGame(){
-
-        ((CardLayout)this.getContentPane().getLayout()).show(this.getContentPane(),"NewGame");
+    public static void showNewGame(){
+        getInstance();
+        ((CardLayout)instance.getContentPane().getLayout()).show(instance.getContentPane(),"NewGame");
     }
     /**
      * displays the GamePlay panel to the MainDisplay
      */
-    public void showGamePlay(){
+    public static void showGamePlay(){
+        getInstance();
+        ((CardLayout)instance.getContentPane().getLayout()).show(instance.getContentPane(), "START");
+        GamePlay.initialize(false);
 
-        ((CardLayout)this.getContentPane().getLayout()).show(this.getContentPane(), "START");
-        gamePlay.initialize();
-
+    }
+    public static void loadedGamePlay(){
+        getInstance();
+        ((CardLayout)instance.getContentPane().getLayout()).show(instance.getContentPane(), "START");
+        GamePlay.initialize(true);
+        GamePlay.initializeKeyPad();
     }
     /**
      * displays the Settings panel to the MainDisplay
      */
-    public void showSettings(){
+    public static void showSettings(){
+        getInstance();
 
-        ((CardLayout)this.getContentPane().getLayout()).show(this.getContentPane(), "SETTINGS");
+        ((CardLayout)instance.getContentPane().getLayout()).show(instance.getContentPane(), "SETTINGS");
     }
 
-    public void showGameMenu(){
 
-
-
-    }
 
 
 

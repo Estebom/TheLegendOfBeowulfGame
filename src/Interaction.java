@@ -3,7 +3,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Interaction extends JPanel {
-    private Inventory inventory;
+
     private NPC npc;
     private Chest chest;
     private JButton buyButton;
@@ -14,7 +14,7 @@ public class Interaction extends JPanel {
     }
 
     public Interaction(NPC npc) {
-        this.inventory = Inventory.getInstance();
+
         this.npc = npc;
 
         buyButton = new JButton("Buy from NPC");
@@ -48,11 +48,11 @@ public class Interaction extends JPanel {
     }
 
     public void grabCollectable(Collectable collectable) {
-        inventory.addCollectable(collectable);
+        Inventory.addCollectable(collectable);
     }
 
     public void openChest() {
-        inventory.addCollectable(chest.chestRoll());
+        Inventory.addCollectable(chest.chestRoll());
     }
 
     // TODO: 12/3/2023 write the actionListener functions out of the constructor and have the listener get the message then delegate instructions

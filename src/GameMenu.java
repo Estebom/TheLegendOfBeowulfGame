@@ -2,25 +2,22 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+
 // TODO: 12/3/2023 add a return to main menu button
 // TODO: 12/3/2023 add a link to settings class or define the same features
 // Todo: 12/3/2023 create save funcitonality
 public class GameMenu extends JPanel{
-    private SaveLoad saveLoad;
-    private Player player;
 
-    private GamePlay gamePlay;
+
 
     private JButton settingsButton;
 
     private JButton saveButton;
     private JButton returnToGame;
 
-    public GameMenu(GamePlay gamePlay) {
+    public GameMenu() {
 
-        this.gamePlay = gamePlay;
+
 
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -38,8 +35,8 @@ public class GameMenu extends JPanel{
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                KeyPad.getInstance(gamePlay).setReadable(true);
-                gamePlay.hideMenu();
+                KeyPad.setReadable(true);
+                GamePlay.hideMenu();
 
             }
         });
@@ -55,7 +52,7 @@ public class GameMenu extends JPanel{
             public void actionPerformed(ActionEvent e) {
 
                 // saveLoad.saveGame();                                This can be removed
-                GameState.saveGame(GameState.DEFAULT_SAVE);            //Edit by Nohea
+                GameState.saveGame("test");           //Edit by Nohea
             }
         });
         this.add(returnToGame);

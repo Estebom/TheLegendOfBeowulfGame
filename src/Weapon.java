@@ -4,7 +4,6 @@ import java.io.Serializable;
  * Esteban Rodriguez
  */
 public class Weapon implements Collectable, Serializable {
-    private Player player;
     private String weaponName;
     private double weaponDamage;
     //private int swingSpeed = 50;
@@ -20,9 +19,7 @@ public class Weapon implements Collectable, Serializable {
         this.weaponName = weaponName;
         this.weaponDamage = weaponDamage;
         this.price = price;
-        player = Player.getInstance();
         this.attack = attack;
-
     }
 
     public Weapon(Collectable collectable, GamePlay gamePlay) {
@@ -31,7 +28,6 @@ public class Weapon implements Collectable, Serializable {
             this.weaponName = weapon.getWeaponName();
             this.weaponDamage = weapon.getWeaponDamage();
             this.price = weapon.getPrice();
-            this.player = Player.getInstance();
             this.attack = new Attack(gamePlay);
         }
     }
@@ -49,11 +45,11 @@ public class Weapon implements Collectable, Serializable {
     public void modifyPlayerDamage(boolean b){
 
         if (b == true){
-           player.setDamageOutput(player.getDamageOutput() + weaponDamage);
+            Player.setDamageOutput(Player.getDamageOutput() + weaponDamage);
 
         }
         else {
-            player.setDamageOutput(player.getDamageOutput() - weaponDamage);
+            Player.setDamageOutput(Player.getDamageOutput() - weaponDamage);
         }
 
     }
