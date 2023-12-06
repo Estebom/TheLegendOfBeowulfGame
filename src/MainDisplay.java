@@ -7,15 +7,15 @@ import java.awt.*;
 public class MainDisplay extends JFrame {
     private MainMenu mainMenu;
     private NewGame newGame;
-    private GamePlay gamePlay;
 
     private Settings settings;
     private GameMenu gameMenu;
+    private static MainDisplay instance;
 
     public MainDisplay() {
+
         mainMenu = new MainMenu(this);
         newGame = new NewGame(this);
-        gamePlay = new GamePlay(this);
         settings = new Settings(this);
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -30,13 +30,24 @@ public class MainDisplay extends JFrame {
         //this.add(gameMenu, "GameMenu");
         this.add(mainMenu, "MainMenu");
         this.add(newGame, "NewGame");
-        this.add(gamePlay, "START");
+        this.add(GamePlay.getInstance(), "START");
         this.add(settings, "SETTINGS");
 
         showMainMenu();
         this.setLocationRelativeTo(null);
         this.setVisible(true);
     }
+
+
+    public static MainDisplay getInstance() {
+
+        if (instance == null) {
+            instance = new MainDisplay();
+        }
+        return instance;
+    }
+
+
 
     /**
      * displays the MainMenu panel to the MainDisplay
@@ -57,8 +68,12 @@ public class MainDisplay extends JFrame {
     public void showGamePlay(){
 
         ((CardLayout)this.getContentPane().getLayout()).show(this.getContentPane(), "START");
-        gamePlay.initialize();
+        GamePlay.getInstance().initialize(false);
 
+    }
+    public void loadedGamePlay(){
+        ((CardLayout)this.getContentPane().getLayout()).show(this.getContentPane(), "LOAD_GAME");
+        GamePlay.getInstance().initialize(true);
     }
     /**
      * displays the Settings panel to the MainDisplay

@@ -6,8 +6,8 @@ import java.io.Serializable;
 
 
 
-public class PlayerSprite implements Serializable {
-    private String playerName;
+public class Player implements Serializable {
+    public String playerName;
     private double damageOutput;
 
     private double health;
@@ -21,11 +21,11 @@ public class PlayerSprite implements Serializable {
     private boolean walkState = false;
 
 
-    private static PlayerSprite instance;
-    private static PlayerSprite getInstance(){
+    private static Player instance;
+    private static Player getInstance(){
 
         if(instance == null){
-            instance = new PlayerSprite();
+            instance = new Player();
             // Player Health and Damage
             instance.damageOutput = 1.0;
             instance.health = 100.0;
@@ -34,8 +34,11 @@ public class PlayerSprite implements Serializable {
         }
         return instance;
     }
-    private PlayerSprite(){
+    private Player(){
+        damageOutput = 1.0;
+        health = 100.0;
 
+        resetTimer();
     }
 //=======
 //        ImageIcon spawn = new ImageIcon("src\\FRONTSTANDING.png");
@@ -95,6 +98,7 @@ public class PlayerSprite implements Serializable {
             case 'a': getInstance().playerPosX -= STEP;break;
             case 'd': getInstance().playerPosX += STEP;break;
         }
+        PlayerImages.getInstance().setLocation(getInstance().playerPosX, getInstance().playerPosY);
         if(!getInstance().animationTimer.isRunning()){
             getInstance().animationTimer.start();
         }
@@ -141,7 +145,7 @@ public class PlayerSprite implements Serializable {
         return getInstance().playerName;
     }
 
-    public static void replacePlayerInstance(PlayerSprite newInstance){
+    public static void replacePlayerInstance(Player newInstance){
         instance = newInstance;
         instance.resetTimer();
     }
@@ -167,6 +171,8 @@ public class PlayerSprite implements Serializable {
         getInstance().health -= damage;
     }
     public static char getCurrentDirection(){return getInstance().currentDirection;}
+
+
 
     public static void writeToOutputStream(ObjectOutputStream outputStream)throws java.io.IOException{
         outputStream.writeObject(getInstance());

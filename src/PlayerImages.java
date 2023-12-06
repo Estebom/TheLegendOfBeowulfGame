@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.io.Serializable;
 
 public class PlayerImages extends JLabel {
     private int scaleWidth = 100;
@@ -18,7 +19,7 @@ public class PlayerImages extends JLabel {
     }
 
     private PlayerImages() {
-        ImageIcon originalIcon = new ImageIcon("src\\genericSprite.png");
+        ImageIcon originalIcon = new ImageIcon("src\\FRONTSTANDING.png");
         ImageIcon frontFacingLeft = new ImageIcon("src\\FrontFacingBeowulf.png");
         this.frontFacingLeftScale = frontFacingLeft.getImage().getScaledInstance(scaleWidth, scaleHeight, Image.SCALE_SMOOTH);
         ImageIcon frontFacingRight = new ImageIcon("src\\FrontFacingRIGHTBeowulf.png");

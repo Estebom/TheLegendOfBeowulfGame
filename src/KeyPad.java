@@ -10,7 +10,7 @@ public class KeyPad extends KeyAdapter {
 
     private Interaction interaction;
     private Attack attack;
-    private PlayerSprite playerSprite;
+
     private Inventory inventory;
     private GamePlay gamePlay;
 
@@ -24,6 +24,7 @@ public class KeyPad extends KeyAdapter {
         this.interaction = new Interaction();
         this.attack = new Attack(gamePlay.getCurrentTarget());
         this.inventory = Inventory.getInstance();
+
     }
 
     public void setupEscapeKeyBinding(JComponent component, Runnable actionToPerform) {
@@ -72,7 +73,7 @@ public class KeyPad extends KeyAdapter {
                 case KeyEvent.VK_A:
                 case KeyEvent.VK_S:
                 case KeyEvent.VK_D:
-                    PlayerSprite.move(e.getKeyChar());
+                    Player.move(e.getKeyChar());
                     break;
                 case KeyEvent.VK_E:
                     java.lang.System.out.println("use collectable");
@@ -120,7 +121,7 @@ public class KeyPad extends KeyAdapter {
             case KeyEvent.VK_A:
             case KeyEvent.VK_S:
             case KeyEvent.VK_D:
-                PlayerSprite.stopMoving();
+                Player.stopMoving();
                 break;
             case KeyEvent.VK_E:
                 int t2 = (int) java.lang.System.currentTimeMillis();

@@ -108,8 +108,8 @@ public class NewGame extends JPanel {
      */
     public void createPlayer(String name){
 
-        PlayerSprite.setPlayerName(name);
-        java.lang.System.out.println(PlayerSprite.getPlayerName());
+        Player.setPlayerName(name);
+        java.lang.System.out.println(Player.getPlayerName());
     }
 
     ActionListener buttonListener = new ActionListener() {

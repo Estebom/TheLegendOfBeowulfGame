@@ -77,9 +77,9 @@ public class Enemy implements Serializable {
 
     public void findPlayer() {
 
-        while (PlayerSprite.getHealth() != 0) {
-            int x = PlayerSprite.getPlayerPosX();
-            int y = PlayerSprite.getPlayerPosY();
+        while (Player.getHealth() != 0) {
+            int x = Player.getPlayerPosX();
+            int y = Player.getPlayerPosY();
             if ((Math.abs(x - posx) <= 10) || (Math.abs(x - posy) <= 10)){
                 attack.enemyNormalAttack();
             }
