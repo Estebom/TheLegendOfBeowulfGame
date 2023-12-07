@@ -7,8 +7,10 @@ public class System {
         Enemy enemy = new Enemy("Goblin");
         Attack attack = new Attack(enemy);
 
-        ShortSword sword = new ShortSword("speedy", 200.0, 200, attack);
+        ShortSword sword = new ShortSword("speedy", 1000.0, 200, attack);
         Inventory.addCollectable(sword);
+
+
 
 
 

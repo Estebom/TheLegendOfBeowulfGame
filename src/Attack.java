@@ -5,12 +5,10 @@ import java.io.Serializable;
  */
 public  class Attack implements Serializable {
     private Enemy enemy;
-    private GamePlay gamePlay;
-    public Attack(GamePlay gamePlay) {
-        this.gamePlay = gamePlay;
-        if (this.gamePlay != null) {
-            this.enemy = this.gamePlay.getCurrentTarget();
-        }
+
+    public Attack() {
+        this.enemy = GamePlay.getCurrentTarget();
+
     }
     public Attack(Enemy enemy) {
         this.enemy = enemy;
@@ -18,14 +16,17 @@ public  class Attack implements Serializable {
 
 public void playerNormalAttack(){
         this.enemy.takeDamage(Player.getDamageOutput());
-
+        java.lang.System.out.println("player attacked");
+        java.lang.System.out.println(enemy.getHealth());
 }
 public void enemyNormalAttack(){
-    Player.takeDamage(enemy.getDamage());
+    Player.takeDamage(this.enemy.getDamage());
+    //java.lang.System.out.println("attacking");
+    java.lang.System.out.println(Player.getHealth());
 }
 public void playerSpecialAttack(){
 
-        this.enemy.takeDamage(Player.getDamageOutput() * 1.30);
+        this.enemy.takeDamage(Player.getDamageOutput() * 1.70);
 
     }
     public void enemySpecialAttack(){

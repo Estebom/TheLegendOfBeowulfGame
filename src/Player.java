@@ -6,20 +6,25 @@ import java.io.Serializable;
 
 
 
-public class Player implements Serializable {
+public class Player implements Serializable, Movement {
     public String playerName;
     private double damageOutput;
 
     private double health;
-    private int playerPosX;
-    private int playerPosY;
+    private int playerPosX = 500;
+    private int playerPosY = 500;
     private static final int STEP = 5;
 
     private transient Timer animationTimer;
     private boolean isMoving = false;
+    private boolean isAttacking = false;
+    private boolean attackState = false;
     private char currentDirection = ' ';
     private boolean walkState = false;
+    private boolean attackFinished = false;
 
+    private static final int ATTACK_DURATION = 500;
+    private Timer attackTimer;
 
     private static Player instance;
     private static Player getInstance(){
@@ -32,50 +37,34 @@ public class Player implements Serializable {
     }
     private Player(){
         damageOutput = 1.0;
-        health = 100.0;
-
+        health = 1000.0;
+        setupAttackTimer();
 
     }
-//=======
-//        ImageIcon spawn = new ImageIcon("src\\FRONTSTANDING.png");
-//        ImageIcon frontFacingLeft = new ImageIcon("src\\FrontFacingBeowulf.png");
-//        this.frontFacingLeftScale = frontFacingLeft.getImage().getScaledInstance(scaleWidth,scaleHeight,Image.SCALE_SMOOTH);
-//        ImageIcon frontFacingRight = new ImageIcon("src\\FrontFacingRIGHTBeowulf.png");
-//        this.frontFacingRightScale = frontFacingRight.getImage().getScaledInstance(scaleWidth,scaleHeight,Image.SCALE_SMOOTH);
-//
-//        ImageIcon backFacingLeft = new ImageIcon("src\\BackLeft.png");
-//        this.backFacingLeftScale = backFacingLeft.getImage().getScaledInstance(scaleWidth,scaleHeight,Image.SCALE_SMOOTH);
-//
-//        ImageIcon backFacingRight = new ImageIcon("src\\BackRight.png");
-//        this.backFacingRightScale = backFacingRight.getImage().getScaledInstance(scaleWidth,scaleHeight,Image.SCALE_SMOOTH);
-//
-//
-//        ImageIcon leftFacingStill = new ImageIcon("src\\LeftFacingStanding.png");
-//        this.leftFacingStillScale = leftFacingStill.getImage().getScaledInstance(scaleWidth, scaleHeight, Image.SCALE_SMOOTH);
-//        ImageIcon leftFacingWalk = new ImageIcon("src\\LeftFacingwalk.png");
-//        this.leftFacingWalkScale = leftFacingWalk.getImage().getScaledInstance(scaleWidth, scaleHeight, Image.SCALE_SMOOTH);
-//        ImageIcon rightFacingWalk = new ImageIcon("src\\RightFacingwalk.png");
-//        this.rightFacingWalkScale = rightFacingWalk.getImage().getScaledInstance(scaleWidth, scaleHeight, Image.SCALE_SMOOTH);
-//        ImageIcon rightFacingStill = new ImageIcon("src\\RightFacingStanding.png");
-//        this.rightFacingStillScale = rightFacingStill.getImage().getScaledInstance(scaleWidth, scaleHeight, Image.SCALE_SMOOTH);
-//        //ImageIcon originalIcon = new ImageIcon("src\\genericSprite.png");
-//
-//
-//
-//
-//
-//
-//
-//        // Scale the image to fit the desired width and height
-//        Image scaledImage = spawn.getImage().getScaledInstance(scaleWidth, scaleHeight, Image.SCALE_SMOOTH);
-//
-//        // Set the scaled image as the icon
-//        this.setIcon(new ImageIcon(scaledImage));
-//
-//        // Optionally, set the label's size (not necessary if added to a layout manager)
-//        this.setPreferredSize(new Dimension(scaleWidth, scaleHeight));
-//>>>>>>> d487c83f6848111594173783db378950bfb69473
-
+    private void setupAttackTimer() {
+        attackTimer = new Timer(ATTACK_DURATION, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                finishAttack();
+            }
+        });
+        attackTimer.setRepeats(false); // The timer should only run once per attack
+    }
+    public static void startAttack() {
+        getInstance();
+        instance.isAttacking = true;
+        instance.attackTimer.start(); // Start the attack timer
+        PlayerImages.updateAnimation(instance.currentDirection, instance.walkState, true);
+    }
+    private static void finishAttack() {
+        getInstance();
+        instance.isAttacking = false;
+        instance.attackState = false; // Reset attack state
+        PlayerImages.updateAnimation(instance.currentDirection, instance.walkState, false);
+        if (!instance.isMoving) {
+            instance.animationTimer.stop();
+        }
+    }
     private void resetTimer(){
         getInstance();
         animationTimer = new Timer(150, new ActionListener() {
@@ -90,25 +79,33 @@ public class Player implements Serializable {
         getInstance();
         instance.isMoving = true;
         instance.currentDirection = direction;
-        switch (direction){
-            case 'w': instance.playerPosY -= STEP;break;
-            case 's': instance.playerPosY += STEP;break;
-            case 'a': instance.playerPosX -= STEP;break;
-            case 'd': instance.playerPosX += STEP;break;
-        }
+        updatePosition(direction); // Move this logic to a separate method
         PlayerImages.getInstance().setLocation(instance.playerPosX, instance.playerPosY);
-        if(!instance.animationTimer.isRunning()){
+        if (!instance.animationTimer.isRunning()) {
             instance.animationTimer.start();
         }
     }
-
-    private void updateAnimation(){
-        getInstance();
-        if(isMoving){
-            walkState = !walkState;
-            PlayerImages.getInstance().updateAnimation(currentDirection,walkState);
+    private static void updatePosition(char direction) {
+        switch (direction) {
+            case 'w': instance.playerPosY -= STEP; break;
+            case 's': instance.playerPosY += STEP; break;
+            case 'a': instance.playerPosX -= STEP; break;
+            case 'd': instance.playerPosX += STEP; break;
         }
-        else{
+    }
+
+    public void updateAnimation(){
+        getInstance();
+        if (isMoving) {
+            walkState = !walkState;
+            PlayerImages.updateAnimation(currentDirection, walkState, isAttacking);
+        } else if (isAttacking) {
+            attackState = !attackState;
+            PlayerImages.updateAnimation(currentDirection, walkState, attackState);
+            if (attackFinished) { // You need a mechanism to determine when the attack is finished
+                isAttacking = false;
+            }
+        } else {
             animationTimer.stop();
         }
     }
@@ -130,6 +127,10 @@ public class Player implements Serializable {
 
         return instance.health;
 
+    }
+    public static void setAttacking(boolean b){
+        getInstance();
+        instance.attackState = b;
     }
 
     public static double getDamageOutput() {
@@ -180,11 +181,12 @@ public class Player implements Serializable {
 
     public static void takeDamage(double damage){
         getInstance();
-        instance.health -= damage;
+        instance.health = instance.health - damage;
     }
     public static char getCurrentDirection(){
         getInstance();
         return instance.currentDirection;}
+
 
 
 

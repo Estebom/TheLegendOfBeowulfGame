@@ -16,6 +16,7 @@ public class GameMenu extends JPanel{
 
     private JButton saveButton;
     private JButton returnToGame;
+    private JButton exitToMainMenu;
 
     public GameMenu() {
 
@@ -27,11 +28,14 @@ public class GameMenu extends JPanel{
         settingsButton = new JButton("Settings");
         saveButton = new JButton("Save Game");
         returnToGame = new JButton("Return to Game");
+        exitToMainMenu = new JButton("Exit to Main Menu");
 
         Dimension buttonSize = new Dimension(50,100);
         settingsButton.setPreferredSize(buttonSize);
         saveButton.setPreferredSize(buttonSize);
         returnToGame.setPreferredSize(buttonSize);
+        exitToMainMenu.setPreferredSize(buttonSize);
+
 
         returnToGame.addActionListener(new ActionListener() {
             @Override
@@ -39,7 +43,7 @@ public class GameMenu extends JPanel{
 
                 KeyPad.setReadable(true);
                 GamePlay.hideMenu();
-
+                GamePlay.startGame();
             }
         });
         settingsButton.addActionListener(new ActionListener() {
@@ -57,11 +61,25 @@ public class GameMenu extends JPanel{
                 GameState.saveGame("test");           //Edit by Nohea
             }
         });
+
+        exitToMainMenu.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                MainDisplay.showMainMenu();
+                GamePlay.getInstance().reset();
+            }
+        });
+
+
         this.add(returnToGame);
         this.add(Box.createVerticalStrut(20)); // Space between buttons
         this.add(settingsButton);
         this.add(Box.createVerticalStrut(20)); // Space between buttons
         this.add(saveButton);
+        this.add(Box.createVerticalStrut(20));
+        this.add(exitToMainMenu);
+        this.add(Box.createVerticalStrut(20));
+
 
 
 
