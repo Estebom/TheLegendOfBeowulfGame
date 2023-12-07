@@ -5,11 +5,15 @@ import java.awt.event.ActionListener;
 
 public class Settings extends JPanel {
     private JButton goBack;
+
+
     private JComboBox<String> resolutionBox;
     private JSlider gameVolumeSlider;
     private JSlider musicVolumeSlider;
     private JLabel gameVolumeLabel;
     private JLabel musicVolumeLabel;
+
+    private Image backgroundImage;
 
 
     public Settings( ) {
@@ -18,7 +22,8 @@ public class Settings extends JPanel {
         this.setPreferredSize(new Dimension(800, 675));
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-
+        ImageIcon backdrop = new ImageIcon("src\\CastleBackDrop.png");
+        backgroundImage = backdrop.getImage();
 
 
         goBack = new JButton("Go Back to Main Menu");
@@ -78,6 +83,15 @@ public class Settings extends JPanel {
         this.add(musicVolumeSlider);
         this.add(Box.createVerticalStrut(20)); // add some space at the bottom
         this.setVisible(true);
+    }
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        java.lang.System.out.println("Painting component");
+
+        // Draw the background image
+        g.drawImage(backgroundImage, 0, 0, this.getWidth(), this.getHeight(), this);
+
+
     }
 
     ActionListener buttonListener = new ActionListener() {

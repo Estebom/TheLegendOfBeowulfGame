@@ -8,17 +8,13 @@ import java.util.ArrayList;
  */
 public  class GamePlay extends JPanel {
 
-
-
-
+    private JPanel interactionPanel;
 
     transient private JLayeredPane layeredPane;
 
     transient private GameMenu gameMenu;
 
-
-
-
+    private ArrayList<NPC> npcs = new ArrayList<>();
     private static ArrayList<Enemy> enemies =  new ArrayList<>();
     private boolean hittable = false;
 
@@ -37,6 +33,41 @@ public  class GamePlay extends JPanel {
     }
 
     public GamePlay(){
+
+        this.setBackground(Color.BLACK);
+
+        JLabel backmap = new JLabel();
+        ImageIcon mapIcon = new ImageIcon("src\\map.png");
+        backmap.setIcon(mapIcon);
+        backmap.setBounds(0,0,1980,1080);
+        backmap.setOpaque(false);
+
+
+        NPC vendor1 = new NPC("seller", 'd');
+        npcs.add(vendor1);
+        npcs.get(0).setPostion(100,300);
+        npcs.get(0).setBounds(npcs.get(0).getNpcPosX(),npcs.get(0).getNpcPosY(),100,100);
+
+        interactionPanel = npcs.get(0).showInteractionPanel();
+        interactionPanel.setBounds(npcs.get(0).getX() + - 75, npcs.get(0).getY() + - 200, interactionPanel.getWidth(), interactionPanel.getHeight());
+        interactionPanel.setVisible(false);
+
+        Enemy mimic = new Enemy("mimic");
+        mimic.setPosition(600,600);
+        mimic.setBounds(mimic.getPosx(), mimic.getPosy(),100,100);
+
+//        Enemy mimic2 = new Enemy("mimic2");
+//        mimic2.setPosition(800,800);
+//        mimic2.setBounds(mimic.getPosx(), mimic.getPosy(),100,100);
+//
+//        Enemy mimic3 = new Enemy("mimic3");
+//        mimic3.setPosition(300,300);
+//        mimic3.setBounds(mimic.getPosx(), mimic.getPosy(),100,100);
+
+        enemies.add(mimic);
+//        enemies.add(mimic2);
+//        enemies.add(mimic3);
+
 
 
         gameMenu = new GameMenu();
@@ -57,13 +88,19 @@ public  class GamePlay extends JPanel {
         layeredPane.setPreferredSize(new Dimension(1080, 1920));
         layeredPane.setLayout(null); // Set layout to null
         layeredPane.setBackground(Color.BLACK);
+        layeredPane.add(backmap, Integer.valueOf(0));
+        layeredPane.add(npcs.get(0).showInteractionPanel(),Integer.valueOf(1));
+        layeredPane.add(npcs.get(0), Integer.valueOf(1));
+        for (Enemy enemy : enemies) {
+            layeredPane.add(enemy, Integer.valueOf(1));
+        }
         PlayerImages.getInstance().setBounds(750, 750, 100, 100); // Set initial position and size
         layeredPane.add(PlayerImages.getInstance(), Integer.valueOf(1));
-        Inventory.getInstance().setBounds(750,750,500,500);
+        Inventory.getInstance().setBounds(500,500,300,300);
         layeredPane.add(Inventory.getInstance(),Integer.valueOf(2));
         layeredPane.add(gameMenu,Integer.valueOf(3));
 
-        layeredPane.setOpaque(false);
+        layeredPane.setOpaque(true);
 
         setupKeyBindings();
         this.add(layeredPane, BorderLayout.CENTER);
@@ -80,8 +117,8 @@ public  class GamePlay extends JPanel {
             Player.setStarting(instance.getWidth() / 2, instance.getHeight() / 2);
 
             PlayerImages.getInstance().setBounds(Player.getPlayerPosX(), Player.getPlayerPosY(), 100, 100); // Set initial position and size
-            Enemy bobby = new Enemy("bobby");
-            instance.enemies.add(bobby);
+
+
         }
         else{
             getInstance();
@@ -89,10 +126,25 @@ public  class GamePlay extends JPanel {
 
             Player.setStarting(Player.getPlayerPosX(),Player.getPlayerPosY());
             PlayerImages.getInstance().setBounds(Player.getPlayerPosX(), Player.getPlayerPosY(), 100, 100); // Set initial position and size
-            Enemy bobby = new Enemy("bobby");
-            instance.enemies.add(bobby);
+
+
         }
     }
+    public static void startGame() {
+        getInstance();
+        for (Enemy enemy : instance.enemies) {
+            enemy.startBehavior();
+        }
+    }
+    public static void pauseGame(){
+        getInstance();
+        for (Enemy enemy: instance.enemies){
+            enemy.stopBehavior();
+
+        }
+    }
+
+
     private void setupKeyBindings() {
         // Ensure the current instance is not null
         if (instance != null) {
@@ -121,24 +173,17 @@ public  class GamePlay extends JPanel {
         instance.revalidate();
         instance.repaint();
 
+
     }
-//    public void updateLayout(int width, int height) {
-//        PlayerImages playerImages = PlayerImages.getInstance();
-//        this.setPreferredSize(new Dimension(width, height));
-//
-//        // Update the bounds of the playerImages and gameMenu
-//        playerImages.setBounds(playerImages.getX(), playerImages.getY(), 100, 100); // Size can be dynamic
-//        gameMenu.setBounds(500, 500, 300, 200); // Adjust as needed
-//
-//        // Update the layeredPane size
-//        layeredPane.setPreferredSize(new Dimension(width, height));
-//        int newPlayerPosX = (playerImages.getX() * width) / 1080; // 1080 is the original width
-//        int newPlayerPosY = (playerImages.getY() * height) / 1920; // 1920 is the original height
-//
-//        playerImages.setBounds(newPlayerPosX, newPlayerPosY, 100, 100);
-//
-//        // Repaint and revalidate the panel
-//    }
+
+    public static void showInteraction(){
+        getInstance();
+        instance.interactionPanel.setVisible(true);
+        instance.revalidate();
+        instance.repaint();
+
+    }
+
     public  static void hideMenu(){
         getInstance();
         instance.gameMenu.setVisible(false);
@@ -174,4 +219,12 @@ public  class GamePlay extends JPanel {
         return instance.currentTarget;
     }
 
+    public static NPC accessNPC(){
+        getInstance();
+        return instance.npcs.get(0);
+    }
+
+    public  void reset(){
+
+    }
 }

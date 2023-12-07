@@ -24,17 +24,17 @@ public class Inventory extends JPanel implements Serializable {
 
     public Inventory() {
 
-        this.setSize(new Dimension(100,100));
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        this.setSize(new Dimension(300,300));
+       // this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.setBackground(Color.BLUE);
         this.setOpaque(true);
 
 
         inventoryPanel = new JPanel();
-        inventoryPanel.setLayout(new GridLayout(4, 3));
+        inventoryPanel.setLayout(new GridLayout(5, 5));
 
 
-        for (int i = 0; i < 12; i++) {
+        for (int i = 0; i < 25; i++) {
             JPanel slot = createInventorySlot();
             add(slot);
         }
@@ -170,24 +170,7 @@ public class Inventory extends JPanel implements Serializable {
 
 
 
-//    public void inventoryUI() {
-//        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-//
-//        toggleButton = new JButton("Toggle Inventory");
-//        toggleButton.addActionListener(new InventoryToggleListener());
-//        add(toggleButton);
-//
-//        inventoryPanel = new JPanel();
-//        inventoryPanel.setLayout(new GridLayout(4, 3));
-//        inventoryPanel.setVisible(false);
-//
-//        for (int i = 0; i < 12; i++) {
-//            JPanel slot = createInventorySlot();
-//            add(slot);
-//        }
-//
-//        add(inventoryPanel);
-//    }
+
 
 
 
@@ -200,14 +183,5 @@ public class Inventory extends JPanel implements Serializable {
 
     }
 
-//    public static void main(String[] args) {
-//        JFrame frame = new JFrame("Game Window");
-//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        frame.setSize(400, 300);
-//
-//        Inventory inventory = new Inventory();
-//        frame.add(inventory);
-//
-//        frame.setVisible(true);
-//    }
+
 }

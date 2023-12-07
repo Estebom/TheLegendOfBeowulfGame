@@ -6,8 +6,19 @@ public class PlayerImages extends JLabel {
     private int scaleWidth = 100;
     private int scaleHeight = 100;
     ImageIcon playerIcon;
-    private Image leftFacingStillScale, leftFacingWalkScale, rightFacingWalkScale, rightFacingStillScale;
-    private Image frontFacingLeftScale, frontFacingRightScale, backFacingLeftScale, backFacingRightScale;
+    private static ImageIcon frontFacingLeftIcon;
+    private static ImageIcon frontFacingRightIcon;
+    private static ImageIcon backFacingLeftIcon;
+    private static ImageIcon backFacingRightIcon;
+    private static ImageIcon leftFacingStillIcon;
+    private static ImageIcon leftFacingWalkIcon;
+    private static ImageIcon rightFacingWalkIcon;
+    private static ImageIcon rightFacingStillIcon;
+    private ImageIcon originalIcon;
+    private static ImageIcon leftFacingWalkIconSword;
+    private static ImageIcon rightFacingWalkIconSword;
+    private static ImageIcon frontFacingWalkIconSword;
+    private static ImageIcon backLeftSword;
     private static PlayerImages instance;
 
     public static PlayerImages getInstance() {
@@ -19,79 +30,84 @@ public class PlayerImages extends JLabel {
     }
 
     private PlayerImages() {
-        ImageIcon originalIcon = new ImageIcon("src\\FRONTSTANDING.png");
-        ImageIcon frontFacingLeft = new ImageIcon("src\\FrontFacingBeowulf.png");
-        this.frontFacingLeftScale = frontFacingLeft.getImage().getScaledInstance(scaleWidth, scaleHeight, Image.SCALE_SMOOTH);
-        ImageIcon frontFacingRight = new ImageIcon("src\\FrontFacingRIGHTBeowulf.png");
-        this.frontFacingRightScale = frontFacingRight.getImage().getScaledInstance(scaleWidth, scaleHeight, Image.SCALE_SMOOTH);
+        originalIcon = loadScaledIcon("src\\FRONTSTANDING.png");
+        frontFacingLeftIcon = loadScaledIcon("src\\FrontFacingBeowulf.png");
+        frontFacingRightIcon = loadScaledIcon("src\\FrontFacingRIGHTBeowulf.png");
+        backFacingLeftIcon = loadScaledIcon("src\\BackLeft.png");
+        backFacingRightIcon = loadScaledIcon("src\\BackRight.png");
+        leftFacingStillIcon = loadScaledIcon("src\\LeftFacingStanding.png");
+        leftFacingWalkIcon = loadScaledIcon("src\\LeftFacingwalk.png");
+        rightFacingWalkIcon = loadScaledIcon("src\\RightFacingwalk.png");
+        rightFacingStillIcon = loadScaledIcon("src\\RightFacingStanding.png");
 
-        ImageIcon backFacingLeft = new ImageIcon("src\\BackLeft.png");
-        this.backFacingLeftScale = backFacingLeft.getImage().getScaledInstance(scaleWidth, scaleHeight, Image.SCALE_SMOOTH);
-
-        ImageIcon backFacingRight = new ImageIcon("src\\BackRight.png");
-        this.backFacingRightScale = backFacingRight.getImage().getScaledInstance(scaleWidth, scaleHeight, Image.SCALE_SMOOTH);
-
-
-        ImageIcon leftFacingStill = new ImageIcon("src\\LeftFacingStanding.png");
-        this.leftFacingStillScale = leftFacingStill.getImage().getScaledInstance(scaleWidth, scaleHeight, Image.SCALE_SMOOTH);
-        ImageIcon leftFacingWalk = new ImageIcon("src\\LeftFacingwalk.png");
-        this.leftFacingWalkScale = leftFacingWalk.getImage().getScaledInstance(scaleWidth, scaleHeight, Image.SCALE_SMOOTH);
-        ImageIcon rightFacingWalk = new ImageIcon("src\\RightFacingwalk.png");
-        this.rightFacingWalkScale = rightFacingWalk.getImage().getScaledInstance(scaleWidth, scaleHeight, Image.SCALE_SMOOTH);
-        ImageIcon rightFacingStill = new ImageIcon("src\\RightFacingStanding.png");
-        this.rightFacingStillScale = rightFacingStill.getImage().getScaledInstance(scaleWidth, scaleHeight, Image.SCALE_SMOOTH);
-        //ImageIcon originalIcon = new ImageIcon("src\\genericSprite.png");
-
-        // Scale the image to fit the desired width and height
-        Image scaledImage = originalIcon.getImage().getScaledInstance(scaleWidth, scaleHeight, Image.SCALE_SMOOTH);
-
-        // Set the scaled image as the icon
-        this.setIcon(new ImageIcon(scaledImage));
-
-        // Optionally, set the label's size (not necessary if added to a layout manager)
+        leftFacingWalkIconSword = loadScaledIcon("src\\LeftFacingWalkSword.png");
+        rightFacingWalkIconSword = loadScaledIcon("src\\RightFacingwalkSword.png");
+        frontFacingWalkIconSword = loadScaledIcon("src\\FrontFacingBeowulfSwordRight.png");
+        backLeftSword = loadScaledIcon("src\\BackLeftSword.png");
+        // Set the initial icon
+        this.setIcon(originalIcon);
         this.setPreferredSize(new Dimension(scaleWidth, scaleHeight));
     }
 
-    public void updateAnimation(char currentDirection, boolean walkState){
+    private ImageIcon loadScaledIcon(String path) {
+        ImageIcon icon = new ImageIcon(path);
+        Image scaledImage = icon.getImage().getScaledInstance(scaleWidth, scaleHeight, Image.SCALE_SMOOTH);
+        return new ImageIcon(scaledImage);
+    }
+    public static void updateAnimation(char currentDirection, boolean walkState, boolean attackState) {
         ImageIcon icon = null;
-        switch (currentDirection){
-            case 'w':
-                icon = walkState ? new ImageIcon(backFacingLeftScale) : new ImageIcon(backFacingRightScale);
-                break;
-            case 's':
-                icon = walkState ? new ImageIcon(frontFacingLeftScale): new ImageIcon(frontFacingRightScale);
-                break;
-            case 'a':
-                icon = walkState ? new ImageIcon(leftFacingWalkScale) : new ImageIcon(leftFacingStillScale);
-                break;
-            case 'd':
-                icon = walkState ? new ImageIcon(rightFacingWalkScale) : new ImageIcon(rightFacingStillScale);
-//                getInstance().setIcon(new ImageIcon(rightFacingWalkScale));
-                break;
+        if (attackState) {
+            switch (currentDirection) {
+                case 'a': icon = leftFacingWalkIconSword;
+                    break;
+                case 'd': icon = rightFacingWalkIconSword;
+                    break;
+                case 'w': icon = backLeftSword;
+                    break;
+                case 's': icon = frontFacingWalkIconSword;
+                    break;
+            }
+        } else {
+            switch (currentDirection) {
+                case 'w':
+                    icon = walkState ? backFacingLeftIcon : backFacingRightIcon;
+                    break;
+                case 's':
+                    icon = walkState ? frontFacingLeftIcon : frontFacingRightIcon;
+                    break;
+                case 'a':
+                    icon = walkState ? leftFacingWalkIcon : leftFacingStillIcon;
+                    break;
+                case 'd':
+                    icon = walkState ? rightFacingWalkIcon : rightFacingStillIcon;
+                    break;
+            }
         }
-        if(icon != null){
-            getInstance().setIcon(icon);
+        if (icon != null) {
+            instance.setIcon(icon);
         }
     }
 
-    public void stopMoving(char currentDirection){
+
+
+    public void stopMoving(char currentDirection) {
         ImageIcon icon = null;
         switch (currentDirection) {
             case 'w':
-                icon = new ImageIcon(backFacingRightScale);
+                icon = backFacingRightIcon;
                 break;
             case 's':
-                icon = new ImageIcon(frontFacingRightScale);
+                icon = frontFacingRightIcon;
                 break;
             case 'a':
-                icon = new ImageIcon(leftFacingStillScale);
+                icon = leftFacingStillIcon;
                 break;
             case 'd':
-                icon = new ImageIcon(rightFacingStillScale);
+                icon = rightFacingStillIcon;
                 break;
         }
-        if(icon != null){
-            getInstance().setIcon(icon);
+        if (icon != null) {
+            this.setIcon(icon);
         }
     }
 

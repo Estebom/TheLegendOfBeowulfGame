@@ -19,6 +19,8 @@ public class MainMenu extends JPanel{
 
     JPanel centerPanel;
 
+    private Image backgroundImage;
+
 
     public MainMenu( ){
 
@@ -26,6 +28,11 @@ public class MainMenu extends JPanel{
 
         this.setPreferredSize(new Dimension(2560, 1440));
         this.setLayout(new BorderLayout());
+
+
+
+        ImageIcon backdrop = new ImageIcon("src\\CastleBackDrop.png");
+        backgroundImage = backdrop.getImage();
 
 
 
@@ -70,17 +77,30 @@ public class MainMenu extends JPanel{
         buttonLayout.add(Box.createRigidArea(new Dimension(0, 25))); // 10-pixel vertical space
         buttonLayout.add(exitGameButton);
         buttonLayout.add(Box.createVerticalGlue());
-        buttonLayout.setBackground(Color.RED);
+
 
         centerPanel = new JPanel(new GridBagLayout());
         centerPanel.add(buttonLayout);
         centerPanel.setSize(new Dimension(800,675));
         centerPanel.setMaximumSize(new Dimension(800,675));
-        centerPanel.setBackground(Color.RED);
+
+
+        centerPanel.setOpaque(false);
+        buttonLayout.setOpaque(false);
+
 
         this.add(centerPanel, BorderLayout.CENTER);
         this.setVisible(true);
 
+
+
+    }
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        java.lang.System.out.println("Painting component");
+
+        // Draw the background image
+        g.drawImage(backgroundImage, 0, 0, this.getWidth(), this.getHeight(), this);
 
 
     }
@@ -98,6 +118,7 @@ public class MainMenu extends JPanel{
 
                                      //Edit by Nohea
                     MainDisplay.loadedGamePlay();
+                    GamePlay.startGame();
                     break;
                 case "SETTINGS":
                     MainDisplay.showSettings();
