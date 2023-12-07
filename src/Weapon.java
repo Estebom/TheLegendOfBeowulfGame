@@ -28,7 +28,7 @@ public class Weapon implements Collectable, Serializable {
             this.weaponName = weapon.getWeaponName();
             this.weaponDamage = weapon.getWeaponDamage();
             this.price = weapon.getPrice();
-            this.attack = new Attack();
+            this.attack = new Attack(GamePlay.getCurrentTarget());
         }
     }
 
@@ -67,6 +67,7 @@ public class Weapon implements Collectable, Serializable {
             else {
 
                 attack.playerNormalAttack();
+                java.lang.System.out.println("Normal attack");
                 //normal attack
             }
         }

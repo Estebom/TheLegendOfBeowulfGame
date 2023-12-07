@@ -25,6 +25,8 @@ public class Enemy extends EnemyImages implements Serializable , Movement {
     private boolean walkState = false;
     private volatile boolean active = true;
     private volatile boolean attacking = false;
+    private boolean inKnockback = false;
+
 
 
     private int posx;
@@ -66,6 +68,8 @@ public class Enemy extends EnemyImages implements Serializable , Movement {
         return this.damage;
     }
 
+    public char getCurrentDirection(){return this.currentDirection;}
+
     public int getSpeed() {
         return this.speed;
     }
@@ -96,6 +100,23 @@ public class Enemy extends EnemyImages implements Serializable , Movement {
 
     public int getPosy() {
         return this.posy;
+    }
+    public void setPosx(int posx){this.posx = posx;}
+    public void setPosy(int posy){this.posy = posy;}
+    public void suspendNormalMovement() {
+        inKnockback = true;
+        java.lang.System.out.println("Movement suspended");
+
+    }
+    public void resumeNormalMovementAfterDelay() {
+        int delay = 500; // Adjust the delay as needed
+        Timer resumeTimer = new Timer(delay, e -> {
+            inKnockback = false;
+            java.lang.System.out.println("Movement resumed");
+            ((Timer)e.getSource()).stop(); // Stop the timer after execution
+        });
+        resumeTimer.setRepeats(false); // Ensure the timer only runs once
+        resumeTimer.start();
     }
 
     public void setPosition(int posx, int posy) {
@@ -150,6 +171,7 @@ public class Enemy extends EnemyImages implements Serializable , Movement {
                 this.getParent().repaint();
             }
         });
+        java.lang.System.out.println("Updated Position in move - X: " + this.posx + ", Y: " + this.posy);
     }
 
     private void updateAnimation() {
@@ -191,20 +213,22 @@ public class Enemy extends EnemyImages implements Serializable , Movement {
                             stopBehavior();
                             break;
                         }
-                        // Check if the player is within attack range
-                        if ((Math.abs(x - posx) <= 25) && (Math.abs(y - posy) <= 25)) {
-                            // Player is within attack range
-                            SwingUtilities.invokeLater(() -> attack.enemyNormalAttack());
-                        } else {
-                            // Player is out of attack range, update the enemy's position
-                            char direction = determineDirection(x, y);
-                            SwingUtilities.invokeLater(() -> move(direction));
+                        if (!inKnockback) {
+                            // Check if the player is within attack range
+                            if ((Math.abs(x - posx) <= 25) && (Math.abs(y - posy) <= 25)) {
+                                // Player is within attack range
+                                SwingUtilities.invokeLater(() -> attack.enemyNormalAttack());
+                            } else {
+                                // Player is out of attack range, update the enemy's position
+                                char direction = determineDirection(x, y);
+                                SwingUtilities.invokeLater(() -> move(direction));
+                            }
                         }
-
                         Thread.sleep(100); // Control the rate of checking and attacking
                     }
                     return null;
                 }
+                // ... existing code ...
 
                 private char determineDirection(int playerX, int playerY) {
                     // Implement logic to determine direction based on player position

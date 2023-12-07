@@ -43,6 +43,9 @@ public class Inventory extends JPanel implements Serializable {
         this.setVisible(false);
 
 
+
+
+
     }
     private JPanel createInventorySlot() {
         JPanel slot = new JPanel();

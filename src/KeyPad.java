@@ -9,7 +9,7 @@ import java.awt.event.KeyEvent;
 public class KeyPad extends KeyAdapter {
 
     private Interaction interaction;
-    private Attack attack;
+
 
 
     private static KeyPad instance;
@@ -21,7 +21,7 @@ public class KeyPad extends KeyAdapter {
 
     private KeyPad() {
         this.interaction = new Interaction();
-        this.attack = new Attack(GamePlay.getCurrentTarget());
+
     }
 
     public static void setupEscapeKeyBinding(JComponent component, Runnable actionToPerform) {
@@ -228,7 +228,7 @@ public class KeyPad extends KeyAdapter {
                                 }
                                 // Normal attack
                                 weapon.use(false, (int) elapsedTime);
-                                java.lang.System.out.println("Normal attack");
+
 
                             }
                         }else { weapon.swing(true, (int) elapsedTime);

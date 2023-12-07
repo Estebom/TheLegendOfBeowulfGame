@@ -23,7 +23,7 @@ public class Player implements Serializable, Movement {
     private boolean walkState = false;
     private boolean attackFinished = false;
 
-    private static final int ATTACK_DURATION = 500;
+    private static final int ATTACK_DURATION = 250;
     private Timer attackTimer;
 
     private static Player instance;
@@ -187,7 +187,16 @@ public class Player implements Serializable, Movement {
         getInstance();
         return instance.currentDirection;}
 
+    public static void setPlayerPosX(int posX){
+        getInstance();
+        instance.playerPosX = posX;
 
+    }
+    public static void setPlayerPosY(int posY){
+        getInstance();
+
+        instance.playerPosY = posY;
+    }
 
 
     public static void writeToOutputStream(ObjectOutputStream outputStream)throws java.io.IOException{
