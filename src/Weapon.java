@@ -12,7 +12,7 @@ public class Weapon implements Collectable, Serializable {
 
 
 
-    private int t1,t2;
+    private long t1,t2 = 0;
 
 
     public Weapon(String weaponName, double weaponDamage, int price, Attack attack){
@@ -28,7 +28,7 @@ public class Weapon implements Collectable, Serializable {
             this.weaponName = weapon.getWeaponName();
             this.weaponDamage = weapon.getWeaponDamage();
             this.price = weapon.getPrice();
-            this.attack = new Attack(gamePlay);
+            this.attack = new Attack(GamePlay.getCurrentTarget());
         }
     }
 
@@ -56,28 +56,27 @@ public class Weapon implements Collectable, Serializable {
 
     @Override
     public void use(boolean b, int t) {
+        java.lang.System.out.println("using");
 
-        if(b = false){
-            this.t1 = t;
-        }
-        else {
-            this.t2 =t;
-            if(this.t2 - this.t1 > 1500){
+
+            if(t > 1500){
                 //special attack
                 attack.playerSpecialAttack();
+                java.lang.System.out.println("special attack");
             }
             else {
 
                 attack.playerNormalAttack();
+                java.lang.System.out.println("Normal attack");
                 //normal attack
             }
         }
 
 
-    }
+
     public void swing(boolean b, int t){
 
-        if(b = false){
+        if(b == false){
             this.t1 = t;
         }
         else {

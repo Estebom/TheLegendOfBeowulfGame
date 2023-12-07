@@ -1,3 +1,4 @@
+import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
 
@@ -10,6 +11,8 @@ public class MainDisplay extends JFrame {
 
     private Settings settings;
     private GameMenu gameMenu;
+    private static Clip musicClip;
+    private static Clip gameSoundClip;
     private static MainDisplay instance;
 
     public MainDisplay() {
@@ -36,6 +39,8 @@ public class MainDisplay extends JFrame {
 
         this.setLocationRelativeTo(null);
         this.setVisible(true);
+        startMainMenuMusic();
+
     }
 
 
@@ -70,6 +75,8 @@ public class MainDisplay extends JFrame {
         getInstance();
         ((CardLayout)instance.getContentPane().getLayout()).show(instance.getContentPane(), "START");
         GamePlay.initialize(false);
+        stopPlayingMusic();
+        startGamePlayMusic();
 
     }
     public static void loadedGamePlay(){
@@ -87,7 +94,28 @@ public class MainDisplay extends JFrame {
         ((CardLayout)instance.getContentPane().getLayout()).show(instance.getContentPane(), "SETTINGS");
     }
 
+    public static void startMainMenuMusic() {
 
+        AudioPlayer.startLoopingSound("audio\\MainMenuTheme.wav");
+    }
+
+    public static void stopPlayingMusic() {
+
+        AudioPlayer.stopSound();
+    }
+
+    public static void startGamePlayMusic(){
+
+
+        AudioPlayer.startLoopingSound("audio\\estebom_Theme.wav");
+    }
+    public static Clip getMusicClip() {
+        return musicClip;
+    }
+
+    public static Clip getGameSoundClip() {
+        return gameSoundClip;
+    }
 
 
 

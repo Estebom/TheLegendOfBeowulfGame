@@ -1,29 +1,27 @@
+//Esteban Rodriguez & Alfonso Avila
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
 /**
- * used to handle keyboard inputs during GamePlay
+ * Used to handle keyboard inputs during GamePlay
  * @author Esteban
  */
 public class KeyPad extends KeyAdapter {
 
     private Interaction interaction;
-    private Attack attack;
-
 
 
 
     private static KeyPad instance;
+    private long pressTime = 0;
 
 
     private boolean readKeys = true;
+    private int inventoryToggle = 1;
 
     private KeyPad() {
-
         this.interaction = new Interaction();
-        this.attack = new Attack(GamePlay.getCurrentTarget());
-
 
     }
 
@@ -36,6 +34,9 @@ public class KeyPad extends KeyAdapter {
         InputMap inputMap = component.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
         ActionMap actionMap = component.getActionMap();
 
+
+
+
         inputMap.put(escapeKeyStroke, "performAction");
         actionMap.put("performAction", new AbstractAction() {
             @Override
@@ -45,9 +46,45 @@ public class KeyPad extends KeyAdapter {
         });
     }
 
+    public static void setupMKeyBinding(JComponent component, Runnable actionToPerform) {
+        if (component == null) {
+            throw new IllegalArgumentException("Component cannot be null");
+        }
+
+        KeyStroke mkeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_M,0);
+        InputMap inputMap = component.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        ActionMap actionMap = component.getActionMap();
+
+        inputMap.put(mkeyStroke, "openInventory");
+        actionMap.put("openInventory", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                actionToPerform.run();
+            }
+        });
+    }
+
+    public static void setupQKeyBinding(JComponent component, Runnable actionToPerform) {
+        if (component == null) {
+            throw new IllegalArgumentException("Component cannot be null");
+        }
+
+        KeyStroke mkeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_Q,0);
+        InputMap inputMap = component.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        ActionMap actionMap = component.getActionMap();
+
+        inputMap.put(mkeyStroke, "openInteraction");
+        actionMap.put("openInteraction", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                actionToPerform.run();
+            }
+        });
+    }
 
     public static KeyPad getInstance(GamePlay gamePlay) {
-
         if (instance == null) {
             instance = new KeyPad();
         }
@@ -56,7 +93,7 @@ public class KeyPad extends KeyAdapter {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        if (readKeys == true) {
+        if (readKeys) {
             switch (e.getKeyCode()) {
                 case KeyEvent.VK_1:
                 case KeyEvent.VK_2:
@@ -72,26 +109,29 @@ public class KeyPad extends KeyAdapter {
                     }
                     break;
                 case KeyEvent.VK_W:
-                    java.lang.System.out.println("w");
                 case KeyEvent.VK_A:
-                    java.lang.System.out.println("a");
                 case KeyEvent.VK_S:
-                    java.lang.System.out.println("s");
                 case KeyEvent.VK_D:
-                    java.lang.System.out.println("d");
                     Player.move(e.getKeyChar());
                     break;
                 case KeyEvent.VK_E:
-                    java.lang.System.out.println("use collectable");
-                    int t1 = (int) java.lang.System.currentTimeMillis();
-                    Collectable hotbarCollectable = Inventory.accessHotBar();
-                    if (hotbarCollectable != null) {
-                        hotbarCollectable.use(false, t1);
+//                    java.lang.System.out.println("use collectable");
+//                    int t1 = (int) java.lang.System.currentTimeMillis();
+//                    Collectable hotbarCollectable = Inventory.accessHotBar();
+//                    if (hotbarCollectable != null) {
+//                        hotbarCollectable.use(false, t1);
+//                    }
+                    if(Inventory.accessHotBar() instanceof Weapon){
+                        Player.startAttack();
+                        if (pressTime == 0) { // Only set if not already pressed
+                        pressTime = java.lang.System.currentTimeMillis();
+                        }
                     }
                     break;
-                case KeyEvent.VK_Q:
-                    java.lang.System.out.println("interact");
 
+                case KeyEvent.VK_Q:
+                    java.lang.System.out.println("Interact");
+                    handleInteraction();
                     break;
                 case KeyEvent.VK_O:
                     java.lang.System.out.println("attack");
@@ -101,24 +141,59 @@ public class KeyPad extends KeyAdapter {
                     break;
                 case KeyEvent.VK_M:
                     java.lang.System.out.println("inventory open");
-                    //toggle to close
+                    Inventory.inventoryToggle();
+                    if(inventoryToggle == 1) {
+                        GamePlay.pauseGame();
+                        inventoryToggle++;
+                    }
+                    else {
+                        GamePlay.startGame();
+                        inventoryToggle = 1;
+                    }
                     break;
                 case KeyEvent.VK_N:
                     java.lang.System.out.println("dropped item");
                     break;
                 case KeyEvent.VK_ESCAPE:
                     java.lang.System.out.println("escape pressed");
-
                     GamePlay.showGameMenu();
+                    GamePlay.pauseGame();
 
                     this.readKeys = false;
                     // Add your action for ESC key here
                     break;
-
             }
-
         }
     }
+
+    private void handleInteraction() {
+        if (isNPCInRange()) {
+            java.lang.System.out.println("interacting");
+            GamePlay.showInteraction();
+
+          // interaction.npcInteraction(GamePlay.accessNPC());
+        }
+    }
+
+    private boolean isNPCInRange() {
+        int playerX = Player.getPlayerPosX();
+        int playerY = Player.getPlayerPosY();
+        int npcX = GamePlay.accessNPC().getNpcPosX();
+        int npcY = GamePlay.accessNPC().getNpcPosY();
+        char playerDirection = Player.getCurrentDirection();
+        char npcDirection = GamePlay.accessNPC().getDirection();
+
+        double distance = Math.sqrt(Math.pow(playerX - npcX, 2) + Math.pow(playerY - npcY, 2));
+        double interactionThreshold = 50.0;
+
+        return (distance <= interactionThreshold) &&
+                (playerDirection == 'w' && npcDirection == 's' ||
+                 playerDirection == 's' && npcDirection == 'w' ||
+                 playerDirection == 'a' && npcDirection == 'd' ||
+                 playerDirection == 'd' && npcDirection == 'a');
+    }
+
+
 
     @Override
     public void keyReleased(KeyEvent e) {
@@ -130,37 +205,65 @@ public class KeyPad extends KeyAdapter {
                 Player.stopMoving();
                 break;
             case KeyEvent.VK_E:
-                int t2 = (int) java.lang.System.currentTimeMillis();
-                Collectable collectable = Inventory.accessHotBar();
+                if (pressTime != 0) {
+                    long releaseTime = java.lang.System.currentTimeMillis();
+                    long elapsedTime = releaseTime - pressTime;
+                    pressTime = 0;
 
-                if (collectable != null && collectable instanceof Weapon) {
-                    Weapon weapon = (Weapon) collectable;
-                    if (GamePlay.hittable()) {
-                        weapon.use(true, t2);
+                    Collectable collectable = Inventory.accessHotBar();
+                    if (collectable != null && collectable instanceof Weapon) {
+                        Weapon weapon = (Weapon) collectable;
+                        if (GamePlay.hittable()) {
+                            if (elapsedTime > 1500) {
+                                weapon.use(true, (int) elapsedTime);
+                                java.lang.System.out.println("Special attack");
 
+                            } else {
+                                if (weapon instanceof ShortSword) {
+                                    ShortSword shortSword = (ShortSword) weapon;
+                                    shortSword.criticalHits();
+                                    shortSword.use(true, (int) elapsedTime);
+                                    shortSword.resetDamage();
+
+
+                                }
+                                // Normal attack
+                                weapon.use(false, (int) elapsedTime);
+
+
+                            }
+                        }else { weapon.swing(true, (int) elapsedTime);
                         if (weapon instanceof ShortSword) {
                             ShortSword shortSword = (ShortSword) weapon;
                             shortSword.criticalHits();
-                        }
-                    } else {
-                        weapon.swing(true, t2);
-                        if (weapon instanceof ShortSword) {
-                            ShortSword shortSword = (ShortSword) weapon;
-                            shortSword.setMultiplierCount(0);
                             java.lang.System.out.println("i swung");
                         }
                     }
-                } else if (collectable instanceof Item) {
+                    }
+                        else if (collectable instanceof Item) {
                     Item item = (Item) collectable;
-                    item.use(true, t2);
+                    item.use(true, (int) elapsedTime);
                 }
+                    }
                 break;
-        }
+                    }
+                    }
 
 
 
-    }
-    public static void setReadable(boolean readable){
+
+
+    public static void setReadable(boolean readable) {
+
         instance.readKeys = readable;
     }
 }
+
+
+
+
+
+
+
+
+

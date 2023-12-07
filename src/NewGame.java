@@ -21,14 +21,24 @@ public class NewGame extends JPanel {
 
     JPanel newGameFeatures;
     JPanel difLayout;
+
+    private Image backgroundImage;
+
     public NewGame(){
 
 
 
 
-        this.setPreferredSize(new Dimension(800, 675));
+        this.setPreferredSize(new Dimension(1980, 1080));
         this.setLayout(new GridBagLayout());
-        this.setBackground(Color.BLUE);
+
+
+
+        ImageIcon backdrop = new ImageIcon("src\\CastleBackDrop.png");
+        backgroundImage = backdrop.getImage();
+
+
+
 
         newGameFeatures = new JPanel(new GridBagLayout());
         GridBagConstraints gbcFeatures = new GridBagConstraints();
@@ -38,6 +48,7 @@ public class NewGame extends JPanel {
 
         difLayout = new JPanel();
         difLayout.setLayout(new FlowLayout());
+        difLayout.setOpaque(false);
 
 
         name = new JTextField("Player what is your name?");
@@ -53,11 +64,14 @@ public class NewGame extends JPanel {
 
 
 
+
         easyButton = new JButton("Easy");
         easyButton.setPreferredSize(new Dimension(250,100));
+        easyButton.setOpaque(true);
 
         mediumButton = new JButton("Medium");
         mediumButton.setPreferredSize(new Dimension(250,100));
+        mediumButton.setOpaque(true);
 
         hardButton = new JButton("Hard");
         hardButton.setPreferredSize(new Dimension(250,100));
@@ -67,6 +81,7 @@ public class NewGame extends JPanel {
         difLayout.add(easyButton);
         difLayout.add(mediumButton);
         difLayout.add(hardButton);
+        difLayout.setOpaque(false);
 
         gbcFeatures.gridy++;
         newGameFeatures.add(difLayout, gbcFeatures);
@@ -84,6 +99,7 @@ public class NewGame extends JPanel {
         goBack.setActionCommand("MainMenu");
         goBack.addActionListener(buttonListener);
         newGameFeatures.add(goBack, gbcFeatures);
+        newGameFeatures.setOpaque(false);
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
@@ -92,10 +108,10 @@ public class NewGame extends JPanel {
         gbc.weighty = 1.0;
         gbc.fill = GridBagConstraints.NONE;
 
-        newGameFeatures.setBackground(Color.RED);
+
+
 
         this.add(newGameFeatures, gbc);
-
         this.setVisible(true);
 
     }
@@ -109,6 +125,11 @@ public class NewGame extends JPanel {
         Player.setPlayerName(name);
         java.lang.System.out.println(Player.getPlayerName());
     }
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        // Draw the background image
+        g.drawImage(backgroundImage, 0, 0, this.getWidth(), this.getHeight(), this);
+    }
 
     ActionListener buttonListener = new ActionListener() {
         @Override
@@ -120,6 +141,8 @@ public class NewGame extends JPanel {
                     createPlayer(name.getText());
                     MainDisplay.showGamePlay();
                     GamePlay.initializeKeyPad();
+                    GamePlay.startGame();
+
                     break;
 
                 case "MainMenu":
