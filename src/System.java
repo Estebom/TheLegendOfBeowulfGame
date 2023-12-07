@@ -11,18 +11,6 @@ public class System {
         Inventory.addCollectable(sword);
 
 
-
-
-
-
-
-
-
-
-
-
-
-
     }
 
 
