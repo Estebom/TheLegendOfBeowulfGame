@@ -107,7 +107,7 @@ public class MainDisplay extends JFrame {
     public static void startGamePlayMusic(){
 
 
-        AudioPlayer.startLoopingSound("audio\\estebom_Theme.wav");
+        AudioPlayer.startLoopingSound("audio\\estebom_theme.wav");
     }
     public static Clip getMusicClip() {
         return musicClip;
