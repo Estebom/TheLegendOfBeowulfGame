@@ -187,7 +187,16 @@ public class Player implements Serializable, Movement {
         getInstance();
         return instance.currentDirection;}
 
+    public static void setPlayerPosX(int posX){
+        getInstance();
+        instance.playerPosX = posX;
 
+    }
+    public static void setPlayerPosY(int posY){
+        getInstance();
+
+        instance.playerPosY = posY;
+    }
 
 
     public static void writeToOutputStream(ObjectOutputStream outputStream)throws java.io.IOException{

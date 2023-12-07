@@ -21,6 +21,7 @@ public  class GamePlay extends JPanel {
     private Enemy currentTarget;
 
     private static GamePlay instance;
+    private Attack attack;
 
     public static GamePlay getInstance(){
 
@@ -56,17 +57,17 @@ public  class GamePlay extends JPanel {
         mimic.setPosition(600,600);
         mimic.setBounds(mimic.getPosx(), mimic.getPosy(),100,100);
 
-//        Enemy mimic2 = new Enemy("mimic2");
-//        mimic2.setPosition(800,800);
-//        mimic2.setBounds(mimic.getPosx(), mimic.getPosy(),100,100);
-//
-//        Enemy mimic3 = new Enemy("mimic3");
-//        mimic3.setPosition(300,300);
-//        mimic3.setBounds(mimic.getPosx(), mimic.getPosy(),100,100);
+        Enemy mimic2 = new Enemy("mimic2");
+        mimic2.setPosition(800,800);
+        mimic2.setBounds(mimic.getPosx(), mimic.getPosy(),100,100);
+
+        Enemy mimic3 = new Enemy("mimic3");
+        mimic3.setPosition(300,300);
+        mimic3.setBounds(mimic.getPosx(), mimic.getPosy(),100,100);
 
         enemies.add(mimic);
-//        enemies.add(mimic2);
-//        enemies.add(mimic3);
+        enemies.add(mimic2);
+        enemies.add(mimic3);
 
 
 
@@ -104,6 +105,10 @@ public  class GamePlay extends JPanel {
 
         setupKeyBindings();
         this.add(layeredPane, BorderLayout.CENTER);
+
+        attack = new Attack(enemies.get(0));
+        ShortSword sword = new ShortSword("speedy", 1000.0, 200, attack);
+        Inventory.addCollectable(sword);
     }
 
     /**
@@ -195,28 +200,56 @@ public  class GamePlay extends JPanel {
         return instance.enemies.get(i);
     }
 
-    public static boolean hittable(){
+    public static boolean hittable() {
         getInstance();
-        char[] directions = {'w','s','a','d'};
-        for(int i = 0; i < directions.length; i++) {
-            for (int j = 0; j < instance.enemies.size(); j++) {
-                if ((Math.abs(Player.getPlayerPosX() - enemies.get(j).getPosx() )<=10)
-                    ||(Math.abs(Player.getPlayerPosY() - enemies.get(j).getPosy() )<=10)){
+        char playerDirection = Player.getCurrentDirection();
 
-                    instance.hittable = true;
-                    instance.currentTarget = enemies.get(j);
-                    return instance.hittable;
-                }
+        for (Enemy enemy : instance.enemies) {
+            int xDistance = Player.getPlayerPosX() - enemy.getPosx();
+            int yDistance = Player.getPlayerPosY() - enemy.getPosy();
 
+            switch (playerDirection) {
+                case 'w':
+                    if (yDistance > 0 && Math.abs(yDistance) <= 35 && Math.abs(xDistance) <= 35) {
+                        setHittableEnemy(enemy);
+                        return true;
+                    }
+                    break;
+                case 's':
+                    if (yDistance < 0 && Math.abs(yDistance) <= 35 && Math.abs(xDistance) <= 35) {
+                        setHittableEnemy(enemy);
+                        return true;
+                    }
+                    break;
+                case 'a':
+                    if (xDistance > 0 && Math.abs(xDistance) <= 35 && Math.abs(yDistance) <= 35) {
+                        setHittableEnemy(enemy);
+                        return true;
+                    }
+                    break;
+                case 'd':
+                    if (xDistance < 0 && Math.abs(xDistance) <= 35 && Math.abs(yDistance) <= 35) {
+                        setHittableEnemy(enemy);
+                        return true;
+                    }
+                    break;
             }
         }
+
         instance.hittable = false;
-        return instance.hittable;
+        return false;
     }
     public static Enemy getCurrentTarget(){
         getInstance();
 
         return instance.currentTarget;
+    }
+
+    private static void setHittableEnemy(Enemy enemy) {
+        instance.hittable = true;
+        instance.currentTarget = enemy;
+        instance.attack.setCurrentTarget(getCurrentTarget());
+
     }
 
     public static NPC accessNPC(){
