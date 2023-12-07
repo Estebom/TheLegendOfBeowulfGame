@@ -1,4 +1,8 @@
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -57,6 +61,14 @@ public class Settings extends JPanel {
         gameVolumeSlider.setPaintTicks(true);
         gameVolumeSlider.setPaintLabels(true);
         gameVolumeSlider.setMaximumSize(new Dimension(200, 50));
+//        gameVolumeSlider.addChangeListener(new ChangeListener() {
+//            @Override
+//            public void stateChanged(ChangeEvent e) {
+//                float volume = gameVolumeSlider.getValue() / 100f; // Convert to a range of 0.0 to 1.0
+//                java.lang.System.out.println("Game volume adjusted to: " + volume);
+//                AudioPlayer.setVolumeForGame(volume); // Assuming you have this method in AudioPlayer
+//            }
+//        });
         gameVolumeSlider.setAlignmentX(Component.CENTER_ALIGNMENT); // center align the slider
 
         musicVolumeSlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 50); // range from 0 to 100, initially set to 50
@@ -64,11 +76,19 @@ public class Settings extends JPanel {
         musicVolumeSlider.setPaintTicks(true);
         musicVolumeSlider.setPaintLabels(true);
         musicVolumeSlider.setMaximumSize(new Dimension(200, 50));
+
         musicVolumeSlider.setAlignmentX(Component.CENTER_ALIGNMENT); // center align the slider
 
         gameVolumeLabel = new JLabel("Game Volume");
         gameVolumeLabel.setAlignmentX(Component.CENTER_ALIGNMENT); // center align the label
         musicVolumeLabel = new JLabel("Music Volume");
+//        musicVolumeSlider.addChangeListener(new ChangeListener() {
+//            @Override
+//            public void stateChanged(ChangeEvent e) {
+//                float volume = musicVolumeSlider.getValue() / 100f; // Convert to a range of 0.0 to 1.0
+//                AudioPlayer.setVolumeForMusic(volume); // Assuming you have this method in AudioPlayer
+//            }
+//        });
         musicVolumeLabel.setAlignmentX(Component.CENTER_ALIGNMENT); // center align the label
 
         this.add(Box.createVerticalStrut(20)); // add some space at the top
@@ -93,6 +113,7 @@ public class Settings extends JPanel {
 
 
     }
+
 
     ActionListener buttonListener = new ActionListener() {
         @Override

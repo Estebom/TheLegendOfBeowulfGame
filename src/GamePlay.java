@@ -224,7 +224,5 @@ public  class GamePlay extends JPanel {
         return instance.npcs.get(0);
     }
 
-    public  void reset(){
 
-    }
 }

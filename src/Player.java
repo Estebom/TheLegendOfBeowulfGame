@@ -23,7 +23,7 @@ public class Player implements Serializable, Movement {
     private boolean walkState = false;
     private boolean attackFinished = false;
 
-    private static final int ATTACK_DURATION = 500;
+    private static final int ATTACK_DURATION = 250;
     private Timer attackTimer;
 
     private static Player instance;

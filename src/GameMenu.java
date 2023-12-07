@@ -66,7 +66,7 @@ public class GameMenu extends JPanel{
             @Override
             public void actionPerformed(ActionEvent e) {
                 MainDisplay.showMainMenu();
-                GamePlay.getInstance().reset();
+                MainDisplay.startMainMenuMusic();
             }
         });
 
