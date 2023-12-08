@@ -42,7 +42,7 @@ public class Settings extends JPanel {
 
 
 
-        //"800x600", "1280x720",
+
         String[] resolutions = { "1920x1080", "2560x1440" };
         resolutionBox = new JComboBox<>(resolutions);
         resolutionBox.setMaximumSize(new Dimension(200, 50));
@@ -70,10 +70,10 @@ public class Settings extends JPanel {
         musicVolumeSlider.setPaintLabels(true);
         musicVolumeSlider.setMaximumSize(new Dimension(200, 50));
 
-        musicVolumeSlider.setAlignmentX(Component.CENTER_ALIGNMENT);
+        musicVolumeSlider.setAlignmentX(Component.CENTER_ALIGNMENT); // center align the slider
 
         gameVolumeLabel = new JLabel("Game Volume");
-        gameVolumeLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        gameVolumeLabel.setAlignmentX(Component.CENTER_ALIGNMENT); // center align the label
         musicVolumeLabel = new JLabel("Music Volume");
 
         musicVolumeLabel.setAlignmentX(Component.CENTER_ALIGNMENT); // center align the label

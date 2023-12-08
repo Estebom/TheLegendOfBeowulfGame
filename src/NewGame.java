@@ -66,14 +66,15 @@ public class NewGame extends JPanel {
 
 
         easyButton = new JButton("Easy");
+        easyButton.addActionListener(buttonListener);
         easyButton.setPreferredSize(new Dimension(250,100));
         easyButton.setOpaque(true);
-        easyButton.addActionListener(buttonListener);
 
         mediumButton = new JButton("Medium");
         mediumButton.setPreferredSize(new Dimension(250,100));
         mediumButton.setOpaque(true);
         mediumButton.addActionListener(buttonListener);
+
 
         hardButton = new JButton("Hard");
         hardButton.setPreferredSize(new Dimension(250,100));
@@ -155,22 +156,22 @@ public class NewGame extends JPanel {
                 case "Easy":
                     for(Enemy enemy : GamePlay.accessEnemies()){
                         enemy.setStep(5);
+                        Player.setHealth(1500);
                     }
-                    Player.setHealth(1500);
-
                     break;
                 case "Medium":
                     for(Enemy enemy : GamePlay.accessEnemies()){
                         enemy.setStep(8);
+                        Player.setHealth(1000);
                     }
-                    Player.setHealth(1000);
                     break;
                 case "Hard":
                     for(Enemy enemy : GamePlay.accessEnemies()){
-                        enemy.setStep(12);
+                        enemy.setStep(10);
+                        Player.setHealth(900);
                     }
-                    Player.setHealth(900);
                     break;
+
 
             }
 
