@@ -6,10 +6,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
-
 /**
  *
- * @author iacopolenzi
+ * @author Iacopo Nohea Lenzi
  */
 public class GameState implements Serializable {
     private int currentLevel;
