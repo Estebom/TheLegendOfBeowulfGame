@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -7,7 +8,7 @@ import java.util.ArrayList;
  * @author Esteban Rodriguez
  *
  */
-public  class GamePlay extends JPanel {
+public  class GamePlay extends JPanel implements Serializable {
 
     private JPanel interactionPanel;
 
@@ -17,6 +18,7 @@ public  class GamePlay extends JPanel {
 
     private ArrayList<NPC> npcs = new ArrayList<>();
     private static ArrayList<Enemy> enemies =  new ArrayList<>();
+    private ArrayList<Chest> chests = new ArrayList<>();
     private boolean hittable = false;
 
     private Enemy currentTarget;
@@ -58,17 +60,17 @@ public  class GamePlay extends JPanel {
 //        mimic.setPosition(600,600);
 //        mimic.setBounds(mimic.getPosx(), mimic.getPosy(),100,100);
 //
-//        Enemy mimic2 = new Enemy("mimic2");
-//        mimic2.setPosition(800,800);
-//        mimic2.setBounds(mimic.getPosx(), mimic.getPosy(),100,100);
+//       Enemy mimic2 = new Enemy("mimic2");
+//       mimic2.setPosition(800,800);
+//       mimic2.setBounds(mimic.getPosx(), mimic.getPosy(),100,100);
 //
-//        Enemy mimic3 = new Enemy("mimic3");
+//       Enemy mimic3 = new Enemy("mimic3");
 //        mimic3.setPosition(300,300);
-//        mimic3.setBounds(mimic.getPosx(), mimic.getPosy(),100,100);
+//      mimic3.setBounds(mimic.getPosx(), mimic.getPosy(),100,100);
 //
-//        enemies.add(mimic);
-//        enemies.add(mimic2);
-//        enemies.add(mimic3);
+//       enemies.add(mimic);
+//       enemies.add(mimic2);
+//       enemies.add(mimic3);
 
 
 
@@ -107,16 +109,39 @@ public  class GamePlay extends JPanel {
         setupKeyBindings();
         this.add(layeredPane, BorderLayout.CENTER);
 
-//        attack = new Attack(enemies.get(0));
+        //attack = new Attack(enemies.get(0));
 //        ShortSword sword = new ShortSword("speedy", 1000.0, 200, attack);
 //        Inventory.addCollectable(sword);
+//
+            Chest chest1 = new Chest("chestone", 'd');
+
+            Item bandage = new Item("bandage", "heals players",10);
+            chest1.addCollectable(bandage);
+            ShortSword sword1= new ShortSword("speed", 10, 200, attack);
+            chest1.addCollectable(sword1);
 
 
+        ShortSword sword2= new ShortSword("lightning", 20, 300, attack);
+        chest1.addCollectable(sword2);
+
+        ShortSword sword3= new ShortSword("onyx", 30, 400, attack);
+        chest1.addCollectable(sword3);
+
+        Item potion = new Item("potion", "applies mystical effect to the user",20);
+        chest1.addCollectable(potion);
+
+        Item rope = new Item("rope", "gets player out of tricky situtation",40);
+        chest1.addCollectable(rope);
+        chest1.setChestPosX(200);
+        chest1.setChestPosY(200);
+        chest1.setBounds(chest1.getChestPosX(),chest1.getChestPosY(),100,100);
+        layeredPane.add(chest1, Integer.valueOf(1));
 
 
+        chests.add(chest1);
 
-
-
+        setupKeyBindings();
+        this.add(layeredPane, BorderLayout.CENTER);
     }
 
     /**
@@ -215,6 +240,7 @@ public  class GamePlay extends JPanel {
     }
 
     public static Enemy getEnemy(int i){
+        getInstance();
         return instance.enemies.get(i);
     }
 
@@ -264,6 +290,7 @@ public  class GamePlay extends JPanel {
     }
 
     private static void setHittableEnemy(Enemy enemy) {
+        getInstance();
         instance.hittable = true;
         instance.currentTarget = enemy;
         instance.attack.setCurrentTarget(getCurrentTarget());
@@ -275,5 +302,9 @@ public  class GamePlay extends JPanel {
         return instance.npcs.get(0);
     }
 
+    public static ArrayList<Chest> accessChests(){
+        getInstance();
+        return instance.chests;
+    }
 
 }

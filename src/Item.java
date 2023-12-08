@@ -18,9 +18,11 @@ public class Item implements Collectable {
         this.price = price;
     }
 
+//    public Item(Collectable collectable) {
+//    }
     // Constructor for creating an Item from another Collectable (not utilized in the provided code)
-    public Item(Collectable collectable) {
-    }
+//    public Item(Collectable collectable) {
+//    }
 
     // Getter method for retrieving the item's name
     public String getnameItem() {
@@ -35,6 +37,7 @@ public class Item implements Collectable {
     // Implementation of the use method from the Collectable interface (not utilized in the provided code)
     @Override
     public void use(boolean b, int i) {
+        java.lang.System.out.println("use item");
         // Implementation details for using the item, but not specified in the code
     }
 
@@ -42,5 +45,10 @@ public class Item implements Collectable {
     @Override
     public int getPrice() {
         return this.price;
+    }
+
+    @Override
+    public String getName() {
+        return this.nameItem;
     }
 }
