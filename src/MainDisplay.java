@@ -84,6 +84,7 @@ public class MainDisplay extends JFrame {
         ((CardLayout)instance.getContentPane().getLayout()).show(instance.getContentPane(), "START");
         GamePlay.initialize(true);
         GamePlay.initializeKeyPad();
+        Player.resetPlayerTimer();
     }
     /**
      * displays the Settings panel to the MainDisplay
