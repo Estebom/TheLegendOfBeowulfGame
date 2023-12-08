@@ -26,11 +26,13 @@ public  class GamePlay extends JPanel implements Serializable {
     private static GamePlay instance;
     private Attack attack;
 
+    private JPanel gameUI;
+    private JProgressBar healthBar;
+
     public static GamePlay getInstance(){
 
         if(instance == null){
             instance = new GamePlay();
-            // Player Health and Damage
 
         }
         return instance;
@@ -56,22 +58,43 @@ public  class GamePlay extends JPanel implements Serializable {
         interactionPanel.setBounds(npcs.get(0).getX() + - 75, npcs.get(0).getY() + - 200, interactionPanel.getWidth(), interactionPanel.getHeight());
         interactionPanel.setVisible(false);
 
-//        Enemy mimic = new Enemy("mimic");
-//        mimic.setPosition(600,600);
-//        mimic.setBounds(mimic.getPosx(), mimic.getPosy(),100,100);
-//
-//       Enemy mimic2 = new Enemy("mimic2");
-//       mimic2.setPosition(800,800);
-//       mimic2.setBounds(mimic.getPosx(), mimic.getPosy(),100,100);
-//
-//       Enemy mimic3 = new Enemy("mimic3");
-//        mimic3.setPosition(300,300);
-//      mimic3.setBounds(mimic.getPosx(), mimic.getPosy(),100,100);
-//
-//       enemies.add(mimic);
-//       enemies.add(mimic2);
-//       enemies.add(mimic3);
+        Enemy mimic = new Enemy("mimic");
+        mimic.setPosition(600,600);
+        mimic.setBounds(mimic.getPosx(), mimic.getPosy(),100,100);
 
+       Enemy mimic2 = new Enemy("mimic2");
+       mimic2.setPosition(800,800);
+       mimic2.setBounds(mimic.getPosx(), mimic.getPosy(),100,100);
+
+       Enemy mimic3 = new Enemy("mimic3");
+        mimic3.setPosition(300,300);
+      mimic3.setBounds(mimic.getPosx(), mimic.getPosy(),100,100);
+
+       enemies.add(mimic);
+       enemies.add(mimic2);
+       enemies.add(mimic3);
+
+        healthBar = new JProgressBar();
+        healthBar.setValue((int)Player.getHealth());
+        healthBar.setBounds(0,0,420,50);
+        healthBar.setStringPainted(true);
+
+
+        JPanel playerinfo = new JPanel();
+        playerinfo.add(healthBar);
+        playerinfo.setSize(600,200);
+        playerinfo.setLayout(null);
+        playerinfo.setVisible(true);
+
+
+
+
+
+        gameUI = new JPanel();
+        gameUI.setBounds(0,0,400,50);
+        gameUI.setOpaque(false);
+        gameUI.setLayout(new BorderLayout());
+        gameUI.add(playerinfo, BorderLayout.CENTER);
 
 
         gameMenu = new GameMenu();
@@ -103,7 +126,7 @@ public  class GamePlay extends JPanel implements Serializable {
         Inventory.getInstance().setBounds(500,500,300,300);
         layeredPane.add(Inventory.getInstance(),Integer.valueOf(2));
         layeredPane.add(gameMenu,Integer.valueOf(3));
-
+        layeredPane.add(gameUI,Integer.valueOf(2));
         layeredPane.setOpaque(true);
 
         setupKeyBindings();
@@ -143,6 +166,15 @@ public  class GamePlay extends JPanel implements Serializable {
         setupKeyBindings();
         this.add(layeredPane, BorderLayout.CENTER);
     }
+    public static void fill(){
+        getInstance();
+        if (instance.healthBar != null) { // Check if healthBar is not null
+            int healthValue = (int) Math.max(Player.getHealth(), 0); // Ensure health is not negative
+            instance.healthBar.setValue(healthValue);
+            instance.healthBar.setString("Health: " + healthValue);
+        }
+    }
+
 
     /**
      * sets all keyboard inputs to this panel
@@ -305,6 +337,10 @@ public  class GamePlay extends JPanel implements Serializable {
     public static ArrayList<Chest> accessChests(){
         getInstance();
         return instance.chests;
+    }
+    public static ArrayList<Enemy> accessEnemies(){
+        getInstance();
+        return instance.enemies;
     }
 
 }

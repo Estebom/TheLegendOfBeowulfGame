@@ -42,8 +42,8 @@ public class Settings extends JPanel {
 
 
 
-
-        String[] resolutions = { "800x600", "1280x720", "1920x1080", "2560x1440" };
+        //"800x600", "1280x720",
+        String[] resolutions = { "1920x1080", "2560x1440" };
         resolutionBox = new JComboBox<>(resolutions);
         resolutionBox.setMaximumSize(new Dimension(200, 50));
         resolutionBox.setAlignmentX(Component.CENTER_ALIGNMENT); // center align the combo box
@@ -61,14 +61,7 @@ public class Settings extends JPanel {
         gameVolumeSlider.setPaintTicks(true);
         gameVolumeSlider.setPaintLabels(true);
         gameVolumeSlider.setMaximumSize(new Dimension(200, 50));
-//        gameVolumeSlider.addChangeListener(new ChangeListener() {
-//            @Override
-//            public void stateChanged(ChangeEvent e) {
-//                float volume = gameVolumeSlider.getValue() / 100f; // Convert to a range of 0.0 to 1.0
-//                java.lang.System.out.println("Game volume adjusted to: " + volume);
-//                AudioPlayer.setVolumeForGame(volume); // Assuming you have this method in AudioPlayer
-//            }
-//        });
+
         gameVolumeSlider.setAlignmentX(Component.CENTER_ALIGNMENT); // center align the slider
 
         musicVolumeSlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 50); // range from 0 to 100, initially set to 50
@@ -77,18 +70,12 @@ public class Settings extends JPanel {
         musicVolumeSlider.setPaintLabels(true);
         musicVolumeSlider.setMaximumSize(new Dimension(200, 50));
 
-        musicVolumeSlider.setAlignmentX(Component.CENTER_ALIGNMENT); // center align the slider
+        musicVolumeSlider.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         gameVolumeLabel = new JLabel("Game Volume");
-        gameVolumeLabel.setAlignmentX(Component.CENTER_ALIGNMENT); // center align the label
+        gameVolumeLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         musicVolumeLabel = new JLabel("Music Volume");
-//        musicVolumeSlider.addChangeListener(new ChangeListener() {
-//            @Override
-//            public void stateChanged(ChangeEvent e) {
-//                float volume = musicVolumeSlider.getValue() / 100f; // Convert to a range of 0.0 to 1.0
-//                AudioPlayer.setVolumeForMusic(volume); // Assuming you have this method in AudioPlayer
-//            }
-//        });
+
         musicVolumeLabel.setAlignmentX(Component.CENTER_ALIGNMENT); // center align the label
 
         this.add(Box.createVerticalStrut(20)); // add some space at the top
