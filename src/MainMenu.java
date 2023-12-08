@@ -109,6 +109,8 @@ public class MainMenu extends JPanel{
                     //Edit by Nohea
                     MainDisplay.loadedGamePlay();
                     GamePlay.startGame();
+
+
                     break;
                 case "SETTINGS":
                     MainDisplay.showSettings();

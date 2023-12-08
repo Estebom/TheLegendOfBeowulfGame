@@ -69,6 +69,8 @@ public class MainDisplay extends JFrame {
         GamePlay.initialize(true);
         GamePlay.initializeKeyPad();
         Player.resetPlayerTimer();
+        stopPlayingMusic();
+        startGamePlayMusic();
     }
     /**
      * displays the Settings panel to the MainDisplay
