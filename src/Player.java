@@ -1,21 +1,20 @@
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import javax.swing.JPanel;
+import javax.swing.JProgressBar;
+import javax.swing.SwingUtilities;
+import javax.swing.Timer;
 
-
-/**
- * @author Iacopo Lenzi, Esteban Rodriguez
- */
 public class Player extends JPanel implements Serializable, Movement {
     public String playerName;
-    private double damageOutput;
-    private double health;
+    private double damageOutput = 1.0;
+    private double health = 1000.0;
     private int playerPosX = 500;
     private int playerPosY = 500;
     private static final int STEP = 5;
-
     private transient Timer animationTimer;
     private boolean isMoving = false;
     private boolean isAttacking = false;
@@ -25,61 +24,58 @@ public class Player extends JPanel implements Serializable, Movement {
     private boolean attackFinished = false;
     private static final int ATTACK_DURATION = 250;
     private Timer attackTimer;
-    private JProgressBar healthBar;
-    private static Player instance;
-    private static Player getInstance(){
 
-        if(instance == null){
+    private static Player instance;
+
+    private static Player getInstance() {
+        if (instance == null) {
             instance = new Player();
             instance.resetTimer();
         }
+
         return instance;
     }
-    private Player(){
-        damageOutput = 1.0;
-        health = 1000.0;
-        setupAttackTimer();
 
-
-
+    private Player() {
+        this.setupAttackTimer();
     }
-
-
 
     private void setupAttackTimer() {
-        attackTimer = new Timer(ATTACK_DURATION, new ActionListener() {
-            @Override
+        this.attackTimer = new Timer(250, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                finishAttack();
+                Player.finishAttack();
             }
         });
-        attackTimer.setRepeats(false); // The timer should only run once per attack
+        this.attackTimer.setRepeats(false);
     }
+
     public static void startAttack() {
         getInstance();
         instance.isAttacking = true;
-        instance.attackTimer.start(); // Start the attack timer
+        instance.attackTimer.start();
         PlayerImages.updateAnimation(instance.currentDirection, instance.walkState, true);
     }
+
     private static void finishAttack() {
         getInstance();
         instance.isAttacking = false;
-        instance.attackState = false; // Reset attack state
+        instance.attackState = false;
         PlayerImages.updateAnimation(instance.currentDirection, instance.walkState, false);
         if (!instance.isMoving) {
             instance.animationTimer.stop();
         }
+
     }
 
     public static void resetPlayerTimer() {
         getInstance().resetTimer();
     }
-    private void resetTimer(){
+
+    private void resetTimer() {
         getInstance();
-        animationTimer = new Timer(150, new ActionListener() {
-            @Override
+        this.animationTimer = new Timer(150, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                updateAnimation();
+                Player.this.updateAnimation();
             }
         });
     }
@@ -88,56 +84,70 @@ public class Player extends JPanel implements Serializable, Movement {
         getInstance();
         instance.isMoving = true;
         instance.currentDirection = direction;
-        updatePosition(direction); // Move this logic to a separate method
+        updatePosition(direction);
         PlayerImages.getInstance().setLocation(instance.playerPosX, instance.playerPosY);
         if (!instance.animationTimer.isRunning()) {
             instance.animationTimer.start();
         }
-    }
-    private static void updatePosition(char direction) {
-        switch (direction) {
-            case 'w': instance.playerPosY -= STEP; break;
-            case 's': instance.playerPosY += STEP; break;
-            case 'a': instance.playerPosX -= STEP; break;
-            case 'd': instance.playerPosX += STEP; break;
-        }
+
     }
 
-    public void updateAnimation(){
+    private static void updatePosition(char direction) {
+        Player var10000;
+        switch (direction) {
+            case 'a':
+                var10000 = instance;
+                var10000.playerPosX -= 5;
+                break;
+            case 'd':
+                var10000 = instance;
+                var10000.playerPosX += 5;
+                break;
+            case 's':
+                var10000 = instance;
+                var10000.playerPosY += 5;
+                break;
+            case 'w':
+                var10000 = instance;
+                var10000.playerPosY -= 5;
+        }
+
+    }
+
+    public void updateAnimation() {
         getInstance();
-        if (isMoving) {
-            walkState = !walkState;
-            PlayerImages.updateAnimation(currentDirection, walkState, isAttacking);
-        } else if (isAttacking) {
-            attackState = !attackState;
-            PlayerImages.updateAnimation(currentDirection, walkState, attackState);
-            if (attackFinished) {
-                isAttacking = false;
+        if (this.isMoving) {
+            this.walkState = !this.walkState;
+            PlayerImages.updateAnimation(this.currentDirection, this.walkState, this.isAttacking);
+        } else if (this.isAttacking) {
+            this.attackState = !this.attackState;
+            PlayerImages.updateAnimation(this.currentDirection, this.walkState, this.attackState);
+            if (this.attackFinished) {
+                this.isAttacking = false;
             }
         } else {
-            animationTimer.stop();
+            this.animationTimer.stop();
         }
+
     }
 
-    public static void stopMoving(){
+    public static void stopMoving() {
         getInstance();
         instance.isMoving = false;
         PlayerImages.getInstance().stopMoving(instance.currentDirection);
     }
 
-    public static void setPlayerName(String name){
+    public static void setPlayerName(String name) {
         getInstance();
-
         instance.playerName = name;
     }
 
-    public static double getHealth(){
+    public static double getHealth() {
         getInstance();
-
         return instance.health;
-
     }
-    public static void setAttacking(boolean b){
+
+    public static void setAttacking(boolean b) {
         getInstance();
         instance.attackState = b;
     }
@@ -152,40 +162,42 @@ public class Player extends JPanel implements Serializable, Movement {
         instance.damageOutput = damageOutput;
     }
 
-    public static void setHealth(double damageIncoming){
+    public static void setHealth(double damageIncoming) {
         getInstance();
-        instance.health -= damageIncoming;
+        Player var10000 = instance;
+        var10000.health -= damageIncoming;
     }
-    public static String getPlayerName(){
+
+    public static String getPlayerName() {
         getInstance();
         return instance.playerName;
     }
 
-    public static void replacePlayerInstance(Player newInstance){
+    public static void replacePlayerInstance(Player newInstance) {
         instance = newInstance;
         instance.resetTimer();
     }
 
-    public static void setStarting(int x, int y){
+    public static void setStarting(int x, int y) {
         getInstance();
         instance.playerPosX = x;
         instance.playerPosY = y;
     }
 
-    public static int getPlayerPosX(){
+    public static int getPlayerPosX() {
         getInstance();
-
         return instance.playerPosX;
     }
-    public static int getPlayerPosY(){
+
+    public static int getPlayerPosY() {
         getInstance();
-
-
         return instance.playerPosY;
     }
-    public static void heal(double health){
+
+    public static void heal(double health) {
         getInstance();
-        instance.health += health;
+        Player var10000 = instance;
+        var10000.health += health;
     }
 
     public static void takeDamage(double damage){
@@ -200,27 +212,26 @@ public class Player extends JPanel implements Serializable, Movement {
             GamePlay.fill();
         });
     }
-    private static void updateHealthBar() {
-        getInstance();
-        int healthValue = (int) Math.max(instance.health, 0); // Ensure health is not negative
-        GamePlay.fill();
-        instance.healthBar.setString("Health: " + healthValue);
-    }
-    public static char getCurrentDirection(){
-        getInstance();
-        return instance.currentDirection;}
 
-    public static void setPlayerPosX(int posX){
+
+
+
+    public static char getCurrentDirection() {
+        getInstance();
+        return instance.currentDirection;
+    }
+
+    public static void setPlayerPosX(int posX) {
         getInstance();
         instance.playerPosX = posX;
-
     }
-    public static void setPlayerPosY(int posY){
+
+    public static void setPlayerPosY(int posY) {
         getInstance();
         instance.playerPosY = posY;
     }
 
-    public static void writeToOutputStream(ObjectOutputStream outputStream)throws java.io.IOException{
+    public static void writeToOutputStream(ObjectOutputStream outputStream) throws IOException {
         getInstance();
         outputStream.writeObject(instance);
     }

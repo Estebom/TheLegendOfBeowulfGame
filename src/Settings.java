@@ -6,30 +6,19 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 public class Settings extends JPanel {
     private JButton goBack;
-
-
     private JComboBox<String> resolutionBox;
     private JSlider gameVolumeSlider;
     private JSlider musicVolumeSlider;
     private JLabel gameVolumeLabel;
     private JLabel musicVolumeLabel;
-
     private Image backgroundImage;
-
-
     public Settings( ) {
-
-
         this.setPreferredSize(new Dimension(800, 675));
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-
         ImageIcon backdrop = new ImageIcon("src\\CastleBackDrop.png");
         backgroundImage = backdrop.getImage();
-
-
         goBack = new JButton("Go Back to Main Menu");
         goBack.setMaximumSize(new Dimension(200, 50));
         goBack.setAlignmentX(Component.CENTER_ALIGNMENT); // center align the button
@@ -39,10 +28,7 @@ public class Settings extends JPanel {
 
 
 
-
-
-
-
+        //"800x600", "1280x720",
         String[] resolutions = { "1920x1080", "2560x1440" };
         resolutionBox = new JComboBox<>(resolutions);
         resolutionBox.setMaximumSize(new Dimension(200, 50));
@@ -55,12 +41,19 @@ public class Settings extends JPanel {
             MainDisplay.getInstance().setSize(width, height);
             MainDisplay.getInstance().setLocationRelativeTo(null);
         });
-
         gameVolumeSlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 50); // range from 0 to 100, initially set to 50
         gameVolumeSlider.setMajorTickSpacing(10);
         gameVolumeSlider.setPaintTicks(true);
         gameVolumeSlider.setPaintLabels(true);
         gameVolumeSlider.setMaximumSize(new Dimension(200, 50));
+//        gameVolumeSlider.addChangeListener(new ChangeListener() {
+//            @Override
+//            public void stateChanged(ChangeEvent e) {
+//                float volume = gameVolumeSlider.getValue() / 100f; // Convert to a range of 0.0 to 1.0
+//                java.lang.System.out.println("Game volume adjusted to: " + volume);
+//                AudioPlayer.setVolumeForGame(volume); // Assuming you have this method in AudioPlayer
+//            }
+//        });
 
         gameVolumeSlider.setAlignmentX(Component.CENTER_ALIGNMENT); // center align the slider
 
@@ -71,10 +64,19 @@ public class Settings extends JPanel {
         musicVolumeSlider.setMaximumSize(new Dimension(200, 50));
 
         musicVolumeSlider.setAlignmentX(Component.CENTER_ALIGNMENT); // center align the slider
+        musicVolumeSlider.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         gameVolumeLabel = new JLabel("Game Volume");
         gameVolumeLabel.setAlignmentX(Component.CENTER_ALIGNMENT); // center align the label
+        gameVolumeLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         musicVolumeLabel = new JLabel("Music Volume");
+//        musicVolumeSlider.addChangeListener(new ChangeListener() {
+//            @Override
+//            public void stateChanged(ChangeEvent e) {
+//                float volume = musicVolumeSlider.getValue() / 100f; // Convert to a range of 0.0 to 1.0
+//                AudioPlayer.setVolumeForMusic(volume); // Assuming you have this method in AudioPlayer
+//            }
+//        });
 
         musicVolumeLabel.setAlignmentX(Component.CENTER_ALIGNMENT); // center align the label
 
@@ -94,14 +96,9 @@ public class Settings extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         java.lang.System.out.println("Painting component");
-
         // Draw the background image
         g.drawImage(backgroundImage, 0, 0, this.getWidth(), this.getHeight(), this);
-
-
     }
-
-
     ActionListener buttonListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -110,9 +107,4 @@ public class Settings extends JPanel {
             }
         }
     };
-
-
-
-
-
 }

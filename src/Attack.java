@@ -7,6 +7,8 @@ import java.io.Serializable;
 public  class Attack implements Serializable {
     private Enemy enemy;
 
+
+
     public Attack(Enemy enemy) {
         this.enemy = enemy;
     }
@@ -68,33 +70,34 @@ public  class Attack implements Serializable {
         char knockBackDirection = Player.getCurrentDirection();
         final int knockBackDistance = 10;
 
-        this.enemy.suspendNormalMovement();
+        enemy.suspendNormalMovement();
         SwingUtilities.invokeLater(() -> {
             // Update the enemy's position based on the knockback direction
             switch (knockBackDirection) {
                 case 'w':
-                    this.enemy.setPosy(this.enemy.getPosy() - knockBackDistance);
-                    java.lang.System.out.println("knocking back");
+                    enemy.setPosy(enemy.getPosy() - 10);
+//                    enemy.move('w');
                     break;
                 case 'a':
-                    this.enemy.setPosx(this.enemy.getPosx() - knockBackDistance);
-                    java.lang.System.out.println("knocking back");
+                    enemy.setPosx(enemy.getPosx() - 10);
+//                    enemy.move('a');
                     break;
                 case 's':
-                    this.enemy.setPosy(this.enemy.getPosy() + knockBackDistance);
-                    java.lang.System.out.println("knocking back");
+                    enemy.setPosy(enemy.getPosy() + 10);
+//                    enemy.move('s');
                     break;
                 case 'd':
-                    this.enemy.setPosx(this.enemy.getPosx() + knockBackDistance);
-                    java.lang.System.out.println("knocking back");
+                    enemy.setPosx(enemy.getPosx() + 10);
+//                    enemy.move('d');
                     break;
 
             }
-            this.enemy.setLocation(this.enemy.getPosx(), this.enemy.getPosy());
-            if (this.enemy.getParent() != null) {
-                this.enemy.getParent().repaint();
+            enemy.setLocation(enemy.getPosx(),enemy.getPosy());
+            if (enemy.getParent() != null) {
+                enemy.getParent().revalidate();
+                enemy.getParent().repaint();
             }
-            this.enemy.resumeNormalMovementAfterDelay();
+            enemy.resumeNormalMovementAfterDelay();
             java.lang.System.out.println("New Position - X: " + enemy.getPosx() + ", Y: " + enemy.getPosy());
 
 

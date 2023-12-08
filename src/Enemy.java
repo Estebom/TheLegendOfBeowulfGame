@@ -2,14 +2,14 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.Serializable;
-
+import java.util.ArrayList;
+import java.util.List;
 /**
  * @author Esteban Rodriguez
  */
 public class Enemy extends EnemyImages implements Serializable , Movement {
-
     private Attack attack;
-    private double health = 100;
+    private double health = 1000;
     private int damage = 5;
     private int speed;
     private int drop;
@@ -25,14 +25,12 @@ public class Enemy extends EnemyImages implements Serializable , Movement {
     private int step = 5;
     private char currentDirection = ' ';
     private Collectable[] collectable = new Collectable[5];
-
     public Enemy(String name) {
         this.name = name;
         this.drop = (int) (Math.random() * 5) - 1;
         this.attack = new Attack(this);
         this.resetTimer();
     }
-
     public void setDamage(int damage) {
         this.damage = damage;
     }
@@ -43,49 +41,37 @@ public class Enemy extends EnemyImages implements Serializable , Movement {
     public void setHealth(double health) {
         this.health = health;
     }
-
     public void setSpeed(int speed) {
         this.speed = speed;
     }
-
     public double getHealth() {
         return this.health;
     }
-
     public int getDamage() {
         return this.damage;
     }
-
     public char getCurrentDirection(){return this.currentDirection;}
-
     public int getSpeed() {
         return this.speed;
     }
-
     public void addColectable(int i, Collectable collectable) {
         this.collectable[i] = collectable;
     }
-
     public Collectable getCollectable(int i) {
         return collectable[i];
     }
-
     public void heal(double health) {
         this.health += health;
     }
-
     public void takeDamage(double damage) {
         this.health -= damage;
     }
-
     public void death() {
         getCollectable(this.drop);
     }
-
     public int getPosx() {
         return this.posx;
     }
-
     public int getPosy() {
         return this.posy;
     }
@@ -94,26 +80,24 @@ public class Enemy extends EnemyImages implements Serializable , Movement {
     public void suspendNormalMovement() {
         inKnockback = true;
         java.lang.System.out.println("Movement suspended");
-
     }
     public void resumeNormalMovementAfterDelay() {
-        int delay = 500;
+        int delay = 600; // Adjust the delay as needed
         Timer resumeTimer = new Timer(delay, e -> {
             inKnockback = false;
             java.lang.System.out.println("Movement resumed");
+            if (active && !isMoving) {
+                startBehavior();
+            }
             ((Timer)e.getSource()).stop(); // Stop the timer after execution
-        });
-        resumeTimer.setRepeats(false); // Ensure the timer only runs once
+        });// Ensure the timer only runs once
         resumeTimer.start();
     }
-
     public void setPosition(int posx, int posy) {
         this.posx = posx;
         this.posy = posy;
     }
-
     private void resetTimer() {
-
         this.animationTimer = new Timer(150, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -121,35 +105,31 @@ public class Enemy extends EnemyImages implements Serializable , Movement {
             }
         });
     }
-
     public void move(char direction) {
         this.isMoving = true;
         this.currentDirection = direction;
         updatePosition(direction); // Move this logic to a separate method
-
         this.setLocation(this.posx, this.posy);
         if (!this.animationTimer.isRunning()) {
             this.animationTimer.start();
         }
     }
-
     private void updatePosition(char direction) {
         switch (direction) {
             case 'w':
-                this.posy -= this.step;
+                this.posy -= step;
                 java.lang.System.out.println("w");
                 break;
-
             case 's':
-                this.posy += this.step;
+                this.posy += step;
                 java.lang.System.out.println("s");
                 break;
             case 'a':
-                this.posx -= this.step;
+                this.posx -= step;
                 java.lang.System.out.println("a");
                 break;
             case 'd':
-                this.posx += this.step;
+                this.posx += step;
                 java.lang.System.out.println("d");
                 break;
         }
@@ -161,9 +141,7 @@ public class Enemy extends EnemyImages implements Serializable , Movement {
         });
         java.lang.System.out.println("Updated Position in move - X: " + this.posx + ", Y: " + this.posy);
     }
-
     private void updateAnimation() {
-
         if (this.isMoving) {
             this.walkState = !walkState;
             super.updateAnimation(this.currentDirection, this.walkState);
@@ -171,9 +149,7 @@ public class Enemy extends EnemyImages implements Serializable , Movement {
             this.animationTimer.stop();
         }
     }
-
     public void stopMoving() {
-
         this.isMoving = false;
         super.stopMoving(this.currentDirection);
     }
@@ -181,17 +157,14 @@ public class Enemy extends EnemyImages implements Serializable , Movement {
         findPlayer(true);
         isMoving = true;
     }
-
     public void stopBehavior(){
         findPlayer(false);
         isMoving = false;
-
     }
     private void findPlayer(boolean behave) {
         if (behave) {
             active = true;
-            SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
-
+            SwingWorker<Void, Void> worker = new SwingWorker<>() {
                 @Override
                 protected Void doInBackground() throws Exception {
                     while (active) {
@@ -212,11 +185,12 @@ public class Enemy extends EnemyImages implements Serializable , Movement {
                                 SwingUtilities.invokeLater(() -> move(direction));
                             }
                         }
+
                         Thread.sleep(100); // Control the rate of checking and attacking
                     }
                     return null;
                 }
-
+                // ... existing code ...
                 private char determineDirection(int playerX, int playerY) {
                     // Implement logic to determine direction based on player position
                     if (Math.abs(playerX - posx) > Math.abs(playerY - posy)) {
@@ -232,4 +206,3 @@ public class Enemy extends EnemyImages implements Serializable , Movement {
         }
     }
 }
-

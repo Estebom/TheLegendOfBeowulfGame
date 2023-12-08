@@ -3,7 +3,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.Serializable;
 import java.util.ArrayList;
-
 /**
  * chest class is responsible for giving out items to players
  * @author Esteban Rodriguez
@@ -18,10 +17,10 @@ public class Chest extends ChestImages implements Serializable {
     private boolean closedState = true;
     private ArrayList<Collectable> chestInventory;
     public Chest(String name, char direction) {
-
         this.name = name;
         this.direction = direction;
         chestInventory = new ArrayList<>();
+
         resetTimer();
         ImageIcon icon;
         switch (this.direction) {
@@ -36,13 +35,11 @@ public class Chest extends ChestImages implements Serializable {
                 icon = null;
                 break;
         }
-
         if (icon != null) {
             this.setIcon(icon);
         }
     }
     private void resetTimer(){
-
         this.animationTimer = new Timer(150, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {updateAnimation();
@@ -52,6 +49,13 @@ public class Chest extends ChestImages implements Serializable {
     }
 
     public void updateAnimation(){
+
+        if (isMoving) {
+            closedState = !closedState;
+            this.updateAnimation(this.direction, closedState);
+        } else {
+            animationTimer.stop();
+        }
         SwingUtilities.invokeLater(() -> {
             if (closedState == false) {
 
@@ -69,7 +73,6 @@ public class Chest extends ChestImages implements Serializable {
                 java.lang.System.out.println("The chest is empty.");
                 return null;
             }
-
             int index = (int) (Math.random() * chestInventory.size());
             Collectable collectable = chestInventory.get(index);
             java.lang.System.out.println(collectable.getName());
@@ -82,11 +85,9 @@ public class Chest extends ChestImages implements Serializable {
     }
     public void addCollectable(Collectable collectable){
         chestInventory.add(collectable);
-
     }
     public int getChestPosX(){
         return this.chestPosX;
-
     }
     public int getChestPosY(){
         return this.chestPosY;
