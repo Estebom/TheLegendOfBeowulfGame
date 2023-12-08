@@ -110,5 +110,4 @@ public class PlayerImages extends JLabel {
             this.setIcon(icon);
         }
     }
-
 }

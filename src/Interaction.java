@@ -1,7 +1,6 @@
 // Importing necessary packages
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
 
 /**
  * This class is the Interaction class with the NPC's
@@ -35,24 +34,14 @@ public class Interaction extends JPanel {
 
     }
 
-
-
   public void setChest(Chest chest){
         this.chest = chest;
       java.lang.System.out.println("you are near a chest");
   }
-
-
-
     public void npcInteraction(NPC npc){
         // Set the current NPC and display the interaction panel
         this.npc = npc;
         this.npc.showInteractionPanel();
     }
 
-    // TODO: 12/3/2023 write the actionListener functions out of the constructor and have the listener get the message then delegate instructions
-
-    // TODO: 12/3/2023 write the actionListener functions out of the constructor and have the listener get the message then delegate instructions
-
-    // TODO: 12/3/2023 write the actionListener functions out of the constructor and have the listener get the message then delegate instructions
 }

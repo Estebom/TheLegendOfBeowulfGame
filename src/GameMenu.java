@@ -6,7 +6,7 @@ import java.awt.event.ActionListener;
 
 /**
  * This class is the GameMenu with different options for users
- * @authors Esteban Rodriguez & Alfonso Avila & Nohea
+ * @authors Esteban Rodriguez & Alfonso Avila & Iacopo Nohea Lenzi
  */
 
 // Class representing the game menu panel

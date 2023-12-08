@@ -72,8 +72,6 @@ public class Weapon implements Collectable, Serializable {
             }
         }
 
-
-
     public void swing(boolean b, int t){
 
         if(b == false){

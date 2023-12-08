@@ -5,10 +5,6 @@ import java.io.IOException;
 public class AudioPlayer {
     private static Clip clip = null;
 
-
-
-
-
     public static void startLoopingSound(String filePath) {
         try {
             if (clip != null && clip.isRunning()) {
@@ -58,8 +54,6 @@ public class AudioPlayer {
             java.lang.System.err.println("Volume control not supported for this clip.");
         }
     }
-
-
 
     public static void stopSound() {
         if (clip != null) {
