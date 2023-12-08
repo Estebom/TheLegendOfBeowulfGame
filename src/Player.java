@@ -65,6 +65,10 @@ public class Player implements Serializable, Movement {
             instance.animationTimer.stop();
         }
     }
+
+    public static void resetPlayerTimer() {
+        getInstance().resetTimer();
+    }
     private void resetTimer(){
         getInstance();
         animationTimer = new Timer(150, new ActionListener() {
