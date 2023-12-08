@@ -116,7 +116,7 @@ public class MainMenu extends JPanel{
                     java.lang.System.out.println("Load Game clicked");
                     GameState.readGameState("test");                   //Edit by Nohea
 
-                                     //Edit by Nohea
+                    //Edit by Nohea
                     MainDisplay.loadedGamePlay();
                     GamePlay.startGame();
                     break;
@@ -138,5 +138,3 @@ public class MainMenu extends JPanel{
 
 
 }
-
-
