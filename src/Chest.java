@@ -22,7 +22,7 @@ public class Chest extends ChestImages implements Serializable {
         this.name = name;
         this.direction = direction;
         chestInventory = new ArrayList<>();
-
+        resetTimer();
         ImageIcon icon;
         switch (this.direction) {
             case 'a':
@@ -48,16 +48,20 @@ public class Chest extends ChestImages implements Serializable {
             public void actionPerformed(ActionEvent e) {updateAnimation();
             }
         });
+        this.animationTimer.start();
     }
 
     public void updateAnimation(){
+        SwingUtilities.invokeLater(() -> {
+            if (closedState == false) {
 
-        if (isMoving) {
-            closedState = !closedState;
-            this.updateAnimation(this.direction, closedState);
-        } else {
-            animationTimer.stop();
-        }
+                this.updateAnimation(this.direction, closedState);
+                this.repaint();  // Refresh the display
+                this.revalidate();
+            } else {
+                this.animationTimer.stop();
+            }
+        });
     }
     public Collectable openChest() {
         if (closedState) {
@@ -70,6 +74,7 @@ public class Chest extends ChestImages implements Serializable {
             Collectable collectable = chestInventory.get(index);
             java.lang.System.out.println(collectable.getName());
             closedState = !closedState;
+            updateAnimation();
             return collectable;
 
         }

@@ -26,20 +26,20 @@ public class MainMenu extends JPanel {
         backgroundImage = backdrop.getImage();
 
         newGameButton = new JButton("New Game");
-        newGameButton.setPreferredSize(new Dimension(500, 100));
-        newGameButton.setMaximumSize(new Dimension(500, 100)); // Set maximum size
+        newGameButton.setPreferredSize(new Dimension(500, 50));
+        newGameButton.setMaximumSize(new Dimension(500, 50)); // Set maximum size
 
         loadGameButton = new JButton("Load Game");
-        loadGameButton.setPreferredSize(new Dimension(500, 100));
-        loadGameButton.setMaximumSize(new Dimension(500, 100)); // Set maximum size
+        loadGameButton.setPreferredSize(new Dimension(500, 50));
+        loadGameButton.setMaximumSize(new Dimension(500, 50)); // Set maximum size
 
         settingButton = new JButton("Settings");
-        settingButton.setPreferredSize(new Dimension(500, 100));
-        settingButton.setMaximumSize(new Dimension(500, 100)); // Set maximum size
+        settingButton.setPreferredSize(new Dimension(500, 50));
+        settingButton.setMaximumSize(new Dimension(500, 50)); // Set maximum size
 
         exitGameButton = new JButton("Exit Game");
-        exitGameButton.setPreferredSize(new Dimension(500, 100));
-        exitGameButton.setMaximumSize(new Dimension(500, 100)); // Set maximum size
+        exitGameButton.setPreferredSize(new Dimension(500, 50));
+        exitGameButton.setMaximumSize(new Dimension(500, 50)); // Set maximum size
 
         newGameButton.setActionCommand("NewGame");
         loadGameButton.setActionCommand("LOAD_GAME");
@@ -70,6 +70,8 @@ public class MainMenu extends JPanel {
         centerPanel.add(buttonLayout);
         centerPanel.setSize(new Dimension(800, 675));
         centerPanel.setMaximumSize(new Dimension(800, 675));
+        centerPanel.setSize(new Dimension(500,200));
+        centerPanel.setMaximumSize(new Dimension(500,200));
 
 
         centerPanel.setOpaque(false);

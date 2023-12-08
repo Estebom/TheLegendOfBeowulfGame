@@ -36,6 +36,9 @@ public class Enemy extends EnemyImages implements Serializable , Movement {
     public void setDamage(int damage) {
         this.damage = damage;
     }
+    public void setStep(int step){
+        this.step = step;
+    }
 
     public void setHealth(double health) {
         this.health = health;

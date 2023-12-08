@@ -54,6 +54,8 @@ public class ChestImages extends JLabel {
 
         if (icon != null) {
             this.setIcon(icon);
+            this.repaint();
+            this.revalidate();
         }
     }
 }

@@ -5,8 +5,10 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 
-
-public class Player implements Serializable, Movement {
+/**
+ * @author Iacopo Lenzi, Esteban Rodriguez
+ */
+public class Player extends JPanel implements Serializable, Movement {
     public String playerName;
     private double damageOutput;
     private double health;
@@ -23,6 +25,7 @@ public class Player implements Serializable, Movement {
     private boolean attackFinished = false;
     private static final int ATTACK_DURATION = 250;
     private Timer attackTimer;
+    private JProgressBar healthBar;
     private static Player instance;
     private static Player getInstance(){
 
@@ -37,7 +40,12 @@ public class Player implements Serializable, Movement {
         health = 1000.0;
         setupAttackTimer();
 
+
+
     }
+
+
+
     private void setupAttackTimer() {
         attackTimer = new Timer(ATTACK_DURATION, new ActionListener() {
             @Override
@@ -103,7 +111,7 @@ public class Player implements Serializable, Movement {
         } else if (isAttacking) {
             attackState = !attackState;
             PlayerImages.updateAnimation(currentDirection, walkState, attackState);
-            if (attackFinished) { // You need a mechanism to determine when the attack is finished
+            if (attackFinished) {
                 isAttacking = false;
             }
         } else {
@@ -181,8 +189,22 @@ public class Player implements Serializable, Movement {
     }
 
     public static void takeDamage(double damage){
+        SwingUtilities.invokeLater(() -> {
+            getInstance();
+            instance.health -= damage;
+
+            // Ensure health does not go below 0
+            instance.health = Math.max(instance.health, 0);
+
+            // Update the health bar
+            GamePlay.fill();
+        });
+    }
+    private static void updateHealthBar() {
         getInstance();
-        instance.health = instance.health - damage;
+        int healthValue = (int) Math.max(instance.health, 0); // Ensure health is not negative
+        GamePlay.fill();
+        instance.healthBar.setString("Health: " + healthValue);
     }
     public static char getCurrentDirection(){
         getInstance();
