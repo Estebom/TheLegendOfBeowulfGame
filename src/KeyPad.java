@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
 /**
  * This class is used to handle keyboard inputs during GamePlay
@@ -102,12 +103,19 @@ public class KeyPad extends KeyAdapter {
                 case KeyEvent.VK_3:
                 case KeyEvent.VK_4:
                 case KeyEvent.VK_5:
+                    int i = (int) java.lang.System.currentTimeMillis();
                     int digit = e.getKeyChar() - '0';
                     Inventory.setCollectableInUse(digit - 1);
                     Collectable collectable = Inventory.accessHotBar();
-                    if (collectable != null && collectable.getClass() == Weapon.class) {
-                        Weapon weapon = (Weapon) collectable;
-                        weapon.modifyPlayerDamage(true);
+                    if (collectable != null) {
+                        if (collectable instanceof Weapon) {
+                            Weapon weapon = (Weapon) collectable;
+                            weapon.modifyPlayerDamage(true);
+                        } else if (collectable instanceof Item) {
+                            Item item = (Item) collectable;
+                            int j = (int) java.lang.System.currentTimeMillis();
+                            item.use(true, (int) j - i );
+                        }
                     }
                     break;
 
@@ -126,11 +134,17 @@ public class KeyPad extends KeyAdapter {
                         if (pressTime == 0) { // Only set if not already pressed
                             pressTime = java.lang.System.currentTimeMillis();
                         }
+                    } else if (Inventory.accessHotBar() instanceof Item) {
+                        Player.heal(10.0);
+                        java.lang.System.out.println(Player.getHealth());
+
                     }
                     break;
 
                 // Handling 'Q' key press
                 case KeyEvent.VK_Q:
+                    java.lang.System.out.println("Interact");
+                    handleChestInteraction();
                     handleInteraction();
                     break;
 
@@ -167,6 +181,44 @@ public class KeyPad extends KeyAdapter {
             java.lang.System.out.println("interacting");
             GamePlay.showInteraction();
         }
+    }
+
+    public void handleChestInteraction() {
+
+        if (isChestInRange()) {
+            instance.interaction.openChest();
+            java.lang.System.out.println("2");
+        }
+    }
+
+    public static boolean isChestInRange() {
+        int playerX = Player.getPlayerPosX();
+        int playerY = Player.getPlayerPosY();
+        char playerDirection = Player.getCurrentDirection();
+
+        double interactionThreshold = 50.0;
+
+        for (Chest chest : GamePlay.accessChests()) {
+            int chestX = chest.getChestPosX();
+            int chestY = chest.getChestPosY();
+            double distance = Math.sqrt(Math.pow(playerX - chestX, 2) + Math.pow(playerY - chestY, 2));
+
+            if (distance <= interactionThreshold) {
+                char chestDirection = chest.getDirection();
+                boolean isFacingEachOther =
+                        (playerDirection == 'w' && chestDirection == 's') ||
+                                (playerDirection == 's' && chestDirection == 'w') ||
+                                (playerDirection == 'a' && chestDirection == 'd') ||
+                                (playerDirection == 'd' && chestDirection == 'a');
+
+
+                if (isFacingEachOther) {
+                    instance.interaction.setChest(chest);
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     // Method to check if an NPC is in interaction range
@@ -235,17 +287,18 @@ public class KeyPad extends KeyAdapter {
                                 java.lang.System.out.println("i swung");
                             }
                         }
-                    } else if (collectable instanceof Item) {
-                        Item item = (Item) collectable;
-                        item.use(true, (int) elapsedTime);
+
                     }
+                    break;
+
                 }
-                break;
         }
     }
 
-    // Method to set the readability of the keypad
-    public static void setReadable(boolean readable) {
-        instance.readKeys = readable;
-    }
+                // Method to set the readability of the keypad
+                public static void setReadable (boolean readable){
+                instance.readKeys = readable;
+            }
+
+
 }
