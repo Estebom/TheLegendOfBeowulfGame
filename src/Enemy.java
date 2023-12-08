@@ -2,22 +2,16 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author Esteban Rodriguez
  */
 public class Enemy extends EnemyImages implements Serializable , Movement {
 
-
     private Attack attack;
-
     private double health = 100;
     private int damage = 5;
-
     private int speed;
-
     private int drop;
     private String name;
     private transient Timer animationTimer;
@@ -26,15 +20,10 @@ public class Enemy extends EnemyImages implements Serializable , Movement {
     private volatile boolean active = true;
     private volatile boolean attacking = false;
     private boolean inKnockback = false;
-
-
-
     private int posx;
     private int posy;
     private int step = 5;
     private char currentDirection = ' ';
-
-
     private Collectable[] collectable = new Collectable[5];
 
     public Enemy(String name) {
@@ -42,11 +31,7 @@ public class Enemy extends EnemyImages implements Serializable , Movement {
         this.drop = (int) (Math.random() * 5) - 1;
         this.attack = new Attack(this);
         this.resetTimer();
-
-
-
     }
-
 
     public void setDamage(int damage) {
         this.damage = damage;
@@ -109,7 +94,7 @@ public class Enemy extends EnemyImages implements Serializable , Movement {
 
     }
     public void resumeNormalMovementAfterDelay() {
-        int delay = 500; // Adjust the delay as needed
+        int delay = 500;
         Timer resumeTimer = new Timer(delay, e -> {
             inKnockback = false;
             java.lang.System.out.println("Movement resumed");
@@ -228,7 +213,6 @@ public class Enemy extends EnemyImages implements Serializable , Movement {
                     }
                     return null;
                 }
-                // ... existing code ...
 
                 private char determineDirection(int playerX, int playerY) {
                     // Implement logic to determine direction based on player position

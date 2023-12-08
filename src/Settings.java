@@ -37,12 +37,6 @@ public class Settings extends JPanel {
         goBack.addActionListener(buttonListener);
 
 
-
-
-
-
-
-
         String[] resolutions = { "800x600", "1280x720", "1920x1080", "2560x1440" };
         resolutionBox = new JComboBox<>(resolutions);
         resolutionBox.setMaximumSize(new Dimension(200, 50));

@@ -7,8 +7,6 @@ import java.io.Serializable;
 public  class Attack implements Serializable {
     private Enemy enemy;
 
-
-
     public Attack(Enemy enemy) {
         this.enemy = enemy;
     }

@@ -12,44 +12,27 @@ public class NewGame extends JPanel {
     JTextField name;
     JButton easyButton;
     JButton mediumButton;
-
     JButton hardButton;
-
     JButton startButton;
-
     JButton goBack;
-
     JPanel newGameFeatures;
     JPanel difLayout;
-
     private Image backgroundImage;
 
     public NewGame(){
 
-
-
-
         this.setPreferredSize(new Dimension(1980, 1080));
         this.setLayout(new GridBagLayout());
-
-
 
         ImageIcon backdrop = new ImageIcon("src\\CastleBackDrop.png");
         backgroundImage = backdrop.getImage();
 
-
-
-
         newGameFeatures = new JPanel(new GridBagLayout());
         GridBagConstraints gbcFeatures = new GridBagConstraints();
-
-
-
 
         difLayout = new JPanel();
         difLayout.setLayout(new FlowLayout());
         difLayout.setOpaque(false);
-
 
         name = new JTextField("Player what is your name?");
         //name.setPreferredSize(new Dimension(100, 100));
@@ -63,8 +46,6 @@ public class NewGame extends JPanel {
         newGameFeatures.add(name, gbcFeatures);
 
 
-
-
         easyButton = new JButton("Easy");
         easyButton.setPreferredSize(new Dimension(250,100));
         easyButton.setOpaque(true);
@@ -75,7 +56,6 @@ public class NewGame extends JPanel {
 
         hardButton = new JButton("Hard");
         hardButton.setPreferredSize(new Dimension(250,100));
-
 
 
         difLayout.add(easyButton);
@@ -107,8 +87,6 @@ public class NewGame extends JPanel {
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
         gbc.fill = GridBagConstraints.NONE;
-
-
 
 
         this.add(newGameFeatures, gbc);
@@ -149,7 +127,6 @@ public class NewGame extends JPanel {
                     name.setText("Player what is your name?");
                     MainDisplay.showMainMenu();
                     break;
-
 
             }
 

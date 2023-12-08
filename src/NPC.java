@@ -6,7 +6,6 @@ import java.util.ArrayList;
 
 public class NPC extends JLabel{
 
-
     private int scaleWidth = 100;
     private int scaleHeight = 100;
     private JPanel interactionPanel;
@@ -17,14 +16,10 @@ public class NPC extends JLabel{
     private ArrayList<String> dialogueList = new ArrayList<>();
     private ArrayList<Collectable> npcInventory = new ArrayList<>();
     private int dialougeSpot;
-
     private String introLine;
-
     private Image scaledImage = null;
-
     private int npcPosX;
     private int npcPosY;
-
     private char direction = ' ';
     public NPC(String nameNPC, char direction){
 
@@ -78,20 +73,14 @@ public class NPC extends JLabel{
 
         this.setPreferredSize(new Dimension(scaleWidth, scaleHeight));
 
-
-
-
         interactionPanel = new JPanel();
         cardLayout = new CardLayout();
         JLabel npcName = new JLabel(this.nameNPC);
         JLabel initialMessage = new JLabel(this.introLine);
 
-
         interactionPanel.setSize(new Dimension(300,200));
         interactionPanel.setBackground(Color.BLUE);
         interactionPanel.setLayout(cardLayout);
-
-
 
         JPanel interactionMenu = new JPanel();
         JButton openBuy = new JButton("buy");
@@ -140,11 +129,7 @@ public class NPC extends JLabel{
         showInteractionMenu();
         interactionPanel.setVisible(true);
 
-
-
-
     }
-
 
     public void addNPCInventory(Collectable collectable){
 

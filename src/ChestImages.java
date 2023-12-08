@@ -2,30 +2,19 @@ import javax.swing.*;
 import java.awt.*;
 
 public class ChestImages extends JLabel {
-
-
-
     private int scaleWidth = 100;
     private int scaleHeight = 100;
     ImageIcon playerIcon;
     public static ImageIcon frontFacingChestClose;
-
     public static ImageIcon backFacingChestClose;
     public static ImageIcon leftFacingChestClose;
     public static ImageIcon rightFacingChestClose;
-
-
     private static ImageIcon frontFacingChestOpen;
     private static ImageIcon backFacingChestOpen;
     public static ImageIcon leftFacingChestOpen;
     public static ImageIcon rightFacingChestOpen;
-
     private ImageIcon originalIcon;
-
-
-
     private static PlayerImages instance;
-
 
     public ChestImages() {
 
@@ -37,10 +26,6 @@ public class ChestImages extends JLabel {
         //backFacingChestOpen = loadScaledIcon("src\\LeftFacingwalk.png");
         leftFacingChestOpen = loadScaledIcon("src\\leftFacingChestOpen.png");
         rightFacingChestOpen = loadScaledIcon("src\\rightFacingChestOpen.png");
-
-
-
-
 
         this.setPreferredSize(new Dimension(scaleWidth, scaleHeight));
     }

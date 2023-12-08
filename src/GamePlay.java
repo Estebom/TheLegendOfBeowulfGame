@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 /**
  * handles all game logic
- * @author Esteban Rodriguez
+ * @authors Esteban Rodriguez & Alfonso Avila & Iacopo Nohea Lenzi
  *
  */
 public  class GamePlay extends JPanel implements Serializable {

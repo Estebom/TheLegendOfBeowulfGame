@@ -7,7 +7,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class Inventory extends JPanel implements Serializable {
-    // TODO: 12/2/2023  DEFINE AN INTERFACE FOR BOTH WEAPON AND ITEM
+
     private JButton toggleButton;
     private JPanel inventoryPanel;
     private ArrayList<Item> items;
@@ -17,7 +17,6 @@ public class Inventory extends JPanel implements Serializable {
     private int currency = 0;
 
     private Collectable collectableInUse = null;
-
 
     private Collectable[][] inventory = new Collectable[5][5];
     private static Inventory instance;
@@ -29,10 +28,8 @@ public class Inventory extends JPanel implements Serializable {
         this.setBackground(Color.BLUE);
         this.setOpaque(true);
 
-
         inventoryPanel = new JPanel();
         inventoryPanel.setLayout(new GridLayout(5, 5));
-
 
         for (int i = 0; i < 25; i++) {
             JPanel slot = createInventorySlot();
@@ -41,10 +38,6 @@ public class Inventory extends JPanel implements Serializable {
 
         this.add(inventoryPanel);
         this.setVisible(false);
-
-
-
-
 
     }
     private JPanel createInventorySlot() {
@@ -57,7 +50,6 @@ public class Inventory extends JPanel implements Serializable {
             @Override
             public void mouseClicked(MouseEvent e) {
                 java.lang.System.out.println("Slot clicked");
-                // Implement logic to interact with inventory items or weapons here
             }
         });
 
@@ -103,7 +95,6 @@ public class Inventory extends JPanel implements Serializable {
                 for (int j = 1; j < 5; j++) {
                     if (instance.inventory[i][j] == collectable) {
                         instance.inventory[i][j] = null;
-
                         return;
                     }
                 }
@@ -114,6 +105,7 @@ public class Inventory extends JPanel implements Serializable {
     }
 
     public static void addCurrency(int currency) {
+
         getInstance();
         instance.currency += currency;
 
@@ -170,22 +162,10 @@ public class Inventory extends JPanel implements Serializable {
         return instance.weapons;
     }
 
-
-
-
-
-
-
-
-
     public static void inventoryToggle(){
         getInstance();
-
         instance.inventoryVisible = !instance.inventoryVisible;
         instance.setVisible(instance.inventoryVisible);
 
-
     }
-
-
 }

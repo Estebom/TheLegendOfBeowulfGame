@@ -4,7 +4,6 @@ import java.awt.*;
 
 
 
-
 public class MainDisplay extends JFrame {
     private MainMenu mainMenu;
     private NewGame newGame;
@@ -117,10 +116,4 @@ public class MainDisplay extends JFrame {
     public static Clip getGameSoundClip() {
         return gameSoundClip;
     }
-
-
-
-
-
-
 }

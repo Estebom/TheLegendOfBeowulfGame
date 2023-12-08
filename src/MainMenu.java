@@ -9,37 +9,25 @@ import java.awt.event.ActionListener;
  */
 public class MainMenu extends JPanel{
 
-
     JButton newGameButton;
     JButton loadGameButton;
     JButton settingButton;
     JButton exitGameButton;
-
     JPanel buttonLayout;
-
     JPanel centerPanel;
-
     private Image backgroundImage;
 
-
     public MainMenu( ){
-
-
 
         this.setPreferredSize(new Dimension(2560, 1440));
         this.setLayout(new BorderLayout());
 
-
-
         ImageIcon backdrop = new ImageIcon("src\\CastleBackDrop.png");
         backgroundImage = backdrop.getImage();
-
-
 
         newGameButton = new JButton("New Game");
         newGameButton.setPreferredSize(new Dimension(500, 100));
         newGameButton.setMaximumSize(new Dimension(500, 100)); // Set maximum size
-
 
         loadGameButton = new JButton("Load Game");
         loadGameButton.setPreferredSize(new Dimension(500, 100));
@@ -52,7 +40,6 @@ public class MainMenu extends JPanel{
         exitGameButton = new JButton("Exit Game");
         exitGameButton.setPreferredSize(new Dimension(500, 100));
         exitGameButton.setMaximumSize(new Dimension(500, 100)); // Set maximum size
-
 
         newGameButton.setActionCommand("NewGame");
         loadGameButton.setActionCommand("LOAD_GAME");
@@ -93,7 +80,6 @@ public class MainMenu extends JPanel{
         this.setVisible(true);
 
 
-
     }
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -101,7 +87,6 @@ public class MainMenu extends JPanel{
 
         // Draw the background image
         g.drawImage(backgroundImage, 0, 0, this.getWidth(), this.getHeight(), this);
-
 
     }
     ActionListener buttonListener  = new ActionListener() {
@@ -114,9 +99,7 @@ public class MainMenu extends JPanel{
                     break;
                 case "LOAD_GAME":
                     java.lang.System.out.println("Load Game clicked");
-                    GameState.readGameState("test");                   //Edit by Nohea
-
-                                     //Edit by Nohea
+                    GameState.readGameState("test");
                     MainDisplay.loadedGamePlay();
                     GamePlay.startGame();
                     break;
@@ -132,11 +115,6 @@ public class MainMenu extends JPanel{
             }
             MainMenu.this.revalidate();
             MainMenu.this.repaint();
-
         }
     };
-
-
 }
-
-

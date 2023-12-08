@@ -9,7 +9,6 @@ import java.io.Serializable;
 public class Player implements Serializable, Movement {
     public String playerName;
     private double damageOutput;
-
     private double health;
     private int playerPosX = 500;
     private int playerPosY = 500;
@@ -22,10 +21,8 @@ public class Player implements Serializable, Movement {
     private char currentDirection = ' ';
     private boolean walkState = false;
     private boolean attackFinished = false;
-
     private static final int ATTACK_DURATION = 250;
     private Timer attackTimer;
-
     private static Player instance;
     private static Player getInstance(){
 
@@ -198,10 +195,8 @@ public class Player implements Serializable, Movement {
     }
     public static void setPlayerPosY(int posY){
         getInstance();
-
         instance.playerPosY = posY;
     }
-
 
     public static void writeToOutputStream(ObjectOutputStream outputStream)throws java.io.IOException{
         getInstance();

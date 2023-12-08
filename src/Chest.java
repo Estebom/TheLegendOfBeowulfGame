@@ -9,23 +9,14 @@ import java.util.ArrayList;
  * @author Esteban Rodriguez
  */
 public class Chest extends ChestImages implements Serializable {
-
-
     private String name;
-
     private int chestPosX;
     private int chestPosY;
     private char direction = ' ';
-
     private Timer animationTimer;
     private boolean isMoving;
     private boolean closedState = true;
-
     private ArrayList<Collectable> chestInventory;
-
-
-
-
     public Chest(String name, char direction) {
 
         this.name = name;
@@ -87,7 +78,6 @@ public class Chest extends ChestImages implements Serializable {
     public void addCollectable(Collectable collectable){
         chestInventory.add(collectable);
 
-
     }
     public int getChestPosX(){
         return this.chestPosX;
@@ -99,14 +89,10 @@ public class Chest extends ChestImages implements Serializable {
     public char getDirection(){
         return this.direction;
     }
-
     public void setChestPosX(int chestPosX){
         this.chestPosX = chestPosX;
     }
     public void setChestPosY(int chestPosY){
         this.chestPosY = chestPosY;
     }
-
-
-
 }
