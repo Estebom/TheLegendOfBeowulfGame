@@ -56,21 +56,21 @@ public  class GamePlay extends JPanel implements Serializable {
         interactionPanel.setBounds(npcs.get(0).getX() + - 75, npcs.get(0).getY() + - 200, interactionPanel.getWidth(), interactionPanel.getHeight());
         interactionPanel.setVisible(false);
 
-        Enemy mimic = new Enemy("mimic");
-        mimic.setPosition(600,600);
-        mimic.setBounds(mimic.getPosx(), mimic.getPosy(),100,100);
+//        Enemy mimic = new Enemy("mimic");
+//        mimic.setPosition(600,600);
+//        mimic.setBounds(mimic.getPosx(), mimic.getPosy(),100,100);
 //
-//        Enemy mimic2 = new Enemy("mimic2");
-//        mimic2.setPosition(800,800);
-//        mimic2.setBounds(mimic.getPosx(), mimic.getPosy(),100,100);
+//       Enemy mimic2 = new Enemy("mimic2");
+//       mimic2.setPosition(800,800);
+//       mimic2.setBounds(mimic.getPosx(), mimic.getPosy(),100,100);
 //
-//        Enemy mimic3 = new Enemy("mimic3");
+//       Enemy mimic3 = new Enemy("mimic3");
 //        mimic3.setPosition(300,300);
-//        mimic3.setBounds(mimic.getPosx(), mimic.getPosy(),100,100);
+//      mimic3.setBounds(mimic.getPosx(), mimic.getPosy(),100,100);
 //
-        enemies.add(mimic);
-//        enemies.add(mimic2);
-//        enemies.add(mimic3);
+//       enemies.add(mimic);
+//       enemies.add(mimic2);
+//       enemies.add(mimic3);
 
 
 
@@ -109,9 +109,9 @@ public  class GamePlay extends JPanel implements Serializable {
         setupKeyBindings();
         this.add(layeredPane, BorderLayout.CENTER);
 
-        attack = new Attack(enemies.get(0));
-        //ShortSword sword = new ShortSword("speedy", 1000.0, 200, attack);
-//        Inventory.addCollectable(sword);
+        //attack = new Attack(enemies.get(0));
+        ShortSword sword = new ShortSword("speedy", 1000.0, 200, attack);
+        Inventory.addCollectable(sword);
 //
             Chest chest1 = new Chest("chestone", 'd');
 
@@ -131,11 +131,14 @@ public  class GamePlay extends JPanel implements Serializable {
 
         Item rope = new Item("rope", "gets player out of tricky situtation",40);
         chest1.addCollectable(rope);
+        chest1.setBounds(200,200,100,100);
+        layeredPane.add(chest1, Integer.valueOf(1));
 
 
         chests.add(chest1);
 
-
+        setupKeyBindings();
+        this.add(layeredPane, BorderLayout.CENTER);
     }
 
     /**
@@ -234,6 +237,7 @@ public  class GamePlay extends JPanel implements Serializable {
     }
 
     public static Enemy getEnemy(int i){
+        getInstance();
         return instance.enemies.get(i);
     }
 
@@ -283,6 +287,7 @@ public  class GamePlay extends JPanel implements Serializable {
     }
 
     private static void setHittableEnemy(Enemy enemy) {
+        getInstance();
         instance.hittable = true;
         instance.currentTarget = enemy;
         instance.attack.setCurrentTarget(getCurrentTarget());

@@ -1,3 +1,6 @@
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -14,6 +17,10 @@ public class Chest extends ChestImages implements Serializable {
     private int chestPosY;
     private char direction = ' ';
 
+    private Timer animationTimer;
+    private boolean isMoving;
+    private boolean closedState = true;
+
     private ArrayList<Collectable> chestInventory;
 
 
@@ -22,8 +29,43 @@ public class Chest extends ChestImages implements Serializable {
         this.name = name;
         this.direction = direction;
         chestInventory = new ArrayList<>();
+
+        ImageIcon icon;
+        switch (this.direction) {
+            case 'a':
+                icon = this.leftFacingChestClose; // Assuming leftFacingChestClose is the icon for 'a'
+                break;
+            case 'd':
+                icon = this.rightFacingChestClose; // Assuming rightFacingChestClose is the icon for 'd'
+                break;
+            // Add other cases if needed
+            default:
+                icon = null;
+                break;
+        }
+
+        if (icon != null) {
+            this.setIcon(icon);
+        }
+    }
+    private void resetTimer(){
+
+        this.animationTimer = new Timer(150, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {updateAnimation();
+            }
+        });
     }
 
+    public void updateAnimation(){
+
+        if (isMoving) {
+            closedState = !closedState;
+            this.updateAnimation(this.direction, closedState);
+        } else {
+            animationTimer.stop();
+        }
+    }
     public Collectable openChest() {
 
         int range = (1 - 5) + 1;

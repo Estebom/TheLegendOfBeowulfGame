@@ -8,36 +8,40 @@ public class ChestImages extends JLabel {
     private int scaleWidth = 100;
     private int scaleHeight = 100;
     ImageIcon playerIcon;
-    private static ImageIcon frontFacingChestClose;
+    public static ImageIcon frontFacingChestClose;
 
-    private static ImageIcon backFacingChestClose;
-    private static ImageIcon leftFacingChestClose;
-    private static ImageIcon rightFacingChestClose;
+    public static ImageIcon backFacingChestClose;
+    public static ImageIcon leftFacingChestClose;
+    public static ImageIcon rightFacingChestClose;
 
 
     private static ImageIcon frontFacingChestOpen;
     private static ImageIcon backFacingChestOpen;
-    private static ImageIcon leftFacingChestOpen;
-    private static ImageIcon rightFacingChestOpen;
+    public static ImageIcon leftFacingChestOpen;
+    public static ImageIcon rightFacingChestOpen;
 
     private ImageIcon originalIcon;
+
+
 
     private static PlayerImages instance;
 
 
     public ChestImages() {
-        originalIcon = loadScaledIcon("src\\FRONTSTANDING.png");
-        frontFacingChestClose = loadScaledIcon("src\\FrontFacingBeowulf.png");
-        backFacingChestClose = loadScaledIcon("src\\FrontFacingRIGHTBeowulf.png");
-        leftFacingChestClose = loadScaledIcon("src\\BackLeft.png");
-        rightFacingChestClose = loadScaledIcon("src\\BackRight.png");
-        frontFacingChestOpen = loadScaledIcon("src\\LeftFacingStanding.png");
-        backFacingChestOpen = loadScaledIcon("src\\LeftFacingwalk.png");
-        leftFacingChestOpen = loadScaledIcon("src\\RightFacingwalk.png");
-        rightFacingChestOpen = loadScaledIcon("src\\RightFacingStanding.png");
+
+       // frontFacingChestClose = loadScaledIcon("src\\FrontFacingBeowulf.png");
+        //backFacingChestClose = loadScaledIcon("src\\FrontFacingRIGHTBeowulf.png");
+        leftFacingChestClose = loadScaledIcon("src\\leftFacingChestCLose.png");
+        rightFacingChestClose = loadScaledIcon("src\\rightFacingChestClose.png");
+        //frontFacingChestOpen = loadScaledIcon("src\\LeftFacingStanding.png");
+        //backFacingChestOpen = loadScaledIcon("src\\LeftFacingwalk.png");
+        leftFacingChestOpen = loadScaledIcon("src\\leftFacingChestOpen.png");
+        rightFacingChestOpen = loadScaledIcon("src\\rightFacingChestOpen.png");
 
 
-        this.setIcon(originalIcon);
+
+
+
         this.setPreferredSize(new Dimension(scaleWidth, scaleHeight));
     }
 
@@ -47,4 +51,24 @@ public class ChestImages extends JLabel {
         return new ImageIcon(scaledImage);
     }
 
+    public  void updateAnimation(char currentDirection, boolean closedState) {
+        ImageIcon icon = null;
+
+            switch (currentDirection) {
+                case 'a':
+                    icon = closedState ? leftFacingChestClose : leftFacingChestOpen;
+                    break;
+                case 'd':
+                    icon = closedState ? rightFacingChestClose : rightFacingChestOpen;
+                    break;
+            }
+//                case 'w': icon = backLeftSword;
+//                    break;
+//                case 's': icon = frontFacingWalkIconSword;
+//                    break;
+
+        if (icon != null) {
+            this.setIcon(icon);
+        }
+    }
 }

@@ -24,14 +24,15 @@ public class Interaction extends JPanel {
 
     public void openChest() {
         Inventory.addCollectable(chest.openChest());
+        java.lang.System.out.println("opening chest");
+
     }
 
 
-    public void  handleChestInteraction(){
-        this.chest = KeyPad.isChestInRange();
-                java.lang.System.out.println("interacting with chest");
-                openChest();
-        }
+  public void setChest(Chest chest){
+        this.chest = chest;
+      java.lang.System.out.println("you are near a chest");
+  }
 
 
     public void npcInteraction(NPC npc){

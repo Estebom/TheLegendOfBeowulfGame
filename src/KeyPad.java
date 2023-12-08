@@ -131,7 +131,7 @@ public class KeyPad extends KeyAdapter {
 
                 case KeyEvent.VK_Q:
                     java.lang.System.out.println("Interact");
-                    interaction.handleChestInteraction();
+                    handleChestInteraction();
                     handleInteraction();
                     break;
 
@@ -170,44 +170,41 @@ public class KeyPad extends KeyAdapter {
           // interaction.npcInteraction(GamePlay.accessNPC());
         }
     }
-
-
-
-
-    public static Chest isChestInRange() {
-
-        int playerX = Player.getPlayerPosX();
-        int playerY = Player.getPlayerPosY();
-
-
-
-
-        char playerDirection = Player.getCurrentDirection();
-
-        ArrayList<Chest> chests = GamePlay.accessChests();
-
-        double distance = 0;
-        double interactionThreshold = 50.0;
-
-        for(Chest chest : chests){
-            char chestDirection = chest.getDirection();
-            int chestX = chest.getChestPosX();
-            int chestY = chest.getChestPosY();
-            distance = Math.max(distance, Math.sqrt(Math.pow(playerX - chestX, 2) + Math.pow(playerY - chestY, 2)));
-
-            boolean b = (distance <= interactionThreshold) &&
-                    (playerDirection == 'w' && chestDirection == 's' ||
-                            playerDirection == 's' && chestDirection == 'w' ||
-                            playerDirection == 'a' && chestDirection == 'd' ||
-                            playerDirection == 'd' && chestDirection == 'a');
-
-            if (b){return chest;}
-
+    public void handleChestInteraction() {
+        if(isChestInRange()){
+            instance.interaction.openChest();
         }
-            return null;
-
     }
 
+    public static boolean isChestInRange() {
+        int playerX = Player.getPlayerPosX();
+        int playerY = Player.getPlayerPosY();
+        char playerDirection = Player.getCurrentDirection();
+        ArrayList<Chest> chests = GamePlay.accessChests();
+        double interactionThreshold = 50.0;
+
+        for (Chest chest : chests) {
+            int chestX = chest.getChestPosX();
+            int chestY = chest.getChestPosY();
+            double distance = Math.sqrt(Math.pow(playerX - chestX, 2) + Math.pow(playerY - chestY, 2));
+
+            if (distance <= interactionThreshold) {
+                char chestDirection = chest.getDirection();
+                boolean isFacingEachOther =
+                        (playerDirection == 'w' && chestDirection == 's') ||
+                                (playerDirection == 's' && chestDirection == 'w') ||
+                                (playerDirection == 'a' && chestDirection == 'd') ||
+                                (playerDirection == 'd' && chestDirection == 'a');
+
+
+                if (isFacingEachOther) {
+                    instance.interaction.setChest(chest);
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
     private boolean isNPCInRange() {
         int playerX = Player.getPlayerPosX();
