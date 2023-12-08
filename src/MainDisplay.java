@@ -84,6 +84,7 @@ public class MainDisplay extends JFrame {
         ((CardLayout)instance.getContentPane().getLayout()).show(instance.getContentPane(), "START");
         GamePlay.initialize(true);
         GamePlay.initializeKeyPad();
+        Player.resetPlayerTimer();
     }
     /**
      * displays the Settings panel to the MainDisplay
@@ -107,7 +108,7 @@ public class MainDisplay extends JFrame {
     public static void startGamePlayMusic(){
 
 
-        AudioPlayer.startLoopingSound("audio\\estebom_Theme.wav");
+        AudioPlayer.startLoopingSound("audio\\estebom_theme.wav");
     }
     public static Clip getMusicClip() {
         return musicClip;

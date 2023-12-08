@@ -1,5 +1,3 @@
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -76,21 +74,22 @@ public class Inventory extends JPanel implements Serializable {
     //for future make to map
     public static void addCollectable(Collectable collectable) {
         getInstance();
-        for (int i = 0; i < 5; i++) {
-            if (instance.inventory[i][0] == null) {
-                instance.inventory[i][0] = collectable;
-                return;
-            } else {
-                for (int j = 1; j < 5; j++) {
-                    if (instance.inventory[i][j] == null) {
-                        instance.inventory[i][j] = collectable;
+        if(collectable!= null) {
+            for (int i = 0; i < 5; i++) {
+                if (instance.inventory[i][0] == null) {
+                    instance.inventory[i][0] = collectable;
+                    return;
+                } else {
+                    for (int j = 1; j < 5; j++) {
+                        if (instance.inventory[i][j] == null) {
+                            instance.inventory[i][j] = collectable;
 
-                        return;
+                            return;
+                        }
                     }
                 }
             }
         }
-
 
     }
 
@@ -182,8 +181,8 @@ public class Inventory extends JPanel implements Serializable {
     public static void inventoryToggle(){
         getInstance();
 
-                instance.inventoryVisible = !instance.inventoryVisible;
-                instance.setVisible(instance.inventoryVisible);
+        instance.inventoryVisible = !instance.inventoryVisible;
+        instance.setVisible(instance.inventoryVisible);
 
 
     }
