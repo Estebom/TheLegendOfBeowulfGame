@@ -20,6 +20,8 @@ public  class GamePlay extends JPanel implements Serializable {
     private Enemy currentTarget;
     private static GamePlay instance;
     private Attack attack;
+    private JPanel gameUI;
+    private JProgressBar healthBar;
     public static GamePlay getInstance(){
         if(instance == null){
             instance = new GamePlay();
@@ -154,12 +156,46 @@ public  class GamePlay extends JPanel implements Serializable {
             layeredPane.add(chest, Integer.valueOf(1));
         }
 
+
+
+
+        healthBar = new JProgressBar();
+        healthBar.setValue((int)Player.getHealth());
+        healthBar.setBounds(0,0,420,50);
+        healthBar.setStringPainted(true);
+
+
+        JPanel playerinfo = new JPanel();
+        playerinfo.add(healthBar);
+        playerinfo.setSize(600,200);
+        playerinfo.setLayout(null);
+        playerinfo.setVisible(true);
+
+
+        gameUI = new JPanel();
+        gameUI.setBounds(0,0,400,50);
+        gameUI.setOpaque(false);
+        gameUI.setLayout(new BorderLayout());
+        gameUI.add(playerinfo, BorderLayout.CENTER);
+
+        layeredPane.add(gameUI,Integer.valueOf(2));
+
+
+
         setupKeyBindings();
         this.add(layeredPane, BorderLayout.CENTER);
         this.setFocusable(true);
         this.requestFocusInWindow();
     }
-    public static void fill(){}
+    public static void fill(){
+        getInstance();
+        if (instance.healthBar != null) { // Check if healthBar is not null
+            int healthValue = (int) Math.max(Player.getHealth(), 0); // Ensure health is not negative
+            instance.healthBar.setValue(healthValue);
+            instance.healthBar.setString("Health: " + healthValue);
+        }
+    }
+
     /**
      * sets all keyboard inputs to this panel
      * @param b this boolean sets the action for the gameplay to be initialized
