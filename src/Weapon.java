@@ -100,4 +100,9 @@ public class Weapon implements Collectable, Serializable {
     public int getPrice() {
         return this.price;
     }
+
+    @Override
+    public String getName() {
+        return this.weaponName;
+    }
 }

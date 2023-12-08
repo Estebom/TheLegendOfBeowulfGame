@@ -37,6 +37,7 @@ public class Item implements Collectable {
     // Implementation of the use method from the Collectable interface (not utilized in the provided code)
     @Override
     public void use(boolean b, int i) {
+        java.lang.System.out.println("use item");
         // Implementation details for using the item, but not specified in the code
     }
 
@@ -44,5 +45,10 @@ public class Item implements Collectable {
     @Override
     public int getPrice() {
         return this.price;
+    }
+
+    @Override
+    public String getName() {
+        return this.nameItem;
     }
 }

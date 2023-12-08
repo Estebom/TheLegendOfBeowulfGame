@@ -30,7 +30,7 @@ public class Interaction extends JPanel {
 
     // Method to open a chest and add a collectable item to the player's inventory
     public void openChest() {
-        Inventory.addCollectable(chest.openChest());
+        Inventory.addCollectable(chest.openChest() );
         java.lang.System.out.println("opening chest");
 
     }

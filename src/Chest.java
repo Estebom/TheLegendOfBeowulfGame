@@ -24,6 +24,8 @@ public class Chest extends ChestImages implements Serializable {
     private ArrayList<Collectable> chestInventory;
 
 
+
+
     public Chest(String name, char direction) {
 
         this.name = name;
@@ -67,15 +69,21 @@ public class Chest extends ChestImages implements Serializable {
         }
     }
     public Collectable openChest() {
+        if (closedState) {
+            if (chestInventory.isEmpty()) {
+                java.lang.System.out.println("The chest is empty.");
+                return null;
+            }
 
-        int range = (1 - 5) + 1;
-        int decision = (int) (Math.random() * range) + 1;
+            int index = (int) (Math.random() * chestInventory.size());
+            Collectable collectable = chestInventory.get(index);
+            java.lang.System.out.println(collectable.getName());
+            closedState = !closedState;
+            return collectable;
 
-        Collectable collectable = chestInventory.get(decision);
-        return collectable;
-
+        }
+        return null;
     }
-
     public void addCollectable(Collectable collectable){
         chestInventory.add(collectable);
 
@@ -90,6 +98,13 @@ public class Chest extends ChestImages implements Serializable {
     }
     public char getDirection(){
         return this.direction;
+    }
+
+    public void setChestPosX(int chestPosX){
+        this.chestPosX = chestPosX;
+    }
+    public void setChestPosY(int chestPosY){
+        this.chestPosY = chestPosY;
     }
 
 

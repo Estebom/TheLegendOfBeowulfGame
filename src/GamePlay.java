@@ -110,15 +110,16 @@ public  class GamePlay extends JPanel implements Serializable {
         this.add(layeredPane, BorderLayout.CENTER);
 
         //attack = new Attack(enemies.get(0));
-        ShortSword sword = new ShortSword("speedy", 1000.0, 200, attack);
-        Inventory.addCollectable(sword);
+//        ShortSword sword = new ShortSword("speedy", 1000.0, 200, attack);
+//        Inventory.addCollectable(sword);
 //
             Chest chest1 = new Chest("chestone", 'd');
 
-            ShortSword sword1= new ShortSword("speed", 10, 200, attack);
-            chest1.addCollectable(sword1);
             Item bandage = new Item("bandage", "heals players",10);
             chest1.addCollectable(bandage);
+            ShortSword sword1= new ShortSword("speed", 10, 200, attack);
+            chest1.addCollectable(sword1);
+
 
         ShortSword sword2= new ShortSword("lightning", 20, 300, attack);
         chest1.addCollectable(sword2);
@@ -131,7 +132,9 @@ public  class GamePlay extends JPanel implements Serializable {
 
         Item rope = new Item("rope", "gets player out of tricky situtation",40);
         chest1.addCollectable(rope);
-        chest1.setBounds(200,200,100,100);
+        chest1.setChestPosX(200);
+        chest1.setChestPosY(200);
+        chest1.setBounds(chest1.getChestPosX(),chest1.getChestPosY(),100,100);
         layeredPane.add(chest1, Integer.valueOf(1));
 
 
