@@ -78,13 +78,13 @@ public class MainDisplay extends JFrame {
         ((CardLayout)instance.getContentPane().getLayout()).show(instance.getContentPane(), "SETTINGS");
     }
     public static void startMainMenuMusic() {
-        AudioPlayer.startLoopingSound("audio\\MainMenuTheme.wav");
+        AudioPlayer.startLoopingSound("resources/audio/MainMenuTheme.wav");
     }
     public static void stopPlayingMusic() {
         AudioPlayer.stopSound();
     }
     public static void startGamePlayMusic(){
-        AudioPlayer.startLoopingSound("audio\\estebom_theme.wav");
+        AudioPlayer.startLoopingSound("resources/audio/estebom_theme.wav");
     }
     public static Clip getMusicClip() {
         return musicClip;

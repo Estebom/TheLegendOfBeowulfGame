@@ -1,7 +1,10 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.InputStream;
+
 /**
  * For the creation of a new game state, dispays new game interface
  * @author Esteban Rodriguez
@@ -19,8 +22,7 @@ public class NewGame extends JPanel {
     public NewGame(){
         this.setPreferredSize(new Dimension(1980, 1080));
         this.setLayout(new GridBagLayout());
-        ImageIcon backdrop = new ImageIcon("src\\CastleBackDrop.png");
-        backgroundImage = backdrop.getImage();
+        backgroundImage = loadImage("resources/images/CastleBackDrop.png");
         newGameFeatures = new JPanel(new GridBagLayout());
         GridBagConstraints gbcFeatures = new GridBagConstraints();
         difLayout = new JPanel();
@@ -92,6 +94,19 @@ public class NewGame extends JPanel {
         super.paintComponent(g);
         // Draw the background image
         g.drawImage(backgroundImage, 0, 0, this.getWidth(), this.getHeight(), this);
+    }
+    private Image loadImage(String path) {
+        Image image = null;
+        try (InputStream is = getClass().getResourceAsStream(path)) {
+            if (is != null) {
+                image = ImageIO.read(is);
+            } else {
+                System.err.println("Could not load image at path: " + path);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return image;
     }
     ActionListener buttonListener = new ActionListener() {
         @Override

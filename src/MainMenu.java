@@ -1,7 +1,10 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.InputStream;
+
 /**
  * This class is the MainMenu interface for users
  * @author Esteban Rodriguez
@@ -17,8 +20,8 @@ public class MainMenu extends JPanel{
     public MainMenu( ){
         this.setPreferredSize(new Dimension(2560, 1440));
         this.setLayout(new BorderLayout());
-        ImageIcon backdrop = new ImageIcon("src\\CastleBackDrop.png");
-        backgroundImage = backdrop.getImage();
+
+        backgroundImage = loadImage("resources/images/CastleBackDrop.png");
 
 
         newGameButton = new JButton("New Game");// Set maximum size
@@ -78,6 +81,19 @@ public class MainMenu extends JPanel{
         java.lang.System.out.println("Painting component");
         // Draw the background image
         g.drawImage(backgroundImage, 0, 0, this.getWidth(), this.getHeight(), this);
+    }
+    private Image loadImage(String path) {
+        Image image = null;
+        try (InputStream is = getClass().getResourceAsStream(path)) {
+            if (is != null) {
+                image = ImageIO.read(is);
+            } else {
+                System.err.println("Could not load image at path: " + path);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return image;
     }
     ActionListener buttonListener  = new ActionListener() {
         @Override

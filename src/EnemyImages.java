@@ -1,5 +1,9 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.InputStream;
 
 public class EnemyImages extends JLabel{
         private int scaleWidth = 100;
@@ -13,26 +17,41 @@ public class EnemyImages extends JLabel{
 
 
         public EnemyImages() {
-            originalIcon = loadScaledIcon("src\\EnemiesFRONTSTANDING.png");
-            frontFacingLeftIcon = loadScaledIcon("src\\EnemiesFrontFacingBeowulf_1.png");
-            frontFacingRightIcon = loadScaledIcon("src\\EnemiesFrontFacingRIGHTBeowulf.png");
-            backFacingLeftIcon = loadScaledIcon("src\\EnemiesBackLeft.png");
-            backFacingRightIcon = loadScaledIcon("src\\EnemiesBackRight.png");
-            leftFacingStillIcon = loadScaledIcon("src\\EnemiesLeftFacingStanding.png");
-            leftFacingWalkIcon = loadScaledIcon("src\\EnemiesLeftFacingwalk.png");
-            rightFacingWalkIcon = loadScaledIcon("src\\EnemiesRightFacingwalk.png");
-            rightFacingStillIcon = loadScaledIcon("src\\EnemiesRightFacingStanding.png");
+            originalIcon = loadScaledIcon("resources/images/EnemiesFRONTSTANDING.png");
+            frontFacingLeftIcon = loadScaledIcon("resources/images/EnemiesFrontFacingBeowulf_1.png");
+            frontFacingRightIcon = loadScaledIcon("resources/images/EnemiesFrontFacingRIGHTBeowulf.png");
+            backFacingLeftIcon = loadScaledIcon("resources/images/EnemiesBackLeft.png");
+            backFacingRightIcon = loadScaledIcon("resources/images/EnemiesBackRight.png");
+            leftFacingStillIcon = loadScaledIcon("resources/images/EnemiesLeftFacingStanding.png");
+            leftFacingWalkIcon = loadScaledIcon("resources/images/EnemiesLeftFacingwalk.png");
+            rightFacingWalkIcon = loadScaledIcon("resources/images/EnemiesRightFacingwalk.png");
+            rightFacingStillIcon = loadScaledIcon("resources/images/EnemiesRightFacingStanding.png");
 
             // Set the initial icon
             this.setIcon(originalIcon);
             this.setPreferredSize(new Dimension(scaleWidth, scaleHeight));
         }
 
-        private ImageIcon loadScaledIcon(String path) {
-            ImageIcon icon = new ImageIcon(path);
-            Image scaledImage = icon.getImage().getScaledInstance(scaleWidth, scaleHeight, Image.SCALE_SMOOTH);
-            return new ImageIcon(scaledImage);
+    private ImageIcon loadScaledIcon(String path) {
+        BufferedImage img = null;
+        try (InputStream is = getClass().getResourceAsStream(path)) {
+            if (is != null) {
+                img = ImageIO.read(is);
+            } else {
+                // Consider logging this or throwing an exception
+                System.err.println("Could not load image at path: " + path);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+
+        if (img != null) {
+            Image scaledImage = img.getScaledInstance(scaleWidth, scaleHeight, Image.SCALE_SMOOTH);
+            return new ImageIcon(scaledImage);
+        } else {
+            return new ImageIcon(); // Return an empty icon in case of failure
+        }
+    }
         public void updateAnimation(char currentDirection, boolean walkState) {
             ImageIcon icon = null;
             switch (currentDirection) {

@@ -1,5 +1,7 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 /**
@@ -30,7 +32,7 @@ public  class GamePlay extends JPanel implements Serializable {
         this.setLayout(new BorderLayout());
         this.setBackground(Color.BLACK);
         JLabel backmap = new JLabel();
-        ImageIcon mapIcon = new ImageIcon("src\\map.png");
+        ImageIcon mapIcon = new ImageIcon(loadImage("resources/images/map.png"));
         backmap.setIcon(mapIcon);
         backmap.setBounds(0,0,1980,1080);
         backmap.setOpaque(false);
@@ -295,4 +297,19 @@ public  class GamePlay extends JPanel implements Serializable {
         getInstance();
         return instance.chests;
     }
+
+    private Image loadImage(String path) {
+        Image image = null;
+        try (InputStream is = getClass().getResourceAsStream(path)) {
+            if (is != null) {
+                image = ImageIO.read(is);
+            } else {
+                System.err.println("Could not load image at path: " + path);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return image;
+    }
+
 }

@@ -1,23 +1,32 @@
 import javax.sound.sampled.*;
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 
 public class AudioPlayer {
     private static Clip clip = null;
 
-    public static void startLoopingSound(String filePath) {
+    public static void startLoopingSound(String resourcePath) {
         try {
             if (clip != null && clip.isRunning()) {
                 clip.stop();
             }
+            // Obtain an InputStream from the resource path
+            InputStream audioSrc = AudioPlayer.class.getResourceAsStream(resourcePath);
+            if (audioSrc == null) {
+                throw new IOException("Resource not found: " + resourcePath);
+            }
+            // Wrap the InputStream in a BufferedInputStream
+            BufferedInputStream bufferedIn = new BufferedInputStream(audioSrc);
+            // Obtain the AudioInputStream from the BufferedInputStream
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(bufferedIn);
 
-            File file = new File(filePath);
-            AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
             AudioFormat format = audioStream.getFormat();
             DataLine.Info info = new DataLine.Info(Clip.class, format);
 
             if (!AudioSystem.isLineSupported(info)) {
-                java.lang.System.err.println("Line not supported");
+                System.err.println("Line not supported");
                 return;
             }
 
@@ -28,6 +37,9 @@ public class AudioPlayer {
             e.printStackTrace();
         }
     }
+
+
+
     public static void setVolumeForGame(float volumePercent) {
         setVolume(MainDisplay.getGameSoundClip(), volumePercent);
     }
