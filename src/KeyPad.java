@@ -1,4 +1,3 @@
-//Esteban Rodriguez & Alfonso Avila
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
@@ -293,12 +292,3 @@ public class KeyPad extends KeyAdapter {
         instance.readKeys = readable;
     }
 }
-
-
-
-
-
-
-
-
-
