@@ -1,48 +1,35 @@
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.FloatControl;
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import javax.sound.sampled.*;
 
 public class Settings extends JPanel {
     private JButton goBack;
-
-
     private JComboBox<String> resolutionBox;
     private JSlider gameVolumeSlider;
     private JSlider musicVolumeSlider;
     private JLabel gameVolumeLabel;
     private JLabel musicVolumeLabel;
+    private Clip musicClip; // Clip object to control music playback
 
-    private Image backgroundImage;
-
-
-    public Settings( ) {
-
-
+    public Settings() {
         this.setPreferredSize(new Dimension(800, 675));
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-        ImageIcon backdrop = new ImageIcon("src\\CastleBackDrop.png");
-        backgroundImage = backdrop.getImage();
-
-
         goBack = new JButton("Go Back to Main Menu");
         goBack.setMaximumSize(new Dimension(200, 50));
-        goBack.setAlignmentX(Component.CENTER_ALIGNMENT); // center align the button
+        goBack.setAlignmentX(Component.CENTER_ALIGNMENT);
         goBack.setActionCommand("MainMenu");
         goBack.addActionListener(buttonListener);
-
 
         String[] resolutions = { "800x600", "1280x720", "1920x1080", "2560x1440" };
         resolutionBox = new JComboBox<>(resolutions);
         resolutionBox.setMaximumSize(new Dimension(200, 50));
-        resolutionBox.setAlignmentX(Component.CENTER_ALIGNMENT); // center align the combo box
+        resolutionBox.setAlignmentX(Component.CENTER_ALIGNMENT);
         resolutionBox.addActionListener(e -> {
-            String selectedResolution = (String)resolutionBox.getSelectedItem();
+            String selectedResolution = (String) resolutionBox.getSelectedItem();
             String[] dimensions = selectedResolution.split("x");
             int width = Integer.parseInt(dimensions[0]);
             int height = Integer.parseInt(dimensions[1]);
@@ -50,76 +37,76 @@ public class Settings extends JPanel {
             MainDisplay.getInstance().setLocationRelativeTo(null);
         });
 
-        gameVolumeSlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 50); // range from 0 to 100, initially set to 50
+        gameVolumeSlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 50);
         gameVolumeSlider.setMajorTickSpacing(10);
         gameVolumeSlider.setPaintTicks(true);
         gameVolumeSlider.setPaintLabels(true);
         gameVolumeSlider.setMaximumSize(new Dimension(200, 50));
-//        gameVolumeSlider.addChangeListener(new ChangeListener() {
-//            @Override
-//            public void stateChanged(ChangeEvent e) {
-//                float volume = gameVolumeSlider.getValue() / 100f; // Convert to a range of 0.0 to 1.0
-//                java.lang.System.out.println("Game volume adjusted to: " + volume);
-//                AudioPlayer.setVolumeForGame(volume); // Assuming you have this method in AudioPlayer
-//            }
-//        });
-        gameVolumeSlider.setAlignmentX(Component.CENTER_ALIGNMENT); // center align the slider
+        gameVolumeSlider.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        musicVolumeSlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 50); // range from 0 to 100, initially set to 50
+        musicVolumeSlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 50);
         musicVolumeSlider.setMajorTickSpacing(10);
         musicVolumeSlider.setPaintTicks(true);
         musicVolumeSlider.setPaintLabels(true);
         musicVolumeSlider.setMaximumSize(new Dimension(200, 50));
-
-        musicVolumeSlider.setAlignmentX(Component.CENTER_ALIGNMENT); // center align the slider
+        musicVolumeSlider.setAlignmentX(Component.CENTER_ALIGNMENT);
+        musicVolumeSlider.addChangeListener(e -> {
+            int volume = musicVolumeSlider.getValue();
+            FloatControl control = (FloatControl) musicClip.getControl(FloatControl.Type.MASTER_GAIN);
+            control.setValue(-80.0f + volume);
+        });
 
         gameVolumeLabel = new JLabel("Game Volume");
-        gameVolumeLabel.setAlignmentX(Component.CENTER_ALIGNMENT); // center align the label
+        gameVolumeLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         musicVolumeLabel = new JLabel("Music Volume");
-//        musicVolumeSlider.addChangeListener(new ChangeListener() {
-//            @Override
-//            public void stateChanged(ChangeEvent e) {
-//                float volume = musicVolumeSlider.getValue() / 100f; // Convert to a range of 0.0 to 1.0
-//                AudioPlayer.setVolumeForMusic(volume); // Assuming you have this method in AudioPlayer
-//            }
-//        });
-        musicVolumeLabel.setAlignmentX(Component.CENTER_ALIGNMENT); // center align the label
+        musicVolumeLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        this.add(Box.createVerticalStrut(20)); // add some space at the top
+        this.add(Box.createVerticalStrut(20));
         this.add(goBack);
-        this.add(Box.createVerticalStrut(20)); // add some space
+        this.add(Box.createVerticalStrut(20));
         this.add(resolutionBox);
-        this.add(Box.createVerticalStrut(20)); // add some space
+        this.add(Box.createVerticalStrut(20));
         this.add(gameVolumeLabel);
         this.add(gameVolumeSlider);
-        this.add(Box.createVerticalStrut(20)); // add some space
+        this.add(Box.createVerticalStrut(20));
         this.add(musicVolumeLabel);
         this.add(musicVolumeSlider);
-        this.add(Box.createVerticalStrut(20)); // add some space at the bottom
+        this.add(Box.createVerticalStrut(20));
         this.setVisible(true);
+
+        // Load music file and start playing
+        try {
+            File musicFile = new File("MainMenuTheme.wav");
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(musicFile);
+            musicClip = AudioSystem.getClip();
+            musicClip.open(audioStream);
+            playMusic();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        java.lang.System.out.println("Painting component");
 
-        // Draw the background image
-        g.drawImage(backgroundImage, 0, 0, this.getWidth(), this.getHeight(), this);
-
-
+    // Method to play music
+    public void playMusic() {
+        if (musicClip != null && !musicClip.isRunning()) {
+            musicClip.loop(Clip.LOOP_CONTINUOUSLY);
+        }
     }
-
 
     ActionListener buttonListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            if(e.getActionCommand().equals("MainMenu")){
+            if (e.getActionCommand().equals("MainMenu")) {
+                stopMusic();
                 MainDisplay.showMainMenu();
             }
         }
     };
 
-
-
-
-
+    // Method to stop music
+    public void stopMusic() {
+        if (musicClip != null && musicClip.isRunning()) {
+            musicClip.stop();
+        }
+    }
 }

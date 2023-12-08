@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
  * This class is the MainMenu interface for users
  * @author Esteban Rodriguez
  */
-public class MainMenu extends JPanel{
+public class MainMenu extends JPanel {
 
     JButton newGameButton;
     JButton loadGameButton;
@@ -17,7 +17,7 @@ public class MainMenu extends JPanel{
     JPanel centerPanel;
     private Image backgroundImage;
 
-    public MainMenu( ){
+    public MainMenu() {
 
         this.setPreferredSize(new Dimension(2560, 1440));
         this.setLayout(new BorderLayout());
@@ -68,8 +68,8 @@ public class MainMenu extends JPanel{
 
         centerPanel = new JPanel(new GridBagLayout());
         centerPanel.add(buttonLayout);
-        centerPanel.setSize(new Dimension(800,675));
-        centerPanel.setMaximumSize(new Dimension(800,675));
+        centerPanel.setSize(new Dimension(800, 675));
+        centerPanel.setMaximumSize(new Dimension(800, 675));
 
 
         centerPanel.setOpaque(false);
@@ -81,6 +81,7 @@ public class MainMenu extends JPanel{
 
 
     }
+
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         java.lang.System.out.println("Painting component");
@@ -89,10 +90,11 @@ public class MainMenu extends JPanel{
         g.drawImage(backgroundImage, 0, 0, this.getWidth(), this.getHeight(), this);
 
     }
-    ActionListener buttonListener  = new ActionListener() {
+
+    ActionListener buttonListener = new ActionListener() {
         @Override
-        public void actionPerformed (ActionEvent e){
-            switch (e.getActionCommand()){
+        public void actionPerformed(ActionEvent e) {
+            switch (e.getActionCommand()) {
                 case "NewGame":
                     java.lang.System.out.println("New Game started");
                     MainDisplay.showNewGame();
