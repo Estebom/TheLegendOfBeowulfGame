@@ -12,8 +12,8 @@ public class Item implements Collectable {
         this.price = price;
     }
 
-    public Item(Collectable collectable) {
-    }
+//    public Item(Collectable collectable) {
+//    }
 
     public String getnameItem() {
         return nameItem;

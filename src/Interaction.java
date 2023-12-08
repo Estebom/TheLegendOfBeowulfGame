@@ -13,6 +13,7 @@ public class Interaction extends JPanel {
     private JButton speakButton;
 
     public Interaction() {
+
     }
 
 
@@ -22,8 +23,15 @@ public class Interaction extends JPanel {
     }
 
     public void openChest() {
-        Inventory.addCollectable(chest.chestRoll());
+        Inventory.addCollectable(chest.openChest());
     }
+
+
+    public void  handleChestInteraction(){
+        this.chest = KeyPad.isChestInRange();
+                java.lang.System.out.println("interacting with chest");
+                openChest();
+        }
 
 
     public void npcInteraction(NPC npc){

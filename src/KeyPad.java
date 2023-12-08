@@ -2,6 +2,7 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
 /**
  * Used to handle keyboard inputs during GamePlay
@@ -131,14 +132,10 @@ public class KeyPad extends KeyAdapter {
 
                 case KeyEvent.VK_Q:
                     java.lang.System.out.println("Interact");
+                    interaction.handleChestInteraction();
                     handleInteraction();
                     break;
-                case KeyEvent.VK_O:
-                    java.lang.System.out.println("attack");
-                    break;
-                case KeyEvent.VK_P:
-                    java.lang.System.out.println("special attack");
-                    break;
+
                 case KeyEvent.VK_M:
                     java.lang.System.out.println("inventory open");
                     Inventory.inventoryToggle();
@@ -174,6 +171,44 @@ public class KeyPad extends KeyAdapter {
           // interaction.npcInteraction(GamePlay.accessNPC());
         }
     }
+
+
+
+
+    public static Chest isChestInRange() {
+
+        int playerX = Player.getPlayerPosX();
+        int playerY = Player.getPlayerPosY();
+
+
+
+
+        char playerDirection = Player.getCurrentDirection();
+
+        ArrayList<Chest> chests = GamePlay.accessChests();
+
+        double distance = 0;
+        double interactionThreshold = 50.0;
+
+        for(Chest chest : chests){
+            char chestDirection = chest.getDirection();
+            int chestX = chest.getChestPosX();
+            int chestY = chest.getChestPosY();
+            distance = Math.max(distance, Math.sqrt(Math.pow(playerX - chestX, 2) + Math.pow(playerY - chestY, 2)));
+
+            boolean b = (distance <= interactionThreshold) &&
+                    (playerDirection == 'w' && chestDirection == 's' ||
+                            playerDirection == 's' && chestDirection == 'w' ||
+                            playerDirection == 'a' && chestDirection == 'd' ||
+                            playerDirection == 'd' && chestDirection == 'a');
+
+            if (b){return chest;}
+
+        }
+            return null;
+
+    }
+
 
     private boolean isNPCInRange() {
         int playerX = Player.getPlayerPosX();

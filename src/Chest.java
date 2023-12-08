@@ -1,13 +1,21 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Chest {
+/**
+ * chest class is responsible for giving out items to players
+ * @author Esteban Rodriguez
+ */
+public class Chest extends ChestImages implements Serializable {
 
 
     private String name;
+
+    private int chestPosX;
+    private int chestPosY;
     private char direction = ' ';
 
-    private ArrayList<Collectable> chestInventory; //first 5 slots will be empty
-        // last 5 will be empty
+    private ArrayList<Collectable> chestInventory;
+
 
     public Chest(String name, char direction) {
 
@@ -16,14 +24,30 @@ public class Chest {
         chestInventory = new ArrayList<>();
     }
 
-    public Collectable chestRoll() {
+    public Collectable openChest() {
 
-        int range = (1 - 10) + 1;
+        int range = (1 - 5) + 1;
         int decision = (int) (Math.random() * range) + 1;
 
         Collectable collectable = chestInventory.get(decision);
         return collectable;
 
+    }
+
+    public void addCollectable(Collectable collectable){
+        chestInventory.add(collectable);
+
+
+    }
+    public int getChestPosX(){
+        return this.chestPosX;
+
+    }
+    public int getChestPosY(){
+        return this.chestPosY;
+    }
+    public char getDirection(){
+        return this.direction;
     }
 
 
