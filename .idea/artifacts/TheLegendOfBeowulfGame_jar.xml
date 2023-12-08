@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="TheLegendOfBeowulfGame:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/TheLegendOfBeowulfGame_jar</output-path>
+    <root id="archive" name="TheLegendOfBeowulfGame.jar">
+      <element id="module-output" name="TheLegendOfBeowulfGame" />
+    </root>
+  </artifact>
+</component>

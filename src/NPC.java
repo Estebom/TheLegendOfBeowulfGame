@@ -1,7 +1,11 @@
 //Esteban Rodriguez & Alfonso Avila
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 public class NPC extends JLabel{
@@ -10,8 +14,15 @@ public class NPC extends JLabel{
     private int scaleHeight = 100;
     private JPanel interactionPanel;
     private CardLayout cardLayout;
-    private Image leftFacingStillScale, leftFacingWalkScale, rightFacingWalkScale, rightFacingStillScale;
-    private Image frontFacingLeftScale, frontFacingRightScale, backFacingLeftScale, backFacingRightScale;
+    private static ImageIcon frontFacingLeftIcon;
+
+    private static ImageIcon backFacingLeftIcon;
+
+    private static ImageIcon leftFacingStillIcon;
+
+
+    private static ImageIcon rightFacingStillIcon;
+
     private String nameNPC;
     private ArrayList<String> dialogueList = new ArrayList<>();
     private ArrayList<Collectable> npcInventory = new ArrayList<>();
@@ -28,43 +39,24 @@ public class NPC extends JLabel{
 
         dialougeSpot = 0;
 
-        ImageIcon originalIcon = new ImageIcon("src\\FRONTSTANDING.png");
-        ImageIcon frontFacingLeft = new ImageIcon("src\\FrontFacingBeowulf.png");
-        this.frontFacingLeftScale = frontFacingLeft.getImage().getScaledInstance(scaleWidth, scaleHeight, Image.SCALE_SMOOTH);
-        ImageIcon frontFacingRight = new ImageIcon("src\\FrontFacingRIGHTBeowulf.png");
-        this.frontFacingRightScale = frontFacingRight.getImage().getScaledInstance(scaleWidth, scaleHeight, Image.SCALE_SMOOTH);
 
-        ImageIcon backFacingLeft = new ImageIcon("src\\BackLeft.png");
-        this.backFacingLeftScale = backFacingLeft.getImage().getScaledInstance(scaleWidth, scaleHeight, Image.SCALE_SMOOTH);
+        frontFacingLeftIcon = loadScaledIcon("resources/images/FrontFacingBeowulf.png");
+        backFacingLeftIcon = loadScaledIcon("resources/images/BackLeft.png");
+        leftFacingStillIcon = loadScaledIcon("resources/images/LeftFacingStanding.png");
 
-        ImageIcon backFacingRight = new ImageIcon("src\\BackRight.png");
-        this.backFacingRightScale = backFacingRight.getImage().getScaledInstance(scaleWidth, scaleHeight, Image.SCALE_SMOOTH);
+        rightFacingStillIcon = loadScaledIcon("resources/images/RightFacingStanding.png");
 
-
-        ImageIcon leftFacingStill = new ImageIcon("src\\LeftFacingStanding.png");
-        this.leftFacingStillScale = leftFacingStill.getImage().getScaledInstance(scaleWidth, scaleHeight, Image.SCALE_SMOOTH);
-        ImageIcon leftFacingWalk = new ImageIcon("src\\LeftFacingwalk.png");
-        this.leftFacingWalkScale = leftFacingWalk.getImage().getScaledInstance(scaleWidth, scaleHeight, Image.SCALE_SMOOTH);
-        ImageIcon rightFacingWalk = new ImageIcon("src\\RightFacingwalk.png");
-        this.rightFacingWalkScale = rightFacingWalk.getImage().getScaledInstance(scaleWidth, scaleHeight, Image.SCALE_SMOOTH);
-        ImageIcon rightFacingStill = new ImageIcon("src\\RightFacingStanding.png");
-        this.rightFacingStillScale = rightFacingStill.getImage().getScaledInstance(scaleWidth, scaleHeight, Image.SCALE_SMOOTH);
-        //ImageIcon originalIcon = new ImageIcon("src\\genericSprite.png");
 
 
         ImageIcon icon = null;
         switch (this.direction){
-            case 'w':
-                icon =  new ImageIcon(backFacingLeftScale);
+            case 'a': icon = leftFacingStillIcon;
                 break;
-            case 's':
-                icon = new ImageIcon(frontFacingLeftScale);
+            case 'd': icon = rightFacingStillIcon;
                 break;
-            case 'a':
-                icon =  new ImageIcon(leftFacingStillScale);
+            case 'w': icon = backFacingLeftIcon;
                 break;
-            case 'd':
-                icon =new ImageIcon(rightFacingStillScale);
+            case 's': icon = frontFacingLeftIcon;
                 break;
         }
         if(icon != null){
@@ -129,6 +121,26 @@ public class NPC extends JLabel{
         showInteractionMenu();
         interactionPanel.setVisible(true);
 
+    }
+    private ImageIcon loadScaledIcon(String path) {
+        BufferedImage img = null;
+        try (InputStream is = getClass().getResourceAsStream(path)) {
+            if (is != null) {
+                img = ImageIO.read(is);
+            } else {
+                // Consider logging this or throwing an exception
+                System.err.println("Could not load image at path: " + path);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        if (img != null) {
+            Image scaledImage = img.getScaledInstance(scaleWidth, scaleHeight, Image.SCALE_SMOOTH);
+            return new ImageIcon(scaledImage);
+        } else {
+            return new ImageIcon(); // Return an empty icon in case of failure
+        }
     }
 
     public void addNPCInventory(Collectable collectable){

@@ -1,3 +1,4 @@
+import javax.imageio.ImageIO;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
 import javax.swing.*;
@@ -6,6 +7,8 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.InputStream;
+
 public class Settings extends JPanel {
     private JButton goBack;
     private JComboBox<String> resolutionBox;
@@ -17,8 +20,7 @@ public class Settings extends JPanel {
     public Settings( ) {
         this.setPreferredSize(new Dimension(800, 675));
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        ImageIcon backdrop = new ImageIcon("src\\CastleBackDrop.png");
-        backgroundImage = backdrop.getImage();
+        backgroundImage = loadImage("resources/images/CastleBackDrop.png");
         goBack = new JButton("Go Back to Main Menu");
         goBack.setMaximumSize(new Dimension(200, 50));
         goBack.setAlignmentX(Component.CENTER_ALIGNMENT); // center align the button
@@ -98,6 +100,19 @@ public class Settings extends JPanel {
         java.lang.System.out.println("Painting component");
         // Draw the background image
         g.drawImage(backgroundImage, 0, 0, this.getWidth(), this.getHeight(), this);
+    }
+    private Image loadImage(String path) {
+        Image image = null;
+        try (InputStream is = getClass().getResourceAsStream(path)) {
+            if (is != null) {
+                image = ImageIO.read(is);
+            } else {
+                System.err.println("Could not load image at path: " + path);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return image;
     }
     ActionListener buttonListener = new ActionListener() {
         @Override

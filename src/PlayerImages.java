@@ -1,5 +1,9 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 
 public class PlayerImages extends JLabel {
@@ -30,29 +34,44 @@ public class PlayerImages extends JLabel {
     }
 
     private PlayerImages() {
-        originalIcon = loadScaledIcon("src\\FRONTSTANDING.png");
-        frontFacingLeftIcon = loadScaledIcon("src\\FrontFacingBeowulf.png");
-        frontFacingRightIcon = loadScaledIcon("src\\FrontFacingRIGHTBeowulf.png");
-        backFacingLeftIcon = loadScaledIcon("src\\BackLeft.png");
-        backFacingRightIcon = loadScaledIcon("src\\BackRight.png");
-        leftFacingStillIcon = loadScaledIcon("src\\LeftFacingStanding.png");
-        leftFacingWalkIcon = loadScaledIcon("src\\LeftFacingwalk.png");
-        rightFacingWalkIcon = loadScaledIcon("src\\RightFacingwalk.png");
-        rightFacingStillIcon = loadScaledIcon("src\\RightFacingStanding.png");
+        originalIcon = loadScaledIcon("resources/images/FRONTSTANDING.png");
+        frontFacingLeftIcon = loadScaledIcon("resources/images/FrontFacingBeowulf.png");
+        frontFacingRightIcon = loadScaledIcon("resources/images/FrontFacingRIGHTBeowulf.png");
+        backFacingLeftIcon = loadScaledIcon("resources/images/BackLeft.png");
+        backFacingRightIcon = loadScaledIcon("resources/images/BackRight.png");
+        leftFacingStillIcon = loadScaledIcon("resources/images/LeftFacingStanding.png");
+        leftFacingWalkIcon = loadScaledIcon("resources/images/LeftFacingwalk.png");
+        rightFacingWalkIcon = loadScaledIcon("resources/images/RightFacingwalk.png");
+        rightFacingStillIcon = loadScaledIcon("resources/images/RightFacingStanding.png");
 
-        leftFacingWalkIconSword = loadScaledIcon("src\\LeftFacingWalkSword.png");
-        rightFacingWalkIconSword = loadScaledIcon("src\\RightFacingwalkSword.png");
-        frontFacingWalkIconSword = loadScaledIcon("src\\FrontFacingBeowulfSwordRight.png");
-        backLeftSword = loadScaledIcon("src\\BackLeftSword.png");
+        leftFacingWalkIconSword = loadScaledIcon("resources/images/LeftFacingWalkSword.png");
+        rightFacingWalkIconSword = loadScaledIcon("resources/images/RightFacingwalkSword.png");
+        frontFacingWalkIconSword = loadScaledIcon("resources/images/FrontFacingBeowulfSwordRight.png");
+        backLeftSword = loadScaledIcon("resources/images/BackLeftSword.png");
         // Set the initial icon
         this.setIcon(originalIcon);
         this.setPreferredSize(new Dimension(scaleWidth, scaleHeight));
     }
 
     private ImageIcon loadScaledIcon(String path) {
-        ImageIcon icon = new ImageIcon(path);
-        Image scaledImage = icon.getImage().getScaledInstance(scaleWidth, scaleHeight, Image.SCALE_SMOOTH);
-        return new ImageIcon(scaledImage);
+        BufferedImage img = null;
+        try (InputStream is = getClass().getResourceAsStream(path)) {
+            if (is != null) {
+                img = ImageIO.read(is);
+            } else {
+                // Consider logging this or throwing an exception
+                System.err.println("Could not load image at path: " + path);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        if (img != null) {
+            Image scaledImage = img.getScaledInstance(scaleWidth, scaleHeight, Image.SCALE_SMOOTH);
+            return new ImageIcon(scaledImage);
+        } else {
+            return new ImageIcon(); // Return an empty icon in case of failure
+        }
     }
     public static void updateAnimation(char currentDirection, boolean walkState, boolean attackState) {
         ImageIcon icon = null;
