@@ -38,9 +38,6 @@ public class GameState implements Serializable {
                 GameState loadedGameState = (GameState) inputStream.readObject();
                 setInstance(loadedGameState);
 
-                // GamePlay gamePlay = (GamePlay) inputStream.readObject();
-
-
                 Player loadedPlayer = (Player) inputStream.readObject();
                 Player.replacePlayerInstance(loadedPlayer);
 

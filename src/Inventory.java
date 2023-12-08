@@ -1,5 +1,3 @@
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -182,8 +180,8 @@ public class Inventory extends JPanel implements Serializable {
     public static void inventoryToggle(){
         getInstance();
 
-                instance.inventoryVisible = !instance.inventoryVisible;
-                instance.setVisible(instance.inventoryVisible);
+        instance.inventoryVisible = !instance.inventoryVisible;
+        instance.setVisible(instance.inventoryVisible);
 
 
     }
